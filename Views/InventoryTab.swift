@@ -17,53 +17,68 @@ struct InventoryTab: View {
     
     @State var currentStorageType: StorageLocation = .fridge
     
-    @State var showSettings: Bool = false
+    @Binding var showSettings: Bool
     @State var inShoppingList: Bool = false
     
     var body: some View {
         NavigationView{
-            VStack{
-                NavigationLink(destination: ShoppingListView(), isActive: $inShoppingList){}
-                //fridge content
-                //5 shelves
-                Text("Hello World")
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading){
-                    Button(action:{
-                        //profile, settings, loggout, etc.
-                        //custom sidebar sliding from left
-                    }){
-                        Image(systemName: "person.circle")
-                    }
-                }
-                
-                ToolbarItem(placement: .principal){
-                    Menu {
-                        //function won't render option if it's already choosen
-                        StorageOption(.fridge)
-                        StorageOption(.pantry)
-                        StorageOption(.bar)
-                        
-                    } label: {
-                        HStack{
-                            Text(currentStorageType.rawValue)
-                            Image(systemName: "chevron.down")
+            
+            ZStack{
+                //inventory
+                VStack{
+                    NavigationLink(destination: ShoppingListView(), isActive: $inShoppingList){}
+                    //fridge content
+                    //5 shelves
+                    Text("Hello World")
+                }//.opacity(!showSettings ? 1 : 0)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading){
+                        Button(action:{
+                            //profile, settings, loggout, etc.
+                            //custom sidebar sliding from left
+                            print(UITabBar.appearance().frame.height)
+                            showSettings.toggle()
+                            print()
+                        }){
+                            Image(systemName: "person.circle")
                         }
                     }
+                    
+                    ToolbarItem(placement: .principal){
+                        Menu {
+                            //function won't render option if it's already choosen
+                            StorageOption(.fridge)
+                            StorageOption(.pantry)
+                            StorageOption(.bar)
+                            
+                        } label: {
+                            HStack{
+                                Text(currentStorageType.rawValue)
+                                Image(systemName: "chevron.down")
+                            }
+                        }
 
-                }
+                    }
 
-                ToolbarItem(placement: .navigationBarTrailing){
-                    Button(action:{
-                        //shopping list
-                        inShoppingList = true
-                    }){
-                        Image(systemName: "cart")
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        Button(action:{
+                            //shopping list
+                            inShoppingList = true
+                        }){
+                            Image(systemName: "cart")
+                        }
                     }
                 }
+                //.navigationBarHidden(showSettings).animation(.easeInOut.delay(0.25), value: showSettings)
+                
+                //sidebar
+                //SidebarProfileView(isSidebarVisable: $showSettings)
             }
+            
+            
         }
+    
+        
     }
     
     @ViewBuilder
@@ -79,8 +94,8 @@ struct InventoryTab: View {
     
 }
 
-struct InventoryTab_Previews: PreviewProvider {
-    static var previews: some View {
-        InventoryTab()
-    }
-}
+//struct InventoryTab_Previews: PreviewProvider {
+//    static var previews: some View {
+//        InventoryTab()
+//    }
+//}

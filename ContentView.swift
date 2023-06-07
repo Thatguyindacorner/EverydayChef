@@ -8,26 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var showingSettings: Bool = false
+    
     var body: some View {
-        
-        TabView {
-            
-            InventoryTab().tabItem {
-                Image(systemName: "cabinet")
-                Text("Inventory")
+
+        ZStack{
+            TabView {
+                
+                InventoryTab(showSettings: $showingSettings).tabItem {
+                    Image(systemName: "cabinet")
+                    Text("Inventory")
+                }
+                
+                HistoryTab().tabItem {
+                    Image(systemName: "calendar")
+                    Text("History")
+                }
+                
+                RecipeBookTab().tabItem {
+                    Image(systemName: "book")
+                    Text("Recipe Book").opacity(showingSettings ? 1 : 0)
+                }
             }
-            
-            HistoryTab().tabItem {
-                Image(systemName: "calendar")
-                Text("History")
-            }
-            
-            RecipeBookTab().tabItem {
-                Image(systemName: "book")
-                Text("Recipe Book")
-            }
-            
+            SidebarProfileView(isSidebarVisable: $showingSettings)
         }
+        
+        
         
     }
 }
