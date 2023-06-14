@@ -81,16 +81,6 @@ struct StartView: View {
                     
             }
             
-            //.navigationBarTitle("Today's Lineup")
-            //.navigationBarHidden(self.authenticated)
-            //.navigationBarTitle("Today's Lineup")
-            //.navigationBarTitleDisplayMode(.inline)
-            
-            //.hidden()
-            //.navigationBarTitle("")
-            
-            //.navigationBarBackButtonHidden(true)
-            
             .onAppear{
                 //stored user
                 if session.loggedInUser != nil {
@@ -98,11 +88,7 @@ struct StartView: View {
                     
                 }
             }
-            
-            
         }
-        
-            
         
         //Spacer()
     }

@@ -14,6 +14,7 @@ struct SidebarProfileView: View {
     let contentHight = UIScreen.main.bounds.size.height * 0.5
     
     @Binding var isSidebarVisable: Bool
+    @Binding var sidebarHidden: Bool
     
     var body: some View {
         
@@ -26,6 +27,10 @@ struct SidebarProfileView: View {
                 .animation(.easeInOut, value: isSidebarVisable)
                 .onTapGesture {
                     isSidebarVisable.toggle()
+                    //delay for toolbar to reappear
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(0.3)){
+                        self.sidebarHidden = false
+                    }
                 }
                 
                 HStack(alignment: .top, spacing: 0){
@@ -84,7 +89,7 @@ struct SidebarProfileView: View {
                 }
                
             }//.edgesIgnoringSafeArea(.all)
-        
+            
         
         
         
