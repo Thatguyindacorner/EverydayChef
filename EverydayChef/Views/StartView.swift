@@ -20,6 +20,13 @@ struct StartView: View {
     
     var body: some View {
         
+        let _ = Binding<Bool> {
+            return authHelper.user != nil
+        } set: {
+            self.authenticated = $0
+        }
+
+        
         NavigationView{
             
             VStack{

@@ -16,6 +16,11 @@ struct SidebarProfileView: View {
     @Binding var isSidebarVisable: Bool
     @Binding var sidebarHidden: Bool
     
+    @State var deleteAccountConfirmation: Bool = false
+    
+    @EnvironmentObject var session: SessionData
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         
             ZStack{
@@ -62,10 +67,28 @@ struct SidebarProfileView: View {
                                 .padding(10)
                                 .border(.black)
                                 .cornerRadius(2)
+                                
+                                //if anonoumous account, signout and delete account (delete on backend)
+                                //else, signout
                                 Button(action:{
                                     
+                                    if session.tempararyAccount{
+                                        
+                                        //trigger alert to confirm action
+                                        self.deleteAccountConfirmation = true
+                                    }
+                                    else{
+                                        signout()
+                                    }
+                                    
                                 }){
-                                    Text("Logout")
+                                    if session.tempararyAccount{
+                                        Text("Delete Account")
+                                        //trigger alert to confirm action
+                                    }
+                                    else{
+                                        Text("Logout")
+                                    }
                                 }
                                 .foregroundColor(Color.black)
                                 .padding(10)
@@ -89,12 +112,39 @@ struct SidebarProfileView: View {
                 }
                
             }//.edgesIgnoringSafeArea(.all)
-            
+            .alert(isPresented: $deleteAccountConfirmation){
+                Alert(title: Text("Confirmation Required"),
+                      message: Text("Are you sure you want to delete your temporary account?"),
+                      primaryButton: .cancel(
+                        Text("Cancel"),
+                        action: {
+                            print("canceled signout")
+                        }),
+                      secondaryButton: .destructive(
+                        Text("Yes"),
+                        action: {
+                            signout()
+                        })
+                      )
+            }
         
         
         
         
     }
+    
+    func signout(){
+        Task{
+            if await AuthController.signOut(){
+                self.presentationMode.wrappedValue.dismiss()
+            }
+            else{
+                print("error signing out")
+            }
+        }
+    }
+    
+    
 }
 
 //struct SidebarProfileView_Previews: PreviewProvider {

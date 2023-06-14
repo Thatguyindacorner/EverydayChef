@@ -15,4 +15,5 @@ class SessionData: ObservableObject{
     static var shared = SessionData()
     
     @Published var loggedInUser: User? = nil
+    @Published var tempararyAccount: Bool = true
 }

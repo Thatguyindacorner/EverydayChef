@@ -27,8 +27,19 @@ struct AuthController{
         }
     }
     
-    func signOut() async{
-        
+    static func signOut() async -> Bool{
+        do{
+            try Auth.auth().signOut()
+            print("signed out succesfully")
+            DispatchQueue.main.sync {
+                SessionData.shared.loggedInUser = nil
+            }
+            return true
+        }
+        catch{
+            print("error signing out")
+            return false
+        }
     }
     
     func anonymousAuth() async -> Bool{
@@ -37,6 +48,7 @@ struct AuthController{
             print("signed in anonoumously")
             DispatchQueue.main.sync {
                 SessionData.shared.loggedInUser = user
+                SessionData.shared.tempararyAccount = true
             }
             return true
         }
