@@ -95,6 +95,7 @@ struct StartView: View {
                     
                 }
             }
+            .navigationBarHidden(true)
         }
         
         //Spacer()

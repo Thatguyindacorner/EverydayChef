@@ -15,18 +15,19 @@ enum StorageLocation: String{
 
 struct InventoryTab: View {
     
+    @Binding var inShoppingList: Bool
+    
+    
     var body: some View {
         //NavigationView{
             
             ZStack{
                 //inventory
                 VStack{
-                    
+                    NavigationLink(destination: ShoppingListView(), isActive: $inShoppingList){}
                     //fridge content
                     //5 shelves
                     Text("Hello World")
-                    
-            
                         
                 }//.opacity(!showSettings ? 1 : 0)
                 
@@ -34,6 +35,7 @@ struct InventoryTab: View {
                 
                 //sidebar
                 //SidebarProfileView(isSidebarVisable: $showSettings)
+                
                 
             }
             

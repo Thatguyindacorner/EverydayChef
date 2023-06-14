@@ -22,79 +22,80 @@ struct ContentView: View {
     var body: some View {
         
         ZStack{
-            TabView {
+            NavigationView{
                 
-                NavigationView{
-                    NavigationLink(destination: ShoppingListView(), isActive: $inShoppingList){}
-                    
-                    InventoryTab().tabItem {
+                TabView {
+    
+                    InventoryTab(inShoppingList: $inShoppingList).tabItem {
+                        
                         Image(systemName: "cabinet")
                         Text("Inventory")
                     }
-                    .navigationBarHidden(self.inShoppingList || self.hideToolbar)
+                    //.navigationBarHidden(self.inShoppingList || self.hideToolbar)
                     .animation(.default, value: hideToolbar)
                     //.opacity(!showingSettings ? 1 : 0)
-                }
-                
-                HistoryTab().tabItem {
-                    Image(systemName: "calendar")
-                    Text("History")
-                }
-                
-                RecipeBookTab().tabItem {
-                    Image(systemName: "book")
-                    Text("Recipe Book")
-                }
-            }
-            //modular toolbar
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading){
-                    Button(action:{
-                        //profile, settings, loggout, etc.
-                        //custom sidebar sliding from left
-                        
-                        //delay for sidebar to appear and toolbar to disappear
-                        hideToolbar = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + Double(0.3)){
-                            showingSettings.toggle()
-                        }
-                        
-                        
-                    }){
-                        Image(systemName: "person.circle")
+                    //}
+                    
+                    HistoryTab().tabItem {
+                        Image(systemName: "calendar")
+                        Text("History")
+                    }
+                    
+                    RecipeBookTab().tabItem {
+                        Image(systemName: "book")
+                        Text("Recipe Book")
                     }
                 }
-
-                ToolbarItem(placement: .principal){
-                    Menu {
-                        //function won't render option if it's already choosen
-                        StorageOption(.fridge)
-                        StorageOption(.pantry)
-                        StorageOption(.bar)
-
-                    } label: {
-                        HStack{
-                            Text(currentStorageType.rawValue)
-                            Image(systemName: "chevron.down")
+                //modular toolbar
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading){
+                        Button(action:{
+                            //profile, settings, loggout, etc.
+                            //custom sidebar sliding from left
+                            
+                            //delay for sidebar to appear and toolbar to disappear
+                            hideToolbar = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + Double(0.3)){
+                                showingSettings.toggle()
+                            }
+                            
+                            
+                        }){
+                            Image(systemName: "person.circle")
                         }
                     }
-
-                }
-
-                ToolbarItem(placement: .navigationBarTrailing){
-                    Button(action:{
-                        //shopping list
-                        inShoppingList = true
-                    }){
-                        Image(systemName: "cart")
+                    
+                    ToolbarItem(placement: .principal){
+                        Menu {
+                            //function won't render option if it's already choosen
+                            StorageOption(.fridge)
+                            StorageOption(.pantry)
+                            StorageOption(.bar)
+                            
+                        } label: {
+                            HStack{
+                                Text(currentStorageType.rawValue)
+                                Image(systemName: "chevron.down")
+                            }
+                        }
+                        
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        Button(action:{
+                            //shopping list
+                            inShoppingList = true
+                        }){
+                            Image(systemName: "cart")
+                        }
                     }
                 }
             }
-            
-            SidebarProfileView(isSidebarVisable: $showingSettings, sidebarHidden: $hideToolbar)
-        }
+                SidebarProfileView(isSidebarVisable: $showingSettings, sidebarHidden: $hideToolbar)
+            }//}
         
-        
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
     }
     
