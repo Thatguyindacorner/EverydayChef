@@ -23,9 +23,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct EverydayChefApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    var session: SessionData = SessionData.shared
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            //ContentView()
+            StartView().environmentObject(session)
+                //.navigationBarHidden(true)
         }
     }
 }

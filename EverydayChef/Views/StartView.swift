@@ -12,53 +12,98 @@ struct StartView: View {
     let widthScreen = UIScreen.main.bounds.size.width - 25
     let heightScreen = UIScreen.main.bounds.size.height
     
+    @State var authenticated: Bool = false
+    
+    let authHelper: AuthController = AuthController()
+    
+    @EnvironmentObject var session: SessionData
+    
     var body: some View {
-        VStack{
-            HStack{
-                Image("HomeImage").resizable()
-            }.frame(width: widthScreen, height: heightScreen / 3.5)
-                .border(.black)
-            HStack(alignment: .bottom, spacing: 1){
-                Text("Everyday Chef").font(.largeTitle).bold()
-                Text("©").bold()
-            }.frame(width: widthScreen, height: heightScreen / 8)
-                .border(.black)
-            HStack{
-                Button(action:{
-                    
-                }){
-                    Text("Get Started")
-                        .font(.title)
-                        .bold()
-                        .padding(10)
-                        .frame(width: 200).border(.blue)
-                        .background()
-                }
-            }.frame(width: widthScreen, height: heightScreen / 8)
-                .border(.black)
+        
+        NavigationView{
+            
             VStack{
                 
-                Button(action:{
+                HStack{
+                    Image("HomeImage").resizable()
+                }.frame(width: widthScreen, height: heightScreen / 3.5)
+                    .border(.black)
+                HStack(alignment: .bottom, spacing: 1){
+                    Text("Everyday Chef").font(.largeTitle).bold()
+                    Text("©").bold()
+                }.frame(width: widthScreen, height: heightScreen / 8)
+                    .border(.black)
+                HStack{
+                    Button(action:{
+                        Task{
+                            if await authHelper.anonymousAuth(){
+                                self.authenticated = true
+                        
+                            }
+                            else{
+                                //error
+                            }
+                        }
+                        
+                    }){
+                        Text("Get Started")
+                            .font(.title)
+                            .bold()
+                            .padding(10)
+                            .frame(width: 200).border(.blue)
+                            .background()
+                    }
+                }.frame(width: widthScreen, height: heightScreen / 8)
+                    .border(.black)
+                VStack{
                     
-                }){
-                    Text("Sign In")
-                        .font(.title2)
-                        .bold()
-                        .padding(10)
-                        .frame(width: 200).border(.blue)
-                }
-                Button(action:{
+                    Button(action:{
+                        
+                    }){
+                        Text("Sign In")
+                            .font(.title2)
+                            .bold()
+                            .padding(10)
+                            .frame(width: 200).border(.blue)
+                    }
+                    Button(action:{
+                        
+                    }){
+                        Text("Sign Up")
+                            .font(.title2)
+                            .bold()
+                            .padding(10)
+                            .frame(width: 200).border(.blue)
+                    }
+                }.frame(width: widthScreen, height: heightScreen / 5)
+                    .border(.black)
+                NavigationLink(destination: ContentView().environmentObject(session),isActive: $authenticated){}
                     
-                }){
-                    Text("Sign Up")
-                        .font(.title2)
-                        .bold()
-                        .padding(10)
-                        .frame(width: 200).border(.blue)
+            }
+            
+            //.navigationBarTitle("Today's Lineup")
+            //.navigationBarHidden(self.authenticated)
+            //.navigationBarTitle("Today's Lineup")
+            //.navigationBarTitleDisplayMode(.inline)
+            
+            //.hidden()
+            //.navigationBarTitle("")
+            
+            //.navigationBarBackButtonHidden(true)
+            
+            .onAppear{
+                //stored user
+                if session.loggedInUser != nil {
+                    self.authenticated = true
+                    
                 }
-            }.frame(width: widthScreen, height: heightScreen / 5)
-                .border(.black)
+            }
+            
+            
         }
+        
+            
+        
         //Spacer()
     }
 }

@@ -6,23 +6,48 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseAuth
 
 struct AuthController{
     
-    var uid: String? {
+    let authentication = Auth.auth()
+    
+    var user: User? {
         get{
-            UserDefaults.standard.string(forKey: "uid")
+            return authentication.currentUser
         }
     }
     
     init(){
         //auto signin
-        if uid != nil{
-            
+        if user != nil{
+            SessionData.shared.loggedInUser = user
         }
     }
     
-    func anonymousAuth(){
+    func signOut() async{
+        
+    }
+    
+    func anonymousAuth() async -> Bool{
+        do{
+            try await authentication.signInAnonymously()
+            print("signed in anonoumously")
+            DispatchQueue.main.sync {
+                SessionData.shared.loggedInUser = user
+            }
+            return true
+        }
+        catch{
+            print("error signing in anonoumously")
+            return false
+        }
+        
+    }
+    
+    func convertToPermanentAccount() async{
         
     }
 }

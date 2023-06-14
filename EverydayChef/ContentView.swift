@@ -11,6 +11,8 @@ struct ContentView: View {
     
     @State var showingSettings: Bool = false
     
+    @EnvironmentObject var session: SessionData
+    
     var body: some View {
 
         ZStack{
