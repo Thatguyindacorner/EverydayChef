@@ -26,7 +26,8 @@ struct ContentView: View {
                 
                 TabView {
     
-                    InventoryTab(inShoppingList: $inShoppingList).tabItem {
+                    InventoryTab(inShoppingList: $inShoppingList,
+                                 currentStorageType: $currentStorageType).tabItem {
                         
                         Image(systemName: "cabinet")
                         Text("Inventory")
