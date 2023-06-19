@@ -123,6 +123,7 @@ struct SidebarProfileView: View {
                       secondaryButton: .destructive(
                         Text("Yes"),
                         action: {
+                            session.document!.delete()
                             signout()
                         })
                       )

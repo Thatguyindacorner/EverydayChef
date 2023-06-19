@@ -21,101 +21,99 @@ struct StartView: View {
     var body: some View {
         
 //        let _ = Binding<Bool> {
-//            return authHelper.user != nil
+//            return self.authenticated
 //        } set: {
 //            self.authenticated = $0
 //        }
 
             
+NavigationView{
             
-            NavigationView{
-                
-                if !authenticated{
-                    VStack{
-                        
-                        HStack{
-                            //Image("HomeImage").resizable()
-                            GifImageView("foodimgtransparent2")
-                        }.frame(width: widthScreen, height: heightScreen / 3.5)
-                            .border(.black)
-                        HStack(alignment: .bottom, spacing: 1){
-                            Text("Everyday Chef").font(.largeTitle).bold()
-                            Text("©").bold()
-                        }.frame(width: widthScreen, height: heightScreen / 8)
-                            .border(.black)
-                        HStack{
-                            Button(action:{
-                                Task{
-                                    if await authHelper.anonymousAuth(){
-                                        self.authenticated = true
-                                        
-                                    }
-                                    else{
-                                        //error
-                                    }
-                                }
+            if !authenticated{
+                VStack{
+                    
+                    HStack{
+                        Image("HomeImage").resizable()
+                    }.frame(width: widthScreen, height: heightScreen / 3.5)
+                        .border(.black)
+                    HStack(alignment: .bottom, spacing: 1){
+                        Text("Everyday Chef").font(.largeTitle).bold()
+                        Text("©").bold()
+                    }.frame(width: widthScreen, height: heightScreen / 8)
+                        .border(.black)
+                    HStack{
+                        Button(action:{
+                            Task{
                                 
-                            }){
-                                Text("Get Started")
-                                    .font(.title)
-                                    .bold()
-                                    .padding(10)
-                                    .frame(width: 200).border(.blue)
-                                    .background()
-                            }
-                        }.frame(width: widthScreen, height: heightScreen / 8)
-                            .border(.black)
-                        VStack{
+                                if await authHelper.anonymousAuth(){
+                                    self.authenticated = true
                             
-                            Button(action:{
-                                
-                            }){
-                                Text("Sign In")
-                                    .font(.title2)
-                                    .bold()
-                                    .padding(10)
-                                    .frame(width: 200).border(.blue)
+                                }
+                                else{
+                                    //error
+                                }
                             }
-                            Button(action:{
-                                
-                            }){
-                                Text("Sign Up")
-                                    .font(.title2)
-                                    .bold()
-                                    .padding(10)
-                                    .frame(width: 200).border(.blue)
-                            }
-                        }.frame(width: widthScreen, height: heightScreen / 5)
-                            .border(.black)
-                        NavigationLink(destination: ContentView().environmentObject(session), isActive: $authenticated){}
-                        
-                    }
-                    //                .onAppear{
-                    //                    //stored user
-                    //                    if session.loggedInUser != nil {
-                    //                        self.authenticated = true
-                    //
-                    //                    }
-                    //                }
-                    .navigationBarHidden(true)
-                }
-                else{
+                            
+                        }){
+                            Text("Get Started")
+                                .font(.title)
+                                .bold()
+                                .padding(10)
+                                .frame(width: 200).border(.blue)
+                                .background()
+                        }
+                    }.frame(width: widthScreen, height: heightScreen / 8)
+                        .border(.black)
                     VStack{
-                        NavigationLink(destination: ContentView().environmentObject(session), isActive: $authenticated){}
-                    }
-                    .navigationBarHidden(true)
+                        
+                        Button(action:{
+                            
+                        }){
+                            Text("Sign In")
+                                .font(.title2)
+                                .bold()
+                                .padding(10)
+                                .frame(width: 200).border(.blue)
+                        }
+                        Button(action:{
+                            
+                        }){
+                            Text("Sign Up")
+                                .font(.title2)
+                                .bold()
+                                .padding(10)
+                                .frame(width: 200).border(.blue)
+                        }
+                    }.frame(width: widthScreen, height: heightScreen / 5)
+                        .border(.black)
+                    NavigationLink(destination: ContentView().environmentObject(session), isActive: $authenticated){}
+                        
                 }
-                
-                
+//                .onAppear{
+//                    //stored user
+//                    if session.loggedInUser != nil {
+//                        self.authenticated = true
+//
+//                    }
+//                }
+                .navigationBarHidden(true)
+            }
+            else{
+                VStack{
+                    NavigationLink(destination: ContentView().environmentObject(session), isActive: $authenticated){}
+                }
+                .navigationBarHidden(true)
             }
             
-            //Spacer()
+            
+        }.navigationBarHidden(true)
         
+        //Spacer()
     }
 }
 
-struct StartView_Previews: PreviewProvider {
-    static var previews: some View {
-        StartView(authenticated: false).environmentObject(SessionData())
-    }
-}
+//struct StartView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StartView()
+//    }
+//}
