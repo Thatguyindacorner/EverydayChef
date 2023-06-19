@@ -13,6 +13,8 @@ struct ExtendedIngredient:Codable, Hashable{
     
     var image:String?
     
+    var original:String?
+    
     var name:String?
     
     var amount:Double?

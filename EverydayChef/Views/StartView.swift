@@ -26,8 +26,8 @@ struct StartView: View {
 //            self.authenticated = $0
 //        }
 
-        
-        NavigationView{
+            
+NavigationView{
             
             if !authenticated{
                 VStack{
