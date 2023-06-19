@@ -20,11 +20,11 @@ struct StartView: View {
     
     var body: some View {
         
-//        let _ = Binding<Bool> {
-//            return authHelper.user != nil
-//        } set: {
-//            self.authenticated = $0
-//        }
+        let _ = Binding<Bool> {
+            return self.authenticated
+        } set: {
+            self.authenticated = $0
+        }
 
         
         NavigationView{
@@ -44,6 +44,7 @@ struct StartView: View {
                     HStack{
                         Button(action:{
                             Task{
+                                
                                 if await authHelper.anonymousAuth(){
                                     self.authenticated = true
                             
@@ -105,7 +106,7 @@ struct StartView: View {
             }
             
             
-        }
+        }.navigationBarHidden(true)
         
         //Spacer()
     }

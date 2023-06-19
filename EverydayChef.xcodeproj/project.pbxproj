@@ -13,6 +13,7 @@
 		1A226D9F2A33C2C100A20D82 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1A226D9E2A33C2C100A20D82 /* FirebaseFirestoreSwift */; };
 		1A226DA12A33CD5700A20D82 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A226DA02A33CD5700A20D82 /* StartView.swift */; };
 		1A2F21342A37BD8D00660F60 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2F21332A37BD8D00660F60 /* SessionData.swift */; };
+		1A2F21362A40FF3500660F60 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2F21352A40FF3500660F60 /* Account.swift */; };
 		1A4D0F3C2A37952C00416996 /* AuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4D0F3B2A37952C00416996 /* AuthController.swift */; };
 		1A9EC4452A1BE093006D4736 /* EverydayChefApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EC4442A1BE093006D4736 /* EverydayChefApp.swift */; };
 		1A9EC4472A1BE093006D4736 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EC4462A1BE093006D4736 /* ContentView.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		1A226DA02A33CD5700A20D82 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		1A2F21332A37BD8D00660F60 /* SessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionData.swift; sourceTree = "<group>"; };
+		1A2F21352A40FF3500660F60 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		1A4D0F3B2A37952C00416996 /* AuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthController.swift; sourceTree = "<group>"; };
 		1A9EC4412A1BE093006D4736 /* EverydayChef.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EverydayChef.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9EC4442A1BE093006D4736 /* EverydayChefApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EverydayChefApp.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				9A0727E42A38DF590074322D /* Recipe.swift */,
 				9A0727E12A38DF580074322D /* ReturnedRecipeData.swift */,
 				9A0727DF2A38DF580074322D /* Step.swift */,
+				1A2F21352A40FF3500660F60 /* Account.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				9A0727E62A38DF590074322D /* ExtendedIngredient.swift in Sources */,
 				1A9EC4582A2066D4006D4736 /* HistoryTab.swift in Sources */,
 				1A9EC45A2A206718006D4736 /* RecipeBookTab.swift in Sources */,
+				1A2F21362A40FF3500660F60 /* Account.swift in Sources */,
 				9A0727EB2A38DF590074322D /* Ingredient.swift in Sources */,
 				1A9EC4562A2066AC006D4736 /* InventoryTab.swift in Sources */,
 				1A4D0F3C2A37952C00416996 /* AuthController.swift in Sources */,
