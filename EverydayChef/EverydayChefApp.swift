@@ -33,7 +33,7 @@ struct EverydayChefApp: App {
         WindowGroup{
             Group {
                 if splashTimeOver {
-                    StartView(authenticated: AuthController().authentication.currentUser != nil).environmentObject(session)
+                    StartView(authenticated: session.loggedInUser != nil).environmentObject(session)
                 } else {
                     SplashView()
                 }
@@ -98,6 +98,8 @@ struct SplashView: View{
                 Text("Preping the Kitchen ") //text will change periodically
                 ProgressView()
             }
+        }.onAppear{
+            let _ = AuthController()
         }
         
     }

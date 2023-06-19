@@ -20,11 +20,11 @@ struct StartView: View {
     
     var body: some View {
         
-        let _ = Binding<Bool> {
-            return self.authenticated
-        } set: {
-            self.authenticated = $0
-        }
+//        let _ = Binding<Bool> {
+//            return self.authenticated
+//        } set: {
+//            self.authenticated = $0
+//        }
 
         
         NavigationView{
