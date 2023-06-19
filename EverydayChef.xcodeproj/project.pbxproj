@@ -31,8 +31,18 @@
 		9A0727EA2A38DF590074322D /* AnalyzedInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0727E22A38DF580074322D /* AnalyzedInstruction.swift */; };
 		9A0727EB2A38DF590074322D /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0727E32A38DF580074322D /* Ingredient.swift */; };
 		9A0727EC2A38DF590074322D /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0727E42A38DF590074322D /* Recipe.swift */; };
+		9A25404A2A40ADEA00429519 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2540492A40ADEA00429519 /* SignUpView.swift */; };
+		9A25404C2A40B4B100429519 /* ErrorEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25404B2A40B4B100429519 /* ErrorEnums.swift */; };
+		9A25404E2A40B5BD00429519 /* WinePairingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25404D2A40B5BD00429519 /* WinePairingsView.swift */; };
+		9A2540502A40C0F100429519 /* WinePairingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25404F2A40C0F100429519 /* WinePairingViewModel.swift */; };
 		9AA1B9662A3D0FA00016A30A /* RandomRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */; };
 		9AA1B9692A3D0FC50016A30A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1B9682A3D0FC50016A30A /* AppConstants.swift */; };
+		9AE1B7E32A3E2566008F764F /* chefcooktransparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */; };
+		9AE1B7E52A3E264E008F764F /* GifImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7E42A3E264E008F764F /* GifImageView.swift */; };
+		9AE1B7E92A3E2695008F764F /* foodimgtransparent2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9AE1B7E82A3E2695008F764F /* foodimgtransparent2.gif */; };
+		9AE1B7EB2A3E2897008F764F /* RandomRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7EA2A3E2897008F764F /* RandomRecipeView.swift */; };
+		9AE1B7ED2A3E28C9008F764F /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7EC2A3E28C9008F764F /* RecipeDetailView.swift */; };
+		9AE1B7EF2A3E28F2008F764F /* RecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7EE2A3E28F2008F764F /* RecipeCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,8 +67,18 @@
 		9A0727E22A38DF580074322D /* AnalyzedInstruction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyzedInstruction.swift; sourceTree = "<group>"; };
 		9A0727E32A38DF580074322D /* Ingredient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		9A0727E42A38DF590074322D /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		9A2540492A40ADEA00429519 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		9A25404B2A40B4B100429519 /* ErrorEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorEnums.swift; sourceTree = "<group>"; };
+		9A25404D2A40B5BD00429519 /* WinePairingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinePairingsView.swift; sourceTree = "<group>"; };
+		9A25404F2A40C0F100429519 /* WinePairingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinePairingViewModel.swift; sourceTree = "<group>"; };
 		9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomRecipeViewModel.swift; sourceTree = "<group>"; };
 		9AA1B9682A3D0FC50016A30A /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = chefcooktransparent.gif; sourceTree = "<group>"; };
+		9AE1B7E42A3E264E008F764F /* GifImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifImageView.swift; sourceTree = "<group>"; };
+		9AE1B7E82A3E2695008F764F /* foodimgtransparent2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = foodimgtransparent2.gif; sourceTree = "<group>"; };
+		9AE1B7EA2A3E2897008F764F /* RandomRecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomRecipeView.swift; sourceTree = "<group>"; };
+		9AE1B7EC2A3E28C9008F764F /* RecipeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
+		9AE1B7EE2A3E28F2008F764F /* RecipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +115,8 @@
 		1A9EC4432A1BE093006D4736 /* EverydayChef */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1B7E82A3E2695008F764F /* foodimgtransparent2.gif */,
+				9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */,
 				9AA1B9672A3D0FB10016A30A /* Utilities */,
 				9AA1B9642A3D0F6C0016A30A /* ViewModels */,
 				1AC21C732A37ABC60045DB17 /* GoogleService-Info.plist */,
@@ -143,12 +165,18 @@
 		1A9EC4542A2065E1006D4736 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1B7EE2A3E28F2008F764F /* RecipeCardView.swift */,
+				9AE1B7EC2A3E28C9008F764F /* RecipeDetailView.swift */,
+				9AE1B7EA2A3E2897008F764F /* RandomRecipeView.swift */,
+				9AE1B7E42A3E264E008F764F /* GifImageView.swift */,
 				1A9EC4552A2066AC006D4736 /* InventoryTab.swift */,
 				1A9EC4572A2066D4006D4736 /* HistoryTab.swift */,
 				1A9EC4592A206718006D4736 /* RecipeBookTab.swift */,
 				1AAE383E2A21551100E4827B /* ShoppingListView.swift */,
 				1AAE38672A27E2EA00E4827B /* SidebarProfileView.swift */,
 				1A226DA02A33CD5700A20D82 /* StartView.swift */,
+				9A2540492A40ADEA00429519 /* SignUpView.swift */,
+				9A25404D2A40B5BD00429519 /* WinePairingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -157,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */,
+				9A25404F2A40C0F100429519 /* WinePairingViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -165,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				9AA1B9682A3D0FC50016A30A /* AppConstants.swift */,
+				9A25404B2A40B4B100429519 /* ErrorEnums.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -239,6 +269,8 @@
 				1A9EC44C2A1BE095006D4736 /* Preview Assets.xcassets in Resources */,
 				1AC21C742A37ABC60045DB17 /* GoogleService-Info.plist in Resources */,
 				1A9EC4492A1BE095006D4736 /* Assets.xcassets in Resources */,
+				9AE1B7E92A3E2695008F764F /* foodimgtransparent2.gif in Resources */,
+				9AE1B7E32A3E2566008F764F /* chefcooktransparent.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,12 +282,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AA1B9692A3D0FC50016A30A /* AppConstants.swift in Sources */,
+				9AE1B7E52A3E264E008F764F /* GifImageView.swift in Sources */,
 				1AAE383F2A21551100E4827B /* ShoppingListView.swift in Sources */,
+				9AE1B7EF2A3E28F2008F764F /* RecipeCardView.swift in Sources */,
+				9A25404A2A40ADEA00429519 /* SignUpView.swift in Sources */,
 				9AA1B9662A3D0FA00016A30A /* RandomRecipeViewModel.swift in Sources */,
 				9A0727E92A38DF590074322D /* ReturnedRecipeData.swift in Sources */,
+				9AE1B7EB2A3E2897008F764F /* RandomRecipeView.swift in Sources */,
 				9A0727E62A38DF590074322D /* ExtendedIngredient.swift in Sources */,
+				9AE1B7ED2A3E28C9008F764F /* RecipeDetailView.swift in Sources */,
 				1A9EC4582A2066D4006D4736 /* HistoryTab.swift in Sources */,
 				1A9EC45A2A206718006D4736 /* RecipeBookTab.swift in Sources */,
+				9A2540502A40C0F100429519 /* WinePairingViewModel.swift in Sources */,
 				9A0727EB2A38DF590074322D /* Ingredient.swift in Sources */,
 				1A9EC4562A2066AC006D4736 /* InventoryTab.swift in Sources */,
 				1A4D0F3C2A37952C00416996 /* AuthController.swift in Sources */,
@@ -264,9 +302,11 @@
 				1AAE38682A27E2EA00E4827B /* SidebarProfileView.swift in Sources */,
 				1A226DA12A33CD5700A20D82 /* StartView.swift in Sources */,
 				9A0727E72A38DF590074322D /* Step.swift in Sources */,
+				9A25404E2A40B5BD00429519 /* WinePairingsView.swift in Sources */,
 				9A0727E82A38DF590074322D /* Equipment.swift in Sources */,
 				9A0727EC2A38DF590074322D /* Recipe.swift in Sources */,
 				9A0727EA2A38DF590074322D /* AnalyzedInstruction.swift in Sources */,
+				9A25404C2A40B4B100429519 /* ErrorEnums.swift in Sources */,
 				1A9EC4452A1BE093006D4736 /* EverydayChefApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,7 +444,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -434,7 +474,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
