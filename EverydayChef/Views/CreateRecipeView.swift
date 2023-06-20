@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CreateRecipeView: View {
     
+    @EnvironmentObject var fireDBController:FireDbController
+    
     @State private var cuisine:String = ""
     
     @State private var ingredients:String = ""
@@ -43,6 +45,7 @@ struct CreateRecipeView: View {
                     
                     Button(action:{
                         print("Save Data to Firestore for this user")
+                        addRecipe()
                     }){
                         Text("Save Recipe")
                             .padding(10)
@@ -58,6 +61,18 @@ struct CreateRecipeView: View {
             }//ScrollView
         }
     }//body
+    
+    func addRecipe(){
+        Task{
+            
+            let customRecipe = CustomRecipe(recipeName: self.recipeName, recipeInstructions: self.directions, recipeCuisine: self.cuisine, recipeIngredients: self.ingredients)
+            
+          let result =  await fireDBController.saveRecipeToFirestore(customRecipe: customRecipe)
+            
+          print(result)
+        }
+    }
+    
 }
 
 struct RecipeTFModifiers:ViewModifier{
@@ -108,7 +123,7 @@ struct CreateRecipeView_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 16.0, *) {
             NavigationStack{
-                CreateRecipeView()
+                CreateRecipeView().environmentObject(FireDbController.sharedFireDBController)
             }
         }
     }

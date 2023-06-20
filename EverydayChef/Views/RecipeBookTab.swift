@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct RecipeBookTab: View {
+    
+    @StateObject var fireDBController:FireDbController = FireDbController.sharedFireDBController
+    
     var body: some View {
         if #available(iOS 16.0, *) {
             
@@ -44,19 +47,23 @@ struct RecipeBookTab: View {
                             }
 
                             
-                            
-                            VStack{
-                                Image("chefcooking")
-                                Text("Create Recipe")
-                                    .lineLimit(2)
-                                    .foregroundColor(.brown)
-                                    .bold()
+                            NavigationLink {
+                                CreateRecipeView().environmentObject(fireDBController)
+                            } label: {
+                                VStack{
+                                    Image("chefcooking")
+                                    Text("Create Recipe")
+                                        .lineLimit(2)
+                                        .foregroundColor(.brown)
+                                        .bold()
+                                }
+                                .foregroundColor(.white)
+                                .padding(25)
+                                .frame(minWidth: 0, maxWidth: 170, minHeight: 0, maxHeight: 170)
+                                .background(Color("createrecipebackground").opacity(0.8))
+                                .cornerRadius(10)
                             }
-                            .foregroundColor(.white)
-                            .padding(25)
-                            .frame(minWidth: 0, maxWidth: 170, minHeight: 0, maxHeight: 170)
-                            .background(Color("createrecipebackground").opacity(0.8))
-                            .cornerRadius(10)
+
                         }
                         
                         GridRow{
@@ -74,6 +81,25 @@ struct RecipeBookTab: View {
                             .frame(minWidth: 0, maxWidth: 170, minHeight: 0, maxHeight: 170)
                             .background(Color("winepairingsbackground").opacity(0.8))
                             .cornerRadius(10)
+                            
+                            NavigationLink {
+                                CustomRecipeListView().environmentObject(fireDBController)
+                            } label: {
+                                VStack{
+                                    Image("wineglass")
+                                        .resizable()
+                                        .frame(width: 96, height: 96)
+                                    Text("Custom Recipes")
+                                        .foregroundColor(.red)
+                                        .bold()
+                                        .fixedSize()
+                                }
+                                .foregroundColor(.white)
+                                .padding(25)
+                                .frame(minWidth: 0, maxWidth: 170, minHeight: 0, maxHeight: 170)
+                                .background(Color("winepairingsbackground").opacity(0.8))
+                                .cornerRadius(10)
+                            }
                             
         //                    VStack{
         //                        Image(systemName: "message.fill")
@@ -101,7 +127,7 @@ struct RecipeBookTab_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 16.0, *) {
             NavigationStack{
-                RecipeBookTab()
+                RecipeBookTab().environmentObject(FireDbController.sharedFireDBController)
             }
         } else {
             // Fallback on earlier versions

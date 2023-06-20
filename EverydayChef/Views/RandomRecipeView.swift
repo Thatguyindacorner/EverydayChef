@@ -11,9 +11,31 @@ struct RandomRecipeView: View {
     
     @StateObject var randomRecipeViewModel:RandomRecipeViewModel = RandomRecipeViewModel()
     
+    @State private var recipeSearch:String = ""
+    
     var body: some View {
        // NavigationStack{
             VStack{
+                
+                VStack {
+                    TextField("Search Recipes", text: $recipeSearch)
+                        .autocorrectionDisabled(true)
+                        .textInputAutocapitalization(.never)
+                        .textFieldStyle(.roundedBorder)
+                    
+                    Button(action:{
+                        print("Perform Recipe Search Action")
+                        searchRecipe()
+                    }){
+                        Text("Search")
+                            .padding()
+                            .padding(.horizontal, 15)
+                            .background(.brown)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    
+                }
                 
                 ScrollView(){
                     
@@ -74,7 +96,13 @@ struct RandomRecipeView: View {
             .navigationTitle(Text("Random Recipes"))
       //  }//NavStack
         
-    }//bidy
+    }//body
+    
+    func searchRecipe(){
+        Task(priority:.background){
+           await randomRecipeViewModel.searchRecipes(searchTerm:recipeSearch)
+        }
+    }
 }
 
 struct RandomRecipeView_Previews: PreviewProvider {
