@@ -36,6 +36,8 @@
 		9A25404E2A40B5BD00429519 /* WinePairingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25404D2A40B5BD00429519 /* WinePairingsView.swift */; };
 		9A2540502A40C0F100429519 /* WinePairingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25404F2A40C0F100429519 /* WinePairingViewModel.swift */; };
 		9A2540522A40ECAD00429519 /* CreateRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2540512A40ECAD00429519 /* CreateRecipeView.swift */; };
+		9A2540562A41176C00429519 /* FireDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2540552A41176C00429519 /* FireDBController.swift */; };
+		9A2540582A4118A500429519 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2540572A4118A500429519 /* UserData.swift */; };
 		9AA1B9662A3D0FA00016A30A /* RandomRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */; };
 		9AA1B9692A3D0FC50016A30A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1B9682A3D0FC50016A30A /* AppConstants.swift */; };
 		9AE1B7E32A3E2566008F764F /* chefcooktransparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */; };
@@ -73,6 +75,8 @@
 		9A25404D2A40B5BD00429519 /* WinePairingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinePairingsView.swift; sourceTree = "<group>"; };
 		9A25404F2A40C0F100429519 /* WinePairingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinePairingViewModel.swift; sourceTree = "<group>"; };
 		9A2540512A40ECAD00429519 /* CreateRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeView.swift; sourceTree = "<group>"; };
+		9A2540552A41176C00429519 /* FireDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireDBController.swift; sourceTree = "<group>"; };
+		9A2540572A4118A500429519 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomRecipeViewModel.swift; sourceTree = "<group>"; };
 		9AA1B9682A3D0FC50016A30A /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = chefcooktransparent.gif; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 				9A0727E42A38DF590074322D /* Recipe.swift */,
 				9A0727E12A38DF580074322D /* ReturnedRecipeData.swift */,
 				9A0727DF2A38DF580074322D /* Step.swift */,
+				9A2540572A4118A500429519 /* UserData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				1A4D0F3B2A37952C00416996 /* AuthController.swift */,
+				9A2540552A41176C00429519 /* FireDBController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -302,6 +308,7 @@
 				1A9EC4562A2066AC006D4736 /* InventoryTab.swift in Sources */,
 				1A4D0F3C2A37952C00416996 /* AuthController.swift in Sources */,
 				1A9EC4472A1BE093006D4736 /* ContentView.swift in Sources */,
+				9A2540582A4118A500429519 /* UserData.swift in Sources */,
 				1A2F21342A37BD8D00660F60 /* SessionData.swift in Sources */,
 				1AAE38682A27E2EA00E4827B /* SidebarProfileView.swift in Sources */,
 				1A226DA12A33CD5700A20D82 /* StartView.swift in Sources */,
@@ -310,6 +317,7 @@
 				9A0727E82A38DF590074322D /* Equipment.swift in Sources */,
 				9A0727EC2A38DF590074322D /* Recipe.swift in Sources */,
 				9A0727EA2A38DF590074322D /* AnalyzedInstruction.swift in Sources */,
+				9A2540562A41176C00429519 /* FireDBController.swift in Sources */,
 				9A25404C2A40B4B100429519 /* ErrorEnums.swift in Sources */,
 				1A9EC4452A1BE093006D4736 /* EverydayChefApp.swift in Sources */,
 			);
