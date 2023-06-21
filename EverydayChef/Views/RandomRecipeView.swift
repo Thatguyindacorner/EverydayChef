@@ -105,10 +105,10 @@ struct RandomRecipeView: View {
     }
 }
 
-struct RandomRecipeView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack{
-            RandomRecipeView()
-        }
-    }
-}
+//struct RandomRecipeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack{
+//            RandomRecipeView()
+//        }
+//    }
+//}

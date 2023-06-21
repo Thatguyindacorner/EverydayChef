@@ -7,7 +7,15 @@
 
 import SwiftUI
 
+enum Tabs{
+    case inventory
+    case history
+    case recipes
+}
+
 struct ContentView: View {
+    
+    @State var currentTab: Tabs = .inventory
     
     //inventory tab toolbar variables
     @State var showingSettings: Bool = false
@@ -24,78 +32,99 @@ struct ContentView: View {
         ZStack{
             NavigationView{
                 
-                TabView {
-    
+                TabView(selection: $currentTab) {
+                    
                     InventoryTab(inShoppingList: $inShoppingList,
                                  currentStorageType: $currentStorageType).tabItem {
                         
                         Image(systemName: "cabinet")
                         Text("Inventory")
-                    }
-                    //.navigationBarHidden(self.inShoppingList || self.hideToolbar)
-                    .animation(.default, value: hideToolbar)
-                    //.opacity(!showingSettings ? 1 : 0)
-                    //}
+                    }.tag(Tabs.inventory)
                     
                     HistoryTab().tabItem {
                         Image(systemName: "calendar")
                         Text("History")
-                    }
+                    }.tag(Tabs.history)
                     
                     RecipeBookTab().tabItem {
                         Image(systemName: "book")
                         Text("Recipe Book")
-                    }
+                    }.tag(Tabs.recipes)
+
                 }
                 //modular toolbar
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading){
+                    ToolbarItemGroup(placement: .navigationBarLeading){
                         Button(action:{
                             //profile, settings, loggout, etc.
                             //custom sidebar sliding from left
-                            
+
                             //delay for sidebar to appear and toolbar to disappear
                             hideToolbar = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + Double(0.3)){
                                 showingSettings.toggle()
                             }
-                            
-                            
+
+
                         }){
                             Image(systemName: "person.circle")
                         }
                     }
-                    
-                    ToolbarItem(placement: .principal){
-                        Menu {
-                            //function won't render option if it's already choosen
-                            StorageOption(.fridge)
-                            StorageOption(.pantry)
-                            StorageOption(.bar)
-                            
-                        } label: {
-                            HStack{
-                                Text(currentStorageType.rawValue)
-                                Image(systemName: "chevron.down")
+
+
+
+                    ToolbarItemGroup(placement: .principal){
+                        switch currentTab {
+                        case .inventory:
+                            Menu {
+                                //function won't render option if it's already choosen
+                                StorageOption(.fridge)
+                                StorageOption(.pantry)
+                                StorageOption(.bar)
+
+                            } label: {
+                                HStack{
+                                    Text(currentStorageType.rawValue)
+                                    Image(systemName: "chevron.down")
+                                }
                             }
+                        case .history:
+                            Text("HISTORY")
+                        case .recipes:
+                            Text("RECIPES")
                         }
                         
+
                     }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        Button(action:{
-                            //shopping list
-                            inShoppingList = true
-                        }){
-                            Image(systemName: "cart")
+
+                    ToolbarItemGroup(placement: .navigationBarTrailing){
+                        switch currentTab {
+                        case .inventory:
+                            Button(action:{
+                                //shopping list
+                                inShoppingList = true
+                            }){
+                                Image(systemName: "cart")
+                            }
+                        case .history:
+                            Text("")
+                        
+                        case .recipes:
+                            Text("")
                         }
+                        
+
+
                     }
                 }
+                .navigationBarTitleDisplayMode(.inline)
+                //.navigationBarHidden(true)
+                //.navigationBarBackButtonHidden(true)
             }
                 SidebarProfileView(isSidebarVisable: $showingSettings, sidebarHidden: $hideToolbar)
             }//}
         
-        .navigationBarTitleDisplayMode(.inline)
+        //.navigationBarTitleDisplayMode(.inline)
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
     }
