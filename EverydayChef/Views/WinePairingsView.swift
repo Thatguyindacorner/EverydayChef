@@ -19,7 +19,7 @@ struct WinePairingsView: View {
             VStack{
                 
                 Text("Select Wine Types")
-                Picker("Select Parking Hours", selection: self.$pickerSelection, content: {
+                Picker("Select Wine Type", selection: self.$pickerSelection, content: {
                     ForEach(0..<self.wineTypes.count){ index in
                         Text(String(self.wineTypes[index]))
                     }
