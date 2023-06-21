@@ -26,18 +26,25 @@ struct EditCustomRecipeSheet: View {
     var body: some View {
         ScrollView{
             VStack{
-                
-                
-                TextField("Edit Recipe Name", text: $recipeName)
-                    .textFieldStyle(.roundedBorder)
-                
-                TextField("Recipe Cuisine", text: $recipeCuisine)
-                    .textFieldStyle(.roundedBorder)
-                
-                TextField("Recipe Ingredients", text: $recipeIngredients)
-                    .textFieldStyle(.roundedBorder)
-                
-                TextField("Directions", text: $recipeDirections)
+                Group{
+                    Text("Edit Recipes")
+                        .padding(.vertical, 20)
+                        .font(.system(size: 23).bold())
+                    
+                    TextField("Edit Recipe Name", text: $recipeName)
+                    //.textFieldStyle(.roundedBorder)
+                        .textFieldStyle(CustomTextFieldStyle(setPadding: 20))
+                    
+                    TextField("Recipe Cuisine", text: $recipeCuisine)
+                        .textFieldStyle(CustomTextFieldStyle(setPadding: 20))
+                    
+                    TextField("Recipe Ingredients", text: $recipeIngredients)
+                        .textFieldStyle(CustomTextFieldStyle(setPadding: 20))
+                    
+                    TextField("Directions", text: $recipeDirections)
+                        .textFieldStyle(CustomTextFieldStyle(setPadding: 20))
+                }//group
+                .padding(.bottom, 20)
                 
                 Button(action:{
                     print("Edit Recipe")
@@ -48,20 +55,22 @@ struct EditCustomRecipeSheet: View {
                 }){
                     Text("Edit")
                         .padding()
+                        .padding(.horizontal, 20)
                         .background(.yellow)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
             }//VStack
+            .padding()
             .onAppear{
-                recipeName = customRecipe?.recipeName ?? "Unknown"
+                recipeName = customRecipe?.recipeName ?? "Edit Recipe Name"
                 
-                recipeCuisine = customRecipe?.recipeCuisine ?? "Unknown"
+                recipeCuisine = customRecipe?.recipeCuisine ?? "Edit Cuisine"
                 
-                recipeIngredients = customRecipe?.recipeIngredients ?? "Unknown"
+                recipeIngredients = customRecipe?.recipeIngredients ?? "Edit Ingredients"
                 
-                recipeDirections = customRecipe?.recipeInstructions ?? "Unknown"
-            }
+                recipeDirections = customRecipe?.recipeInstructions ?? "Edit Instructions"
+            }//onAppear
         }//ScrollView
     }
     
