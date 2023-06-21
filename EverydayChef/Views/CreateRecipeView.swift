@@ -60,6 +60,47 @@ struct CreateRecipeView: View {
                 
             }//ScrollView
         }
+        else{
+            ScrollView{
+                VStack{
+                    Text("Create Recipe")
+                        .font(.system(size: 24).bold())
+                    
+                    Group{
+                        TextField("Enter Recipe Name", text: $recipeName)
+                            .modifier(RecipeTFModifiers(paddingValue: 20.0, lineLimitVal: 5))
+                        
+                        TextField("Enter Cuisine", text: $cuisine)
+                            .modifier(RecipeTFModifiers(paddingValue: 15.0, lineLimitVal: 5))
+                        
+                        TextField("Enter Ingredients e.g. sugar, eggs", text: $ingredients)
+                            .modifier(RecipeTFModifiers(paddingValue: 20.0, lineLimitVal: 5))
+                        
+                        TextField("Enter Directions", text: $directions)
+                            .modifier(RecipeTFModifiers(paddingValue: 30, lineLimitVal: 5))
+                            
+                        
+                    }//Group
+                    .padding(.top, 10)
+                    
+                    Button(action:{
+                        print("Save Data to Firestore for this user")
+                        addRecipe()
+                    }){
+                        Text("Save Recipe")
+                            .padding(10)
+                            .background(.blue)
+                            .foregroundColor(.white)
+                            //.bold()
+                            .cornerRadius(10)
+                    }
+                    
+                }//VStack
+                .padding()
+                
+            }
+        }
+        
     }//body
     
     func addRecipe(){

@@ -118,13 +118,15 @@ struct ContentView: View {
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
+                
                 //.navigationBarHidden(true)
                 //.navigationBarBackButtonHidden(true)
-            }
+            }//.navigationViewStyle(.stack)
                 SidebarProfileView(isSidebarVisable: $showingSettings, sidebarHidden: $hideToolbar)
             }//}
         
         //.navigationBarTitleDisplayMode(.inline)
+        
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
     }

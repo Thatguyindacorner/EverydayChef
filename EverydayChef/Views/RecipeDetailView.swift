@@ -15,7 +15,7 @@ struct RecipeDetailView: View {
     
     var body: some View {
         
-        if #available(iOS 16.0, *) {
+        //if #available(iOS 16.0, *) {
             ScrollView{
                 
                 VStack{
@@ -43,7 +43,7 @@ struct RecipeDetailView: View {
                         Text("Prep Time: \(recipe?.readyInMinutes ?? 45)")
                     }
                     .font(.caption)
-                    .bold()
+                    //.bold()
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding(.bottom, 5)
                     
@@ -213,8 +213,8 @@ struct RecipeDetailView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 
             }//ScrollView
-            .ignoresSafeArea(.all)
-        }
+            //.ignoresSafeArea(.all)
+        //}
     }
 }
 //
