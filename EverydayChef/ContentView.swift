@@ -21,6 +21,9 @@ struct ContentView: View {
     @State var showingSettings: Bool = false
     @State var currentStorageType: StorageLocation = .fridge
     @State var inShoppingList: Bool = false
+    @State var addIngredient: Bool = false
+    @State var showPopup: Bool = false
+    let popupTitle: String  = "How would you like to add an ingredient?"
     
     @State var hideToolbar: Bool = false
     
@@ -34,12 +37,26 @@ struct ContentView: View {
                 
                 TabView(selection: $currentTab) {
                     
-                    InventoryTab(inShoppingList: $inShoppingList,
-                                 currentStorageType: $currentStorageType).tabItem {
+                    InventoryTab(
+                        inShoppingList: $inShoppingList,
+                        addIngredient: $addIngredient,
+                        currentStorageType: $currentStorageType).tabItem {
                         
                         Image(systemName: "cabinet")
                         Text("Inventory")
                     }.tag(Tabs.inventory)
+                        .confirmationDialog(popupTitle, isPresented: $showPopup, titleVisibility: .visible,
+                        actions: {
+                            Button("With Camera"){
+                                print("Not available yet")
+                            }
+                            Button(action: {
+                                addIngredient = true
+                            })
+                            {
+                                Text(("With Keyboard"))
+                            }
+                        })
                     
                     HistoryTab().tabItem {
                         Image(systemName: "calendar")
@@ -100,6 +117,12 @@ struct ContentView: View {
                     ToolbarItemGroup(placement: .navigationBarTrailing){
                         switch currentTab {
                         case .inventory:
+                            Button(action:{
+                                //shopping list
+                                showPopup = true
+                            }){
+                                Image(systemName: "plus")
+                            }
                             Button(action:{
                                 //shopping list
                                 inShoppingList = true
