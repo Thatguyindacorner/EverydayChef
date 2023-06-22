@@ -14,10 +14,16 @@ struct RecipeDetailView: View {
     var recipe:Recipe?
     
     var summaryString:String? {
-        let summaryStr = recipe?.summary ?? "Unknown"
         
-        return summaryStr.stripOutHtml()
+        get async{
+            let summaryStr = recipe?.summary ?? "Unknown"
+            
+            return summaryStr.stripOutHtml()
+        }
+        
     }
+    
+    @State private var showSummary:String = ""
     
     var body: some View {
         
@@ -96,25 +102,25 @@ struct RecipeDetailView: View {
                                 Text("* \(extendedIngredient.original ?? "Unknown")")
                             }//Ingredient Name For Each
                         }//Group
-//
-//                                            Group{
-//                                                VStack{
-//                                                    Text("Summary")
-//                                                        .font(.title.bold())
-//                                                        //.bold()
-//
-//                                                    Text(summaryString ?? "Unknown")
-//                                                }
-//                                                .padding(.horizontal, 10)
-//                                                .padding(.vertical, 10)
-//                                                .background(.yellow)
-//                                            }
-//                                            .background(.white)
-//                                            .cornerRadius(12)
-//                                            .shadow(color: .gray.opacity(0.5), radius: 8, x: 0, y: 5)
-//                                            .frame(minWidth:0, maxWidth:.infinity)
-//                                            //.padding(.horizontal, 2)
-//                                            .padding(.vertical, 8)
+
+                                            Group{
+                                                VStack{
+                                                    Text("Summary")
+                                                        .font(.title.bold())
+                                                        //.bold()
+
+                                                    Text(showSummary)
+                                                }
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 10)
+                                                .background(.yellow)
+                                            }
+                                            .background(.white)
+                                            .cornerRadius(12)
+                                            .shadow(color: .gray.opacity(0.5), radius: 8, x: 0, y: 5)
+                                            .frame(minWidth:0, maxWidth:.infinity)
+                                            //.padding(.horizontal, 2)
+                                            .padding(.vertical, 8)
                     }//Ingredients VStack
                     
 //                    Group{
@@ -255,6 +261,15 @@ struct RecipeDetailView: View {
                 .padding()
                 .navigationTitle(Text("Recipe Details"))
                 .navigationBarTitleDisplayMode(.inline)
+                
+                .onAppear{
+                    Task(priority:.background){
+                        let summ = await summaryString
+                        
+                        self.showSummary = summ ?? "Unknown"
+                        
+                    }
+                }
                 
             }//ScrollView
             //.ignoresSafeArea(.all)
