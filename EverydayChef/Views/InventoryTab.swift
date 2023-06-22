@@ -16,13 +16,27 @@ enum StorageLocation: String{
 
 }
 
+enum FridgeCatagories{
+    case produce
+    case meat
+    case dairy
+}
+
 struct InventoryTab: View {
     
     @Binding var inShoppingList: Bool
     
+    @Binding var addIngredient: Bool
+    
     @Binding var currentStorageType: StorageLocation
     
+    @State var inventory: [AutocompleteIngredient] = []
     
+    @State var meatShelf: [AutocompleteIngredient] = []
+    @State var produceShelf: [AutocompleteIngredient] = []
+    @State var dairyShelf: [AutocompleteIngredient] = []
+    @State var freezerShelf: [AutocompleteIngredient] = []
+    @State var otherShelf: [AutocompleteIngredient] = []
     
     let widthScreen = UIScreen.main.bounds.size.width
     let heightScreen = UIScreen.main.bounds.size.height
@@ -34,6 +48,8 @@ struct InventoryTab: View {
     @State var isOpenBar: Bool = false
     
     @State var openClose: Bool = false
+    
+    @State var imagesBaseURL: String = "https://spoonacular.com/cdn/ingredients_100x100/"
     
     
     var body: some View {
@@ -49,8 +65,40 @@ struct InventoryTab: View {
                 ForegroundDisplay()
                 
                 NavigationLink(destination: ShoppingListView(), isActive: $inShoppingList){}
-
-            
+                NavigationLink(destination: AddIngredientView(), isActive: $addIngredient){}
+                
+                
+            }.onAppear{
+                //get inventory update
+                print("onAppear")
+                self.freezerShelf = []
+                self.meatShelf = []
+                self.produceShelf = []
+                self.dairyShelf = []
+                self.otherShelf = []
+                Task(priority: .high){
+                    self.inventory = await FireDbController.getInventory()
+                    
+                    for ingredient in inventory{
+                        if ingredient.inFreezer{
+                            self.freezerShelf.append(ingredient)
+                        }
+                        else{
+                            switch ingredient.aisle{
+                            case "Meat":
+                                self.meatShelf.append(ingredient)
+                            case "Produce":
+                                self.produceShelf.append(ingredient)
+                            case "Milk, Eggs, Other Dairy":
+                                self.dairyShelf.append(ingredient)
+                            case "Frozen":
+                                self.freezerShelf.append(ingredient)
+                            default:
+                                self.otherShelf.append(ingredient)
+                            }
+                        }
+                    }
+                }
             }
             
         }
@@ -69,15 +117,27 @@ struct InventoryTab: View {
                     ScrollView(.horizontal){
                         //FRUITS AND VEGGIES
                         LazyHStack{
-                            ForEach(tempList){ ingredient in
-                                Button(action:{
-                                    //goto ingredient detail
-                                }){
+                            ForEach(produceShelf, id: \.id){ ingredient in
+                                
+                                NavigationLink{
+                                    IngredientView(ingredient: ingredient)
+                                    
+                                }
+                                label: {
                                     VStack(spacing: 0){
-                                        Image("HomeImage").resizable()
-                                        Text(ingredient).padding(.bottom, 10)
-                                    }.frame(width: space.size.height/5, height: space.size.height/5)
-                                }.padding(5)
+                                        AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                            //.frame(width:100, height: 100)
+                                        } placeholder: {
+                                            ProgressView()
+                                                .tint(.gray)
+                                        }
+                                        Text(ingredient.name!).padding(.bottom, 10)
+                                    }.frame(width: space.size.height/7, height: space.size.height/7)
+                                }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                
                             }
                         }
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
@@ -90,15 +150,25 @@ struct InventoryTab: View {
                     ScrollView(.horizontal){
                         //MEAT
                         LazyHStack{
-                            ForEach(tempList){ ingredient in
-                                Button(action:{
-                                    //goto ingredient detail
-                                }){
+                            ForEach(meatShelf, id: \.id){ ingredient in
+                                NavigationLink{
+                                    IngredientView(ingredient: ingredient)
+                                    
+                                }
+                                label: {
                                     VStack(spacing: 0){
-                                        Image("HomeImage").resizable()
-                                        Text(ingredient).padding(.bottom, 10)
-                                    }.frame(width: space.size.height/5, height: space.size.height/5)
-                                }.padding(5)
+                                        AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                            //.frame(width:100, height: 100)
+                                        } placeholder: {
+                                            ProgressView()
+                                                .tint(.gray)
+                                        }
+                                        Text(ingredient.name!).padding(.bottom, 10)
+                                    }.frame(width: space.size.height/7, height: space.size.height/7)
+                                }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                             }
                         }
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
@@ -110,21 +180,31 @@ struct InventoryTab: View {
                     ScrollView(.horizontal){
                         //MADE FOOD
                         LazyHStack{
-                            Button(action:{
-                                //goto make new food
-                            }){
-                                Text("+").font(.largeTitle).frame(width: space.size.height/5, height: space.size.height/5).background(.gray).opacity(0.35)
-                            }
+//                            Button(action:{
+//                                //goto make new food
+//                            }){
+//                                Text("+").font(.largeTitle).frame(width: space.size.height/5, height: space.size.height/5).background(.gray).opacity(0.35)
+//                            }
                             
-                            ForEach(tempList){ ingredient in
-                                Button(action:{
-                                    //goto ingredient detail
-                                }){
+                            ForEach(otherShelf, id: \.id){ ingredient in
+                                NavigationLink{
+                                    IngredientView(ingredient: ingredient)
+                                    
+                                }
+                                label: {
                                     VStack(spacing: 0){
-                                        Image("HomeImage").resizable()
-                                        Text(ingredient).padding(.bottom, 10)
-                                    }.frame(width: space.size.height/5, height: space.size.height/5)
-                                }.padding(5)
+                                        AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                            //.frame(width:100, height: 100)
+                                        } placeholder: {
+                                            ProgressView()
+                                                .tint(.gray)
+                                        }
+                                        Text(ingredient.name!).padding(.bottom, 10)
+                                    }.frame(width: space.size.height/7, height: space.size.height/7)
+                                }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                             }
                         }
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
@@ -136,15 +216,25 @@ struct InventoryTab: View {
                     ScrollView(.horizontal){
                         //DARIY
                         LazyHStack{
-                            ForEach(tempList){ ingredient in
-                                Button(action:{
-                                    //goto ingredient detail
-                                }){
+                            ForEach(dairyShelf, id: \.id){ ingredient in
+                                NavigationLink{
+                                    IngredientView(ingredient: ingredient)
+                                    
+                                }
+                                label: {
                                     VStack(spacing: 0){
-                                        Image("HomeImage").resizable()
-                                        Text(ingredient).padding(.bottom, 10)
-                                    }.frame(width: space.size.height/5, height: space.size.height/5)
-                                }.padding(5)
+                                        AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                            //.frame(width:100, height: 100)
+                                        } placeholder: {
+                                            ProgressView()
+                                                .tint(.gray)
+                                        }
+                                        Text(ingredient.name!).padding(.bottom, 10)
+                                    }.frame(width: space.size.height/7, height: space.size.height/7)
+                                }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                             }
                         }
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
@@ -153,21 +243,46 @@ struct InventoryTab: View {
                     
                     
                     
-                    ScrollView(.horizontal){
-                        //FREEZER
-                        LazyHStack{
-                            ForEach(tempList){ ingredient in
-                                Button(action:{
-                                    //goto ingredient detail
-                                }){
-                                    VStack(spacing: 0){
-                                        Image("HomeImage").resizable()
-                                        Text(ingredient).padding(.bottom, 10)
-                                    }.frame(width: space.size.height/5, height: space.size.height/5)
-                                }.padding(5)
-                            }
+                    ZStack{
+                        
+                        Color.blue
+                            .opacity(0.10)
+                        
+                        ScrollView(.horizontal){
+                            //FREEZER
+                           // ZStack{
+                                
+                                LazyHStack{
+                                    ForEach(freezerShelf, id: \.id){ ingredient in
+                                        NavigationLink{
+                                            IngredientView(ingredient: ingredient)
+                                            
+                                        }
+                                        label: {
+                                            VStack(spacing: 0){
+                                                ZStack{
+                                                    AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
+                                                        image
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                        //.frame(width:100, height: 100)
+                                                    } placeholder: {
+                                                        ProgressView()
+                                                            .tint(.gray)
+                                                    }
+                                                }
+                                                Text(ingredient.name!).padding(.bottom, 10)
+                                            }.frame(width: space.size.height/7, height: space.size.height/7)
+                                        }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                    }
+                                }
+                            //}
+                            
                         }
-                    }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
+                        
+                    }
+                    .frame(width: space.size.width - doorGap/2, height: space.size.height/5)
+                        
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                         .offset(x: doorGap/4)
                 }

@@ -125,4 +125,81 @@ class FireDbController:ObservableObject{
         }
     }
     
+    static func getInventory() async -> [AutocompleteIngredient]{
+        
+        do{
+            let all = try await SessionData.shared.document?.collection("Ingredients").getDocuments().documents
+            print("got documents")
+            
+            guard all != nil
+            else{
+                return []
+            }
+            
+            var inventory: [AutocompleteIngredient] = []
+            
+            for doc in all!{
+                var data = try doc.data(as: AutocompleteIngredient.self)
+                data.inStock = doc.data()["inStock"] as! Bool
+                data.inFreezer = doc.data()["inFreezer"] as! Bool
+                inventory.append(data)
+            }
+            
+            print("returning list")
+            return inventory
+    
+        }catch{
+            print("Error in getInventory")
+            return []
+        }
+    
+    }
+    
+    static func hasIngredient(_ ingredient: AutocompleteIngredient) async -> Bool{
+        do{
+            let all = try await SessionData.shared.document?.collection("Ingredients").getDocuments().documents
+            print("got documents")
+            
+            guard all != nil
+            else{
+                return false
+            }
+            
+            for doc in all!{
+                let id = doc.data()["id"] as? Int
+                //let data = try doc.data(as: AutocompleteIngredient.self)
+                if id! == ingredient.id!{
+                    print("has ingredient")
+                    await FireDbController.updateIngredientTo(ingredient, doc.documentID)
+                    return true
+                }
+            }
+    
+        }catch{
+            print("Error in hasIngredient")
+        }
+        print("does not have ingredient")
+        return false
+    }
+    
+    static func addIngredient(_ new: AutocompleteIngredient) async{
+        do{
+            try SessionData.shared.document?.collection("Ingredients").document().setData(from: new)
+            print("ingredient added")
+    
+        }catch{
+            print("Error while adding \(error.localizedDescription)")
+        }
+    }
+    
+    static func updateIngredientTo(_ new: AutocompleteIngredient, _ id: String) async{
+        do{
+            try SessionData.shared.document?.collection("Ingredients").document(id).setData(from: new)
+            print("ingredient updated")
+    
+        }catch{
+            print("Error while updating \(error.localizedDescription)")
+        }
+    }
+    
 }
