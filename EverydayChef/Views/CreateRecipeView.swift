@@ -11,6 +11,8 @@ struct CreateRecipeView: View {
     
     @EnvironmentObject var fireDBController:FireDbController
     
+    @Environment(\.dismiss) var dismiss
+    
     @State private var cuisine:String = ""
     
     @State private var ingredients:String = ""
@@ -46,6 +48,8 @@ struct CreateRecipeView: View {
                     Button(action:{
                         print("Save Data to Firestore for this user")
                         addRecipe()
+                        
+                        dismiss()
                     }){
                         Text("Save Recipe")
                             .padding(10)
