@@ -13,6 +13,8 @@ struct RandomRecipeView: View {
     
     @State private var recipeSearch:String = ""
     
+    @EnvironmentObject var firedbController:FireDbController
+    
     var body: some View {
        // NavigationStack{
             VStack{
@@ -44,7 +46,7 @@ struct RandomRecipeView: View {
                         ForEach(randomRecipeViewModel.recipeList, id: \.self){ recipe in
                             
                             NavigationLink {
-                                RecipeDetailView(randomRecipeViewModel: randomRecipeViewModel, recipe: recipe)
+                                RecipeDetailView(randomRecipeViewModel: randomRecipeViewModel, recipe: recipe).environmentObject(firedbController)
                             } label: {
                                 RecipeCardView(recipe: recipe)
                                     .padding(.vertical, 10)

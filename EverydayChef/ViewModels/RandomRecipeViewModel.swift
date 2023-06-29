@@ -16,9 +16,14 @@ class RandomRecipeViewModel:ObservableObject{
     
     @Published var recipeTitle:String = ""
     
+    @Published var favoriteRecipesList:[Recipe] = []
+    
     let recipeURL:String = "https://api.spoonacular.com/recipes/random?number=2&apiKey=d01c0f4e6a324d2c861e9b967a6e5d87"
     
     let searchRecipeURL:String = "https://api.spoonacular.com/recipes/random?"
+    
+    let recipeByIdURL:String = "https://api.spoonacular.com/recipes/"
+    
     
     func getRandomRecipes() async{
         
@@ -185,5 +190,56 @@ class RandomRecipeViewModel:ObservableObject{
             return
         }
         
-    }
+    } //searchRecipes
+    
+    
+    func getRecipeById(_ forID:Int) async{
+        
+        let buildURLString:String = "\(recipeByIdURL)\(forID)/information?apiKey=d01c0f4e6a324d2c861e9b967a6e5d87"
+        
+        
+        guard let recipeByIDURL = URL(string: buildURLString) else{
+            print("Error converting String to URL")
+            return
+        }
+        
+        do{
+            
+            print("Trying to get a response")
+            
+            let (data,urlResponse) = try await URLSession.shared.data(from: recipeByIDURL)
+            
+            guard let httpURLResponse = urlResponse as? HTTPURLResponse else{
+                
+                print("Cannot cast to HTTPURLResponse")
+                
+                return
+                
+            }//guard httpURLResponse
+            
+            if httpURLResponse.statusCode == 200{
+                
+                //TODO: Decode JSON
+                guard let returnedRecipe = try? JSONDecoder().decode(Recipe.self, from: data) else{
+                    print("ERROR:: Trouble decoding data into Swift Structs")
+                    
+                    return
+                }
+                
+                print("Recipe Data Successfully Returned \(returnedRecipe.id)")
+                
+                print("Recipe Name: \(returnedRecipe.title ?? "Unknown")")
+                
+                self.favoriteRecipesList.append(returnedRecipe)
+                
+            }else{
+                print("BAD Response CODE: \(httpURLResponse.statusCode)")
+                return
+            }
+        }catch{
+            print("Error processing request \(error.localizedDescription)")
+        }
+        
+    }//getReciopesByID
+    
 }
