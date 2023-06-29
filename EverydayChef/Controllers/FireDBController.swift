@@ -8,9 +8,12 @@
 import Foundation
 import FirebaseFirestore
 
+@MainActor
 class FireDbController:ObservableObject{
     
     @Published var userRecipeList:[CustomRecipe] = []
+    
+    @Published var favoriteRecipesList:[FavoriteRecipes] = []
     
     private let store = Firestore.firestore()
     
@@ -123,7 +126,124 @@ class FireDbController:ObservableObject{
         }catch{
             print("Error while deleting \(error.localizedDescription)")
         }
+    }//deleteRecipes
+    
+    func saveRecipeAsFavorite(favoriteRecipe:FavoriteRecipes) async ->Bool{
+        do{
+            let reference = SessionData.shared.document?.collection("FavoriteRecipes")
+            
+            try await reference?.addDocument(data: favoriteRecipe.dictionary)
+            
+            return true
+        }catch{
+            print("Error while Saving Favorite Recipe \(error.localizedDescription)")
+            return false
+        }
+    }//saveRecipeAsFavorite
+    
+    func getAllFavoriteRecipes() async ->[FavoriteRecipes]{
+        
+        
+        do{
+            
+            let reference = SessionData.shared.document?.collection("FavoriteRecipes")
+            
+            var favRecipesToReturn:[FavoriteRecipes] = []
+            
+            
+            
+            let snapshot = try await reference?.getDocuments()
+            
+            //reference?.addSnapshotListener({ (querySnapshot, error) in
+            
+            //            guard let snapshot = querySnapshot else{
+            //                print(#function, "Unable to retrieve data from firestore \(error?.localizedDescription ?? "")")
+            //                return
+            //            }
+            
+            try snapshot?.documents.forEach({ documentSnapshot in
+                var docData = try documentSnapshot.data(as: FavoriteRecipes.self)
+                
+                let docID = documentSnapshot.documentID
+                
+                docData.id = docID
+                
+                favRecipesToReturn.append(docData)
+            })
+            return favRecipesToReturn
+        }catch{
+                print("Error in Operation \(error.localizedDescription)")
+            return []
+            }
+            
+//            snapshot.documentChanges.forEach { documentChange in
+//
+//               // do{
+//                    var favoriteRecipes = try documentChange.document.data(as: FavoriteRecipes.self)
+//
+//                    let docID = documentChange.document.documentID
+//
+//                    favoriteRecipes.id = docID
+//
+//                    let matchingIndex = self.favoriteRecipesList.firstIndex {
+//                        ($0.id?.elementsEqual(docID))!
+//                    }
+//
+//                    if documentChange.type == .added{
+//
+//                        DispatchQueue.main.async {
+//                            self.favoriteRecipesList.append(favoriteRecipes)
+//                        }
+//
+//                        print("Document Added to the collection: \(favoriteRecipes.recipeId)")
+//                    }//added
+//
+//                    if documentChange.type == .removed{
+//                        if matchingIndex != nil{
+//                            self.favoriteRecipesList.remove(at: matchingIndex!)
+//                        }
+//                    }//removed
+//
+//                    if documentChange.type == .modified{
+//
+//                        if matchingIndex != nil{
+//                            self.favoriteRecipesList[matchingIndex!] = favoriteRecipes
+//                        }
+//
+//                    }//modified
+//
+//                }catch{
+//                    print("Error \(error.localizedDescription)")
+//                }
+//
+//            }//snapshot.documentChanges
+            
+       // })//addSnapshotListener
+        
+    }//getAllFavoriteRecipes
+    
+    
+    func deleteFavoriteRecipe(favoriteRecipes:FavoriteRecipes) async ->Bool{
+        do{
+            
+            guard let recipeIDToDelete = favoriteRecipes.id else{
+                print("No ID Found for this Favorite Recipe")
+                
+                return false
+            }
+            
+            try await SessionData.shared.document?.collection("FavoriteRecipes")
+                .document(recipeIDToDelete)
+                .delete()
+            
+            return true
+        }catch{
+            print("Error deleting record: \(error.localizedDescription)")
+            return false
+        }
     }
+    
+    
     
     static func getInventory() async -> [AutocompleteIngredient]{
         

@@ -11,7 +11,11 @@ struct RecipeDetailView: View {
     
     @ObservedObject var randomRecipeViewModel:RandomRecipeViewModel
     
+    @EnvironmentObject var fireDBController:FireDbController
+    
     var recipe:Recipe?
+    
+    var isFav:Bool?
     
     var summaryString:String? {
         
@@ -23,11 +27,24 @@ struct RecipeDetailView: View {
         
     }
     
+    var loadSymbVariant:SymbolVariants{
+        get{
+            if let fav = isFav, fav == true{
+                return .fill
+            }else{
+                return .none
+            }
+        }
+        
+    }
+    
+    @State private var symbVariant:SymbolVariants = .none
+    
     @State private var showSummary:String = ""
     
     var body: some View {
         
-        //if #available(iOS 16.0, *) {
+        if #available(iOS 16.0, *) {
             ScrollView{
                 
                 VStack{
@@ -46,16 +63,37 @@ struct RecipeDetailView: View {
                     }
                     .padding(.bottom, 20)
                     
-                    HStack{
-                        Text("\(recipe?.title ?? "")")
-                            .lineLimit(2)
+                    VStack(spacing:8) {
+                        HStack{
+                            Text("\(recipe?.title ?? "")")
+                                .lineLimit(2)
+                            
+                            Text("|")
+                                .font(.system(size: 20))
+                            
+                            Text("Prep Time: \(recipe?.readyInMinutes ?? 45)")
+                            
+                        }
                         
-                        Text("|")
+                        HStack{
+                            
+                            Button {
+                                print("Mark Recipe as Favorite")
+                                saveRecipeAsFavorite()
+                            } label: {
+                                Image(systemName: "heart")
+                                    .font(.system(size: 20))
+                                    .symbolVariant(symbVariant)
+                            }
+                            .disabled(symbVariant == .fill ? true : false)
+                            
+                            Text(symbVariant == .fill ? "Favorited" : "Mark as Favorite")
+                                .font(.caption)
+                        }
                         
-                        Text("Prep Time: \(recipe?.readyInMinutes ?? 45)")
                     }
-                    .font(.caption.bold())
-                    //.bold()
+                    .font(.system(size: 17))
+                    .bold()
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding(.bottom, 5)
                     .padding()
@@ -269,19 +307,86 @@ struct RecipeDetailView: View {
                         self.showSummary = summ ?? "Unknown"
                         
                     }
+                    
+                    if let fav = isFav{
+                        self.symbVariant = .fill
+                    }else{
+                        self.symbVariant = .none
+                    }
                 }
+            
+//                .toolbar{
+//                    ToolbarItem(placement:.navigationBarTrailing) {
+//                        Button {
+//                            print("Get all Favorite Recipes")
+//
+//                            getFavData()
+//                        } label: {
+//                            Text("Favorites")
+//                        }
+//
+//                    }
+//                }
                 
             }//ScrollView
+            
+            
             //.ignoresSafeArea(.all)
-        //}
-    }
+        }//if IOS 16
+    } //body
+    
+//    func getFavRecipes() async -> Int{
+//        let totalCount = Task(priority:.background){() -> Int in
+//            await getFavData()
+//
+//            return fireDBController.favoriteRecipesList.count
+//        }
+//
+//        let val = await totalCount.value
+//
+//        return val
+//    }//getFavRecipes
+    
+//    func getFavData(){
+//        Task(priority:.background){
+//
+//            fireDBController.favoriteRecipesList = []
+//
+//            await fireDBController.getAllFavoriteRecipes()
+//
+//            
+//
+//            print("Got all Favorite recipes")
+//
+//
+//        }//Task
+//    }
+    
+    func saveRecipeAsFavorite(){
+        
+        Task(priority:.background){
+            
+            let favoriteRecipe = FavoriteRecipes(recipeId: recipe?.id ?? 0)
+            
+            let result = await fireDBController.saveRecipeAsFavorite(favoriteRecipe: favoriteRecipe)
+            
+            print("Recipe Added as Favorite? \(result)")
+            
+            if result{
+                self.symbVariant = .fill
+                //self.loadSymbVariant = .fill
+            }
+            
+        }//Task
+    }//saveRecipeAsFavorite
+    
 }
 
 struct RecipeDetailView_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 16.0, *) {
             NavigationStack{
-                RecipeDetailView(randomRecipeViewModel: RandomRecipeViewModel(), recipe: Recipe(vegetarian: Optional(false), aggregateLikes: Optional(56), pricePerServing: Optional(140.42), id: 716377, title: Optional("Vegetable Rice"), readyInMinutes: Optional(45), servings: Optional(2), image: Optional("https://spoonacular.com/recipeImages/716377-556x370.jpg"), summary: Optional("If you have around <b>45 minutes</b> to spend in the kitchen, Vegetable Rice might be an awesome <b>gluten free</b> recipe to try. This main course has <b>707 calories</b>, <b>17g of protein</b>, and <b>11g of fat</b> per serving. This recipe serves 2. For <b>$1.4 per serving</b>, this recipe <b>covers 23%</b> of your daily requirements of vitamins and minerals. 56 people have made this recipe and would make it again. This recipe from Afrolems requires rice, chili powder, lemon juice, and vegetables. Overall, this recipe earns a <b>good spoonacular score of 77%</b>. Users who liked this recipe also liked <a href=\"https://spoonacular.com/recipes/wild-rice-and-brown-rice-cakes-with-roasted-vegetable-rag-186690\">Wild Rice and Brown Rice Cakes with Roasted Vegetable Ragù</a>, <a href=\"https://spoonacular.com/recipes/cauliflower-brown-rice-and-vegetable-fried-rice-1625893\">Cauliflower, Brown Rice, and Vegetable Fried Rice</a>, and <a href=\"https://spoonacular.com/recipes/cauliflower-brown-rice-and-vegetable-fried-rice-716426\">Cauliflower, Brown Rice, and Vegetable Fried Rice</a>."), instructions: "Wash and bring to boil your rice for about 10 minutes.Chop your green vegetables and set aside. Strain the water from the rice and reduce the heat. Add your vegetables, butter, lemon juice and chili powder. Chop your garlic and add to the pot of rice with your seasoning cubes. Allow steaming on low heat till the rice is soft. Serve your vegetable rice hot with any protein of your choice. ", extendedIngredients: [EverydayChef.ExtendedIngredient(aisle: Optional("Milk, Eggs, Other Dairy"), image: Optional("butter-sliced.jpg"), original: Optional("1.5 Tablespoons of melted butter"), name: Optional("butter"), amount: Optional(1.5), unit: Optional("Tablespoons")), EverydayChef.ExtendedIngredient(aisle: Optional("Spices and Seasonings"), image: Optional("chili-powder.jpg"), original: Optional("1 teaspoon of Chili powder"), name: Optional("chili powder"), amount: Optional(1.0), unit: Optional("teaspoon")), EverydayChef.ExtendedIngredient(aisle: Optional("Produce"), image: Optional("garlic.png"), original: Optional("2 cloves of garlic"), name: Optional("garlic"), amount: Optional(2.0), unit: Optional("cloves")), EverydayChef.ExtendedIngredient(aisle: Optional("Meat"), image: Optional("diced-ham.jpg"), original: Optional("Seasoning cubes"), name: Optional("seasoning cubes"), amount: Optional(2.0), unit: Optional("servings")), EverydayChef.ExtendedIngredient(aisle: Optional("Produce"), image: Optional("lemon-juice.jpg"), original: Optional("1.5 teaspoons of Lemon Juice"), name: Optional("lemon juice"), amount: Optional(1.5), unit: Optional("teaspoons")), EverydayChef.ExtendedIngredient(aisle: Optional("Pasta and Rice"), image: Optional("uncooked-white-rice.png"), original: Optional("1.5 cups of Rice"), name: Optional("rice"), amount: Optional(1.5), unit: Optional("cups")), EverydayChef.ExtendedIngredient(aisle: Optional("Produce"), image: Optional("mixed-vegetables.png"), original: Optional("2 cups of chopped green vegetables (Spinach or Ugwu)"), name: Optional("vegetables"), amount: Optional(2.0), unit: Optional("cups"))], analyzedInstructions: [EverydayChef.AnalyzedInstruction(steps: [EverydayChef.Step(number: Optional(1), step: Optional("Wash and bring to boil your rice for about 10 minutes.Chop your green vegetables and set aside. Strain the water from the rice and reduce the heat."), ingredients: [EverydayChef.Ingredient(name: Optional("vegetable"), image: Optional("mixed-vegetables.png")), EverydayChef.Ingredient(name: Optional("water"), image: Optional("water.png")), EverydayChef.Ingredient(name: Optional("rice"), image: Optional("uncooked-white-rice.png"))], equipment: []), EverydayChef.Step(number: Optional(2), step: Optional("Add your vegetables, butter, lemon juice and chili powder. Chop your garlic and add to the pot of rice with your seasoning cubes. Allow steaming on low heat till the rice is soft. "), ingredients: [EverydayChef.Ingredient(name: Optional("seasoning cube"), image: Optional("stock-cube.jpg")), EverydayChef.Ingredient(name: Optional("chili powder"), image: Optional("chili-powder.jpg")), EverydayChef.Ingredient(name: Optional("lemon juice"), image: Optional("lemon-juice.jpg")), EverydayChef.Ingredient(name: Optional("vegetable"), image: Optional("mixed-vegetables.png")), EverydayChef.Ingredient(name: Optional("butter"), image: Optional("butter-sliced.jpg")), EverydayChef.Ingredient(name: Optional("garlic"), image: Optional("garlic.png")), EverydayChef.Ingredient(name: Optional("rice"), image: Optional("uncooked-white-rice.png"))], equipment: [EverydayChef.Equipment(name: Optional("pot"), image: Optional("stock-pot.jpg"))]), EverydayChef.Step(number: Optional(3), step: Optional("Serve your vegetable rice hot with any protein of your choice. "), ingredients: [EverydayChef.Ingredient(name: Optional("vegetable"), image: Optional("mixed-vegetables.png")), EverydayChef.Ingredient(name: Optional("rice"), image: Optional("uncooked-white-rice.png"))], equipment: [])])]))
+                RecipeDetailView(randomRecipeViewModel: RandomRecipeViewModel(), recipe: Recipe(vegetarian: Optional(false), aggregateLikes: Optional(56), pricePerServing: Optional(140.42), id: 716377, title: Optional("Vegetable Rice"), readyInMinutes: Optional(45), servings: Optional(2), image: Optional("https://spoonacular.com/recipeImages/716377-556x370.jpg"), summary: Optional("If you have around <b>45 minutes</b> to spend in the kitchen, Vegetable Rice might be an awesome <b>gluten free</b> recipe to try. This main course has <b>707 calories</b>, <b>17g of protein</b>, and <b>11g of fat</b> per serving. This recipe serves 2. For <b>$1.4 per serving</b>, this recipe <b>covers 23%</b> of your daily requirements of vitamins and minerals. 56 people have made this recipe and would make it again. This recipe from Afrolems requires rice, chili powder, lemon juice, and vegetables. Overall, this recipe earns a <b>good spoonacular score of 77%</b>. Users who liked this recipe also liked <a href=\"https://spoonacular.com/recipes/wild-rice-and-brown-rice-cakes-with-roasted-vegetable-rag-186690\">Wild Rice and Brown Rice Cakes with Roasted Vegetable Ragù</a>, <a href=\"https://spoonacular.com/recipes/cauliflower-brown-rice-and-vegetable-fried-rice-1625893\">Cauliflower, Brown Rice, and Vegetable Fried Rice</a>, and <a href=\"https://spoonacular.com/recipes/cauliflower-brown-rice-and-vegetable-fried-rice-716426\">Cauliflower, Brown Rice, and Vegetable Fried Rice</a>."), instructions: "Wash and bring to boil your rice for about 10 minutes.Chop your green vegetables and set aside. Strain the water from the rice and reduce the heat. Add your vegetables, butter, lemon juice and chili powder. Chop your garlic and add to the pot of rice with your seasoning cubes. Allow steaming on low heat till the rice is soft. Serve your vegetable rice hot with any protein of your choice. ", extendedIngredients: [EverydayChef.ExtendedIngredient(aisle: Optional("Milk, Eggs, Other Dairy"), image: Optional("butter-sliced.jpg"), original: Optional("1.5 Tablespoons of melted butter"), name: Optional("butter"), amount: Optional(1.5), unit: Optional("Tablespoons")), EverydayChef.ExtendedIngredient(aisle: Optional("Spices and Seasonings"), image: Optional("chili-powder.jpg"), original: Optional("1 teaspoon of Chili powder"), name: Optional("chili powder"), amount: Optional(1.0), unit: Optional("teaspoon")), EverydayChef.ExtendedIngredient(aisle: Optional("Produce"), image: Optional("garlic.png"), original: Optional("2 cloves of garlic"), name: Optional("garlic"), amount: Optional(2.0), unit: Optional("cloves")), EverydayChef.ExtendedIngredient(aisle: Optional("Meat"), image: Optional("diced-ham.jpg"), original: Optional("Seasoning cubes"), name: Optional("seasoning cubes"), amount: Optional(2.0), unit: Optional("servings")), EverydayChef.ExtendedIngredient(aisle: Optional("Produce"), image: Optional("lemon-juice.jpg"), original: Optional("1.5 teaspoons of Lemon Juice"), name: Optional("lemon juice"), amount: Optional(1.5), unit: Optional("teaspoons")), EverydayChef.ExtendedIngredient(aisle: Optional("Pasta and Rice"), image: Optional("uncooked-white-rice.png"), original: Optional("1.5 cups of Rice"), name: Optional("rice"), amount: Optional(1.5), unit: Optional("cups")), EverydayChef.ExtendedIngredient(aisle: Optional("Produce"), image: Optional("mixed-vegetables.png"), original: Optional("2 cups of chopped green vegetables (Spinach or Ugwu)"), name: Optional("vegetables"), amount: Optional(2.0), unit: Optional("cups"))], analyzedInstructions: [EverydayChef.AnalyzedInstruction(steps: [EverydayChef.Step(number: Optional(1), step: Optional("Wash and bring to boil your rice for about 10 minutes.Chop your green vegetables and set aside. Strain the water from the rice and reduce the heat."), ingredients: [EverydayChef.Ingredient(name: Optional("vegetable"), image: Optional("mixed-vegetables.png")), EverydayChef.Ingredient(name: Optional("water"), image: Optional("water.png")), EverydayChef.Ingredient(name: Optional("rice"), image: Optional("uncooked-white-rice.png"))], equipment: []), EverydayChef.Step(number: Optional(2), step: Optional("Add your vegetables, butter, lemon juice and chili powder. Chop your garlic and add to the pot of rice with your seasoning cubes. Allow steaming on low heat till the rice is soft. "), ingredients: [EverydayChef.Ingredient(name: Optional("seasoning cube"), image: Optional("stock-cube.jpg")), EverydayChef.Ingredient(name: Optional("chili powder"), image: Optional("chili-powder.jpg")), EverydayChef.Ingredient(name: Optional("lemon juice"), image: Optional("lemon-juice.jpg")), EverydayChef.Ingredient(name: Optional("vegetable"), image: Optional("mixed-vegetables.png")), EverydayChef.Ingredient(name: Optional("butter"), image: Optional("butter-sliced.jpg")), EverydayChef.Ingredient(name: Optional("garlic"), image: Optional("garlic.png")), EverydayChef.Ingredient(name: Optional("rice"), image: Optional("uncooked-white-rice.png"))], equipment: [EverydayChef.Equipment(name: Optional("pot"), image: Optional("stock-pot.jpg"))]), EverydayChef.Step(number: Optional(3), step: Optional("Serve your vegetable rice hot with any protein of your choice. "), ingredients: [EverydayChef.Ingredient(name: Optional("vegetable"), image: Optional("mixed-vegetables.png")), EverydayChef.Ingredient(name: Optional("rice"), image: Optional("uncooked-white-rice.png"))], equipment: [])])])).environmentObject(FireDbController.sharedFireDBController)
             }
         }
     }

@@ -11,6 +11,8 @@ struct RecipeBookTab: View {
     
     @StateObject var fireDBController:FireDbController = FireDbController.sharedFireDBController
     
+   // @StateObject var randomRecipeViewModel:RandomRecipeViewModel = RandomRecipeViewModel()
+    
     var body: some View {
         if #available(iOS 16.0, *) {
             
@@ -25,7 +27,7 @@ struct RecipeBookTab: View {
                     Grid(horizontalSpacing:20, verticalSpacing: 40){
                         GridRow{
                             NavigationLink {
-                                RandomRecipeView()
+                                RandomRecipeView().environmentObject(fireDBController)
                             } label: {
                                 VStack{
                                     Image("randomrecipe")
@@ -117,6 +119,17 @@ struct RecipeBookTab: View {
                         
                     }
                     
+                    .toolbar{
+                        ToolbarItem(placement:.navigationBarTrailing){
+                            NavigationLink {
+                                ShowFavoriteRecipesView().environmentObject(fireDBController)
+                            } label: {
+                                Text("Favorites")
+                            }
+
+                        }
+                    }
+                    
                 }//ScrollView
                 
                 
@@ -134,7 +147,7 @@ struct RecipeBookTab: View {
                         //row1
                         HStack{
                             NavigationLink {
-                                RandomRecipeView()
+                                RandomRecipeView().environmentObject(fireDBController)
                             } label: {
                                 VStack{
                                     Image("randomrecipe")
