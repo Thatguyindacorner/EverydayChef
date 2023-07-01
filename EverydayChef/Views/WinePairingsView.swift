@@ -9,44 +9,244 @@ import SwiftUI
 
 struct WinePairingsView: View {
     
-    @State private var pickerSelection:Int = 0
+    @State private var foodMode:FoodMode = .wine
     
-    @State private var wineTypes:[String] = ["Merlot", "Malbec", "Pinot Noir"]
+    @State private var wineName:String = ""
+    
+    @State private var foodName:String = ""
+    
+    @State private var showProgress:Bool = false
+    
+    @StateObject var wineAndFoodViewModel:WineAndFoodViewModel = WineAndFoodViewModel()
+    
+    enum FoodMode{
+        case wine
+        
+        case food
+    }
     
     var body: some View {
         
         if #available(iOS 16.0, *) {
             
-            ScrollView{
+            VStack{
                 
-                VStack {
-                    Image("wine")
-                        .resizable()
-                        .scaledToFill()
-//                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.28)
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: UIScreen.main.bounds.height * 0.23)
+                HStack{
+                    //Spacer()
                     VStack{
-                        Text("Select Wine Types")
-                        Picker("Select Wine Type", selection: self.$pickerSelection, content: {
-                            ForEach(0..<self.wineTypes.count){ index in
-                                Text(String(self.wineTypes[index]))
-                            }
-                        })
-                        .padding(.bottom, 10)
-                        .pickerStyle(SegmentedPickerStyle())
+                        Image(systemName: "wineglass.fill")
                         
-                        
-                        
-                    }//VStack
-                    .padding()
-                }
+                        Text("Wine")
+                    }
+                    .frame(minWidth: 0, maxWidth: 200)
+                    .padding(.vertical, 20)
+                    .background(Color("winecolorbackground"))
+                    .foregroundColor(.white)
+                    .onTapGesture {
+                        foodMode = .wine
+                    }//onTapGesture
+                    
+                    Spacer()
+                    
+                    VStack{
+                        Image(systemName: "fork.knife.circle.fill")
+                        Text("Food")
+                    }
+                    .frame(minWidth: 0, maxWidth: 200)
+                    .padding(.vertical, 20)
+                    .background(Color.yellow)
+                    .onTapGesture {
+                        foodMode = .food
+                    }//onTapGesture
+                    
+                    // Spacer()
+                }//HStack
                 
-                //.navigationTitle(Text("Wine Pairings"))
-            }//ScrollView
-            .ignoresSafeArea(.all)
+                Group{
+                    
+                    if foodMode == .wine{
+                        
+                        WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress)
+                        
+                    }else{
+                        FoodView(wineName: $wineName)
+                    }
+                }//Group
+                
+                Spacer()
+                
+            }//VStack main
+            .padding()
+            .navigationTitle(Text("Wine/Food Pairing"))
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarBackground(Color("navbarcolor"), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            
         }//if IOS 16 and UP
+    }//body
+}//struct WinePairingsView
+
+
+struct WineView:View{
+    
+    @Binding var foodName:String
+    
+    @ObservedObject var wineAndFoodViewModel:WineAndFoodViewModel
+    
+    @Binding var showProgress:Bool
+    
+    var body: some View{
+        
+            VStack{
+                Text("Find a Wine that goes well with food")
+                
+                TextField("Enter dish/ingredient/cuisine", text: $foodName)
+                    .textFieldStyle(.roundedBorder)
+                    .modifier(TFModifiers())
+                
+                Text("Food can be dish name, e.g. steak, an ingredient name e.g. salmon, or c cuisine e.g. italian")
+                    .font(.caption)
+                
+                Button {
+                    print("Search Wine using API")
+                    searchWine()
+                } label: {
+                    Text("Search Wine")
+                        .padding()
+                        .padding(.horizontal, 15)
+                        .background(.red)
+                        .foregroundColor(.white)
+                        .bold()
+                        .cornerRadius(12)
+                } //Button
+                
+                Group{
+                    if wineAndFoodViewModel.winesList.count == 0{
+                        
+                        Text(wineAndFoodViewModel.winePairingText)
+                        
+                    }else{
+                        Text("Paired Wines")
+                            .font(.system(size: 19).weight(.semibold))
+                        Text("Click on the Wine to get more Information")
+                            .font(.caption)
+                        
+                        HStack{
+                            List{
+                                ForEach(wineAndFoodViewModel.winesList, id: \.self){wine in
+                                    VStack{
+                                        Text(wine)
+                                    }//Stack
+                                }//ForEach
+                            }//List
+                            .listStyle(.plain)
+                            
+                            Group{
+                                
+                                if wineAndFoodViewModel.wineProducts.count == 0 {
+                                    EmptyView()
+                                }else{
+                                    
+                                    VStack(spacing:0){
+                                        Text("Recomended Wines")
+                                            .font(.caption.bold())
+                                        
+                                        ScrollView{
+                                            LazyVStack{
+                                                ForEach(wineAndFoodViewModel.wineProducts, id: \.self){wineProduct in
+                                                    
+                                                    VStack {
+                                                        
+                                                        Text(wineProduct.description ?? "Unknown")
+                                                        
+                                                        Text(wineProduct.title ?? "Unknown")
+                                                        
+                                                        AsyncImage(url: URL(string: wineProduct.imageUrl ?? "none")) { image in
+                                                            image
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                                .frame(width:100, height:100)
+                                                        } placeholder: {
+                                                            ProgressView()
+                                                                .scaleEffect(4)
+                                                                .tint(.red)
+                                                        }//AsyncImage
+                                                    }//VStack
+
+                                                    
+                                                }
+                                            }
+                                        }
+                                    }
+                                }//else
+                            }//Group
+                        }//HStack--experimental
+                        ScrollView{
+                            Text("Wine Information")
+                                .font(.system(size: 20).bold())
+                            Text(wineAndFoodViewModel.wineInfo)
+                        }//ScrollView
+                        
+                    }//else
+                }//Group
+                
+            }//VStack
+        
+    }//body
+    
+    func searchWine(){
+        Task(priority:.background){
+            
+            showProgress = true
+            
+            let result = await wineAndFoodViewModel.findWine(for: foodName)
+            
+            if result == true{
+                print("Found Wine")
+                showProgress = false
+            }else{
+                print("No Results Found")
+                showProgress = false
+            }
+            
+        }//Task
+    }//func searchWine()
+    
+}//WineView Struct
+
+
+struct FoodView:View{
+    
+    @Binding var wineName:String
+    
+    var body: some View{
+        VStack{
+            Text("Find a Dish that goes well with a Wine")
+            
+            TextField("Enter wine type e.g. merlot", text: $wineName)
+                .textFieldStyle(.roundedBorder)
+                .modifier(TFModifiers())
+            
+            Text("Required* The type of wine that should be paired, e.g merlot, riesling, etc.")
+                .font(.caption)
+            
+        }//VStack
+    }//body
+    
+}//FoodView
+
+
+
+
+struct TFModifiers:ViewModifier{
+    
+    func body(content: Content) -> some View {
+        content
+            .autocorrectionDisabled(true)
+            .textInputAutocapitalization(.never)
     }
-}
+    
+}//TFModifiers
 
 struct WinePairingsView_Previews: PreviewProvider {
     static var previews: some View {
