@@ -17,8 +17,13 @@ struct IngredientView: View{
     
     @Environment(\.presentationMode) var presentationMode
     
+    @StateObject var recipeViewModel: SearchRecipeByIngredientViewModel = SearchRecipeByIngredientViewModel()
+    
     var body: some View {
         GeometryReader{ space in
+            
+            NavigationLink(destination: RecipeDetailView(randomRecipeViewModel: RandomRecipeViewModel(), recipe: recipeViewModel.recipeData), isActive: $recipeViewModel.goToRecipe) {
+            }
             
             VStack(alignment: .center){
                 //Image(systemName: "photo").resizable()
@@ -56,6 +61,65 @@ struct IngredientView: View{
 //                case .bar:
 //                    <#code#>
 //                }
+                
+                Button(action:{
+                    Task{
+                        //ProgressView()
+                        await recipeViewModel.searchRecipesWith(ingredient: ingredient)
+                    }
+                }){
+                    Text("What can I make with this?")
+                }.padding(10).border(.blue)
+                    .disabled(!recipeViewModel.allRecipes.isEmpty)
+                Toggle("Include Recipes with missing Ingredients?", isOn: $recipeViewModel.includeRecipesWithMissingIngredients).onChange(of: recipeViewModel.includeRecipesWithMissingIngredients) { newValue in
+                    Task{
+                        await recipeViewModel.filterRecipes()
+                    }
+                }
+                
+                List{
+                    ForEach(recipeViewModel.results, id: \.id){ recipe in
+
+                        Button(action:{
+                            Task{
+                                self.recipeViewModel.recipeData = await recipeViewModel.getRecipeById(id: recipe.id ?? 404)
+                                self.recipeViewModel.goToRecipe = true
+                            }
+                            
+                        }){
+                            AsyncImage(url: URL(string: recipe.image ?? "\(imagesBaseURL) apple.jpg")) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                //.frame(width:100, height: 100)
+                            } placeholder: {
+                                ProgressView()
+                                    .tint(.gray)
+                            }.frame(height: space.size.height / 10)
+                            Text(recipe.title ?? "N/A")
+                        }
+                        
+//                        NavigationLink{
+//                            RecipeDetailView(randomRecipeViewModel: RandomRecipeViewModel(), recipe: recipeViewModel.recipes.first(where: { thing in
+//                                return thing.id == recipe.id
+//                            }))
+//                        } label:{
+//                            AsyncImage(url: URL(string: recipe.image ?? "\(imagesBaseURL) apple.jpg")) { image in
+//                                image
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                //.frame(width:100, height: 100)
+//                            } placeholder: {
+//                                ProgressView()
+//                                    .tint(.gray)
+//                            }.frame(height: space.size.height / 10)
+//                            Text(recipe.title ?? "N/A")
+//                        }
+                        
+                    }
+                    
+                }
+                
                 Spacer()
             }.padding(35).frame(width: space.size.width, height: space.size.height)
         }

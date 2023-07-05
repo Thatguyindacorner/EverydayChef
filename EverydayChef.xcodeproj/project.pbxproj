@@ -26,6 +26,8 @@
 		1AAE383F2A21551100E4827B /* ShoppingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAE383E2A21551100E4827B /* ShoppingListView.swift */; };
 		1AAE38682A27E2EA00E4827B /* SidebarProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAE38672A27E2EA00E4827B /* SidebarProfileView.swift */; };
 		1AC21C742A37ABC60045DB17 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AC21C732A37ABC60045DB17 /* GoogleService-Info.plist */; };
+		1ACB31772A53637E00AA1463 /* SearchRecipeByIngredientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACB31762A53637E00AA1463 /* SearchRecipeByIngredientViewModel.swift */; };
+		1ACB31792A54B3A100AA1463 /* FoundRecipesByIngredients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACB31782A54B3A100AA1463 /* FoundRecipesByIngredients.swift */; };
 		9A0727E62A38DF590074322D /* ExtendedIngredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0727DE2A38DF580074322D /* ExtendedIngredient.swift */; };
 		9A0727E72A38DF590074322D /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0727DF2A38DF580074322D /* Step.swift */; };
 		9A0727E82A38DF590074322D /* Equipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0727E02A38DF580074322D /* Equipment.swift */; };
@@ -75,6 +77,8 @@
 		1AAE383E2A21551100E4827B /* ShoppingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListView.swift; sourceTree = "<group>"; };
 		1AAE38672A27E2EA00E4827B /* SidebarProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarProfileView.swift; sourceTree = "<group>"; };
 		1AC21C732A37ABC60045DB17 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		1ACB31762A53637E00AA1463 /* SearchRecipeByIngredientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecipeByIngredientViewModel.swift; sourceTree = "<group>"; };
+		1ACB31782A54B3A100AA1463 /* FoundRecipesByIngredients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundRecipesByIngredients.swift; sourceTree = "<group>"; };
 		9A0727DE2A38DF580074322D /* ExtendedIngredient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedIngredient.swift; sourceTree = "<group>"; };
 		9A0727DF2A38DF580074322D /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		9A0727E02A38DF580074322D /* Equipment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equipment.swift; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 				9AD63B032A4149010047F7F1 /* Account.swift */,
 				9A24502D2A414B6A0006B318 /* CustomRecipe.swift */,
 				9A0F80212A4C9D2C00EEC107 /* FavoriteRecipes.swift */,
+				1ACB31782A54B3A100AA1463 /* FoundRecipesByIngredients.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -233,6 +238,7 @@
 				9A25404F2A40C0F100429519 /* WinePairingViewModel.swift */,
 				1A2F21392A43D82C00660F60 /* IngredientSearchViewModel.swift */,
 				9A4277022A4382E6004DA4DF /* WinePairingsViewModel.swift */,
+				1ACB31762A53637E00AA1463 /* SearchRecipeByIngredientViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -356,12 +362,14 @@
 				1A9EC4472A1BE093006D4736 /* ContentView.swift in Sources */,
 				9A2540582A4118A500429519 /* UserData.swift in Sources */,
 				9A0F80222A4C9D2C00EEC107 /* FavoriteRecipes.swift in Sources */,
+				1ACB31792A54B3A100AA1463 /* FoundRecipesByIngredients.swift in Sources */,
 				1A2F21342A37BD8D00660F60 /* SessionData.swift in Sources */,
 				1AAE38682A27E2EA00E4827B /* SidebarProfileView.swift in Sources */,
 				1A226DA12A33CD5700A20D82 /* StartView.swift in Sources */,
 				9A0727E72A38DF590074322D /* Step.swift in Sources */,
 				9A25404E2A40B5BD00429519 /* WinePairingsView.swift in Sources */,
 				9A0727E82A38DF590074322D /* Equipment.swift in Sources */,
+				1ACB31772A53637E00AA1463 /* SearchRecipeByIngredientViewModel.swift in Sources */,
 				9A0727EC2A38DF590074322D /* Recipe.swift in Sources */,
 				9A0727EA2A38DF590074322D /* AnalyzedInstruction.swift in Sources */,
 				9AAE0AF12A420D8700661F49 /* EditCustomRecipeSheet.swift in Sources */,
@@ -504,7 +512,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -534,7 +542,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

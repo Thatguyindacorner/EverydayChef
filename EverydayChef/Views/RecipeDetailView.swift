@@ -9,6 +9,14 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     
+//    init() async{
+//        if recipeID != nil{
+//            self.recipe = await SearchRecipeByIngredientViewModel.getRecipeById(id: recipeID!)
+//        }
+//    }
+    
+//    var recipeID: Int? = nil
+    
     @ObservedObject var randomRecipeViewModel:RandomRecipeViewModel
     
     @EnvironmentObject var fireDBController:FireDbController
@@ -333,6 +341,300 @@ struct RecipeDetailView: View {
             
             //.ignoresSafeArea(.all)
         }//if IOS 16
+        
+        
+        else {
+            ScrollView{
+                
+                VStack{
+                    
+                    
+                    AsyncImage(url: URL(string: recipe?.image ?? "norecipe")) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .cornerRadius(12)
+                    } placeholder: {
+                        ProgressView()
+                            .tint(.red)
+                            .scaleEffect(2)
+                    }
+                    .padding(.bottom, 20)
+                    
+                    VStack(spacing:8) {
+                        HStack{
+                            Text("\(recipe?.title ?? "")")
+                                .lineLimit(2)
+                            
+                            Text("|")
+                                .font(.system(size: 20))
+                            
+                            Text("Prep Time: \(recipe?.readyInMinutes ?? 45)")
+                            
+                        }
+                        
+                        HStack{
+                            
+                            Button {
+                                print("Mark Recipe as Favorite")
+                                saveRecipeAsFavorite()
+                            } label: {
+                                Image(systemName: "heart")
+                                    .font(.system(size: 20))
+                                    .symbolVariant(symbVariant)
+                            }
+                            .disabled(symbVariant == .fill ? true : false)
+                            
+                            Text(symbVariant == .fill ? "Favorited" : "Mark as Favorite")
+                                .font(.caption)
+                        }
+                        
+                    }
+                    .font(.system(size: 17))
+                    //.bold()
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding(.bottom, 5)
+                    .padding()
+                    .background(.yellow)
+                    .cornerRadius(12)
+                    
+                    VStack{
+                        Text("Ingredients")
+                            .font(.title)
+                            .bold()
+                        Divider()
+                        
+                        
+                        ScrollView(.horizontal){
+                            LazyHStack(alignment:.center, spacing: 5){
+                                
+                                
+                                ForEach(recipe?.extendedIngredients ?? [], id: \.self){ extendedIngredient in
+                                    
+                                    VStack(spacing:4){
+                                        AsyncImage(url: URL(string: "https://spoonacular.com/cdn/ingredients_100x100/" + (extendedIngredient.image ?? "apple.jpg") )) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                            //.frame(width:100, height: 100)
+                                        } placeholder: {
+                                            ProgressView()
+                                                .tint(.gray)
+                                        }
+                                        
+                                        Text(extendedIngredient.name ?? "Unknown")
+                                        
+                                    }//Inner VStack
+                                    
+                                    
+                                }//ForEach
+                            }
+                            .frame(height:120)
+                            
+                        }//Inner ScrollView
+                        
+                        VStack(alignment:.leading){
+                            ForEach(recipe?.extendedIngredients ?? [], id: \.self){ extendedIngredient in
+                                Text("* \(extendedIngredient.original ?? "Unknown")")
+                            }//Ingredient Name For Each
+                        }//Group
+
+                                            Group{
+                                                VStack{
+                                                    Text("Summary")
+                                                        .font(.title.bold())
+                                                        //.bold()
+
+                                                    Text(showSummary)
+                                                }
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 10)
+                                                .background(.yellow)
+                                            }
+                                            .background(.white)
+                                            .cornerRadius(12)
+                                            .shadow(color: .gray.opacity(0.5), radius: 8, x: 0, y: 5)
+                                            .frame(minWidth:0, maxWidth:.infinity)
+                                            //.padding(.horizontal, 2)
+                                            .padding(.vertical, 8)
+                    }//Ingredients VStack
+                    
+//                    Group{
+//                        VStack{
+//                            Text("Summary")
+//                                .font(.title.bold())
+//                                //.bold()
+//
+//                            Text(summaryString ?? "Unknown")
+//                        }
+//                        .padding(.horizontal, 10)
+//                        .padding(.vertical, 10)
+//                        .background(.yellow)
+//                    }
+//                    .background(.white)
+//                    .cornerRadius(12)
+//                    .shadow(color: .gray.opacity(0.5), radius: 8, x: 0, y: 5)
+//                    .frame(minWidth:0, maxWidth:.infinity)
+//                    //.padding(.horizontal, 2)
+//                    .padding(.vertical, 8)
+                    
+                    VStack{
+                        HStack{
+                            Spacer()
+                            Text("Instructions")
+                                .font(.title)
+                                .bold()
+                                .padding()
+                            Spacer()
+                        }
+                        
+                        Divider()
+                        
+                        ForEach(recipe?.analyzedInstructions[0].steps ?? [], id:\.self){ step in
+                            
+                            VStack(alignment:.leading, spacing: 5){
+                                
+                                HStack(alignment:.top){
+                                    VStack(alignment:.leading){
+                                        Text("\(step.number ?? 0)")
+                                            .bold()
+                                            .padding()
+                                        Spacer()
+                                    }
+                                    
+                                    VStack(alignment:.leading){
+                                        Text("\(step.step ?? "")")
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .padding()
+                                        Spacer()
+                                    }
+                                }//HStack
+                                
+                                //TODO: Ingredients Info and Image
+                                Group{
+                                    if step.ingredients.count > 0{
+                                        HStack{
+                                            Spacer()
+                                            Text("Related Ingredients")
+                                                .font(.system(size: 18).weight(.semibold))
+                                                .padding(.bottom, 8)
+                                            Spacer()
+                                        }
+                                        
+                                        ScrollView(.horizontal){
+                                            LazyHStack{
+                                                ForEach(step.ingredients, id:\.self){ingredient in
+                                                    VStack{
+                                                        AsyncImage(url: URL(string: "https://spoonacular.com/cdn/ingredients_100x100/" + (ingredient.image ?? "apple.jpg") )) { image in
+                                                            image
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                            //.frame(width:100, height: 100)
+                                                        } placeholder: {
+                                                            ProgressView()
+                                                                .tint(.gray)
+                                                        }
+                                                        
+                                                        Text(ingredient.name ?? "Unknown")
+                                                        
+                                                    }//Inner VStack
+                                                    .padding(.horizontal, 7)
+                                                }
+                                            }
+                                            .frame(height:120)
+                                        }
+                                    }//if ingredients not empty
+                                }//Group
+                                
+                                Group{
+                                    if step.equipment.count > 0{
+                                        HStack{
+                                            Spacer()
+                                            Text("Related Equipment")
+                                                .font(.system(size: 18).weight(.semibold))
+                                                .padding(.bottom, 8)
+                                                .padding(.top, 10)
+                                            Spacer()
+                                        }
+                                        ScrollView(.horizontal){
+                                            LazyHStack{
+                                                ForEach(step.equipment, id:\.self){equipment in
+                                                    VStack{
+                                                        AsyncImage(url: URL(string: "https://spoonacular.com/cdn/equipment_100x100/" + (equipment.image ?? "slow-cooker.jpg") )) { image in
+                                                            image
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                            //.frame(width:100, height: 100)
+                                                        } placeholder: {
+                                                            ProgressView()
+                                                                .tint(.gray)
+                                                        }
+                                                        
+                                                        Text(equipment.name ?? "Unknown")
+                                                    }
+                                                }//ForEach
+                                            }
+                                            .frame(height:120)
+                                        }
+                                    }
+                                }//Group
+                                
+                            }//VStack Step Number and Instruction
+                            .background(.white)
+                            .cornerRadius(12)
+                            .shadow(color: .gray.opacity(0.5), radius: 8, x: 0, y: 5)
+                            .frame(minWidth:0, maxWidth:.infinity)
+                            //.padding(.horizontal, 2)
+                            .padding(.vertical, 8)
+                            
+                            
+                        }//ForEach Step
+                        
+                    }
+                    //Spacer()
+                    
+                }//VStack
+                .padding()
+                .navigationTitle(Text("Recipe Details"))
+                .navigationBarTitleDisplayMode(.inline)
+                
+                .onAppear{
+                    Task(priority:.background){
+                        let summ = await summaryString
+                        
+                        self.showSummary = summ ?? "Unknown"
+                        
+                    }
+                    
+                    if let fav = isFav{
+                        self.symbVariant = .fill
+                    }else{
+                        self.symbVariant = .none
+                    }
+                }
+            
+//                .toolbar{
+//                    ToolbarItem(placement:.navigationBarTrailing) {
+//                        Button {
+//                            print("Get all Favorite Recipes")
+//
+//                            getFavData()
+//                        } label: {
+//                            Text("Favorites")
+//                        }
+//
+//                    }
+//                }
+                
+            }//ScrollView
+            
+            
+            //.ignoresSafeArea(.all)
+        }//if IOS 16
+        
+        
+        
     } //body
     
 //    func getFavRecipes() async -> Int{
