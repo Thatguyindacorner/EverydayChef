@@ -12,6 +12,7 @@ class WineAndFoodViewModel:ObservableObject{
     
     let apiKey:String = "d01c0f4e6a324d2c861e9b967a6e5d87"
     
+    //Wine
     let findWineURL:String = "https://api.spoonacular.com/food/wine/pairing?apiKey="
     
     @Published var winesList:[String] = []
@@ -21,6 +22,15 @@ class WineAndFoodViewModel:ObservableObject{
     @Published var wineInfo:String = ""
     
     @Published var winePairingText:String = ""
+    
+    
+    //FOOD
+    let findFoodURL:String = "https://api.spoonacular.com/food/wine/dishes?apiKey="
+    @Published var foodList:[String] = []
+    
+    @Published var foodText:String = ""
+    
+    
     
     func findWine(for foodName:String) async ->Bool{
         
@@ -65,4 +75,58 @@ class WineAndFoodViewModel:ObservableObject{
         }//catch
     }//func foodWine()
     
+    
+    func findFood(for wineName:String) async ->Bool{
+        
+        //let searchWineStr = processString(process: wineName)
+        
+       // print(searchWineStr)
+        
+        var wineTerm = wineName.replacingOccurrences(of: " ", with: "_")
+    
+        print(wineTerm)
+        
+        do{
+            
+            guard let searchURL = URL(string: "\(findFoodURL)\(apiKey)&wine=\(wineTerm)") else{
+                print("Error creating URL from String")
+                
+                return false
+                
+            }
+            
+            let (data, urlResponse) = try await URLSession.shared.data(from: searchURL)
+            
+            
+            guard let httpURLResponse = urlResponse as? HTTPURLResponse else{
+                print("Cannot cast to HttpURLResponse")
+                return false
+            }
+            
+            guard httpURLResponse.statusCode == 200 else{
+                print("BAD Status code: \(httpURLResponse.statusCode)")
+                
+                return false
+            }
+            
+            guard let returned = try? JSONDecoder().decode(ReturnedFood.self, from: data) else{
+                print("Error Decoding into Swift Structs")
+                return false
+            }
+            
+            print(returned)
+            
+            print(returned.text ?? "Unknown")
+            
+            self.foodList = returned.pairings ?? []
+            
+            self.foodText = returned.text ?? "No Food Found for this type of Wine. Please make sure your search is correct"
+            
+            return true
+        }catch{
+            print("Error finding a dish \(error.localizedDescription)")
+            return false
+        }//catch
+        
+    }//func findFood
 }

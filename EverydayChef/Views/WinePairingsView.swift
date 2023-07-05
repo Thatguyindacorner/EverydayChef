@@ -69,7 +69,8 @@ struct WinePairingsView: View {
                         WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress)
                         
                     }else{
-                        FoodView(wineName: $wineName)
+                        //FoodView(wineName: $wineName)
+                        FoodView(wineName: $wineName, wineAndFoodViewModel:wineAndFoodViewModel)
                     }
                 }//Group
                 
@@ -201,6 +202,7 @@ struct WineView:View{
             
             let result = await wineAndFoodViewModel.findWine(for: foodName)
             
+            
             if result == true{
                 print("Found Wine")
                 showProgress = false
@@ -219,6 +221,8 @@ struct FoodView:View{
     
     @Binding var wineName:String
     
+    @ObservedObject var wineAndFoodViewModel:WineAndFoodViewModel
+    
     var body: some View{
         VStack{
             Text("Find a Dish that goes well with a Wine")
@@ -230,11 +234,69 @@ struct FoodView:View{
             Text("Required* The type of wine that should be paired, e.g merlot, riesling, etc.")
                 .font(.caption)
             
+            Button {
+                print("Search Food")
+                findFoods()
+            } label: {
+                Text("Search Food")
+                    .padding()
+                    .padding(.horizontal, 15)
+                    .background(.cyan)
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                    .cornerRadius(12)
+            }//Button
+            
+            Group{
+                
+                if wineAndFoodViewModel.foodList.count == 0{
+                    
+                    //Text("OOOOOOps.....")
+                    
+                    Text(wineAndFoodViewModel.foodText)
+                    
+                }//if
+                else{
+                    
+                    List{
+                        
+                        ForEach(wineAndFoodViewModel.foodList, id: \.self){foodName in
+                            NavigationLink {
+                                WineRecipesView(dishName: foodName)
+                            } label: {
+                                Text(foodName)
+                                    .bold()
+                            }
+                        }//ForEach
+                        
+                    }//List
+                    .listStyle(.plain)
+                    
+                }//else
+            }//Group
+
+            
         }//VStack
     }//body
     
+    func findFoods(){
+        Task(priority:.background){
+            
+            wineAndFoodViewModel.foodList = []
+            
+            wineAndFoodViewModel.foodText = ""
+            
+            let result = await wineAndFoodViewModel.findFood(for: wineName.lowercased().trimmingCharacters(in: .whitespacesAndNewlines))
+            
+            if result{
+                print("Found Foods")
+            }else{
+                print("Error Procesing Request")
+            }
+        }
+    }
+    
 }//FoodView
-
 
 
 
