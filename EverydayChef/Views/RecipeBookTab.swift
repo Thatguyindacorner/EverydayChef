@@ -78,14 +78,14 @@ struct RecipeBookTab: View {
                                         .resizable()
                                         .frame(width: 96, height: 96)
                                     Text("Wine Pairings")
-                                        .foregroundColor(.red)
+                                        .foregroundColor(.white)
                                         .bold()
                                         .fixedSize()
                                 }
                                 .foregroundColor(.white)
                                 .padding(25)
                                 .frame(minWidth: 0, maxWidth: 170, minHeight: 0, maxHeight: 170)
-                                .background(Color("winepairingsbackground").opacity(0.8))
+                                .background(Color("winecolorbackground").opacity(0.8))
                                 .cornerRadius(10)
                             }
                             NavigationLink {
