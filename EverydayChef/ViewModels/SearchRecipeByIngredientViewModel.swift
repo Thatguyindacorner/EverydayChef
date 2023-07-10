@@ -80,38 +80,75 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
     
     }//getReciopesByID
     
-    func filterRecipes() async{
+    func isInStock(result: FoundRecipesByIngredients, ingredientState: Bool, inventory: [AutocompleteIngredient]) -> Bool{
+
+        if !ingredientState{
+            return false
+        }
         
-        if includeRecipesWithMissingIngredients{
+        var recipeIngredients: [AutocompleteIngredient] = []
+        
+            for ingredient in result.missedIngredients{
+                if inventory.contains(where: { ownedIngredient in
+                    if ownedIngredient.id == ingredient.id{
+                        recipeIngredients.append(ownedIngredient)
+                        
+                    }
+                    
+                    return ownedIngredient.id == ingredient.id
+                    
+                }){}
+            }
+            
+            for missedIngredent in recipeIngredients {
+                if !missedIngredent.inStock {
+                    return false
+                }
+            }
+        
+            return true
+        
+        
+    }
+    
+    func filterRecipes(newValue: Bool) async{
+        
+        if newValue{
             DispatchQueue.main.async {
                 self.results = self.allRecipes
             }
         }
         
         else{
-            let inventory = await FireDbController.getInventory()
+            //let inventory = await FireDbController.getInventory()
             DispatchQueue.main.async {
-            if self.filteredRecipes.isEmpty{
-            
-                    if self.filteredRecipes.isEmpty{
-                    //var filteredResults: [FoundRecipesByIngredients] = []
-                        for result in self.allRecipes {
-                            
-                            for ingredient in result.missedIngredients{
-                                if inventory.contains(where: { ownedIngredient in
-                                    return ownedIngredient.id == ingredient.id
-                                }){
-                                    if result.missedIngredients.last?.id == ingredient.id{
-                                        //filteredResults.append(result)
-                                        self.filteredRecipes.append(result)
-                                        
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
                 self.results = self.filteredRecipes
+//
+//                    if self.filteredRecipes.isEmpty{
+//                    //var filteredResults: [FoundRecipesByIngredients] = []
+//
+//
+//                        for result in self.allRecipes {
+//
+//                            for ingredient in result.missedIngredients{
+//                                if inventory.contains(where: { ownedIngredient in
+//                                    return ownedIngredient.id == ingredient.id
+//                                }){
+//
+//                                    if result.missedIngredients.last?.id == ingredient.id{
+//                                        //filteredResults.append(result)
+//                                        self.results.append(result)
+//
+//                                    }
+//                                }
+//                                else{
+//                                    break
+//                                }
+//                            }
+//                        }
+//                    }
+                
+               // self.results = self.filteredRecipes
             }
             
         }
@@ -134,7 +171,7 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
         let api = URL(string: url)
         
         if api == nil{
-            url = "\(base)\(ingredients)\(ingredient.name!.replacingOccurrences(of: " ", with: ""))\(limitPeram)\(numResults)\(ranking)\(2)\(apiKey)"
+            url = "\(base)\(ingredients)\(ingredient.name!.replacingOccurrences(of: " ", with: "+"))\(limitPeram)\(numResults)\(ranking)\(2)\(apiKey)"
         }
         
         //print(url)
@@ -175,10 +212,10 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
             DispatchQueue.main.async {
                 
                 self.allRecipes = jsonData.results ?? []
-                self.results = []
+                self.filteredRecipes = []
                 //self.recipes = []
                 
-                if !self.includeRecipesWithMissingIngredients{
+                
                     
                     for result in self.allRecipes {
                         
@@ -187,7 +224,7 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
                                 return ownedIngredient.id == ingredient.id
                             }){
                                 if result.missedIngredients.last?.id == ingredient.id{
-                                    self.results.append(result)
+                                    self.filteredRecipes.append(result)
 //                                    Task{
 //                                        guard let recipe = await self.getRecipeById(id: result.id!)
 //                                        else{
@@ -200,9 +237,14 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
 
                                 }
                             }
+                            else{
+                                break
+                            }
                         }
                     }
-                    self.filteredRecipes = self.results
+                
+                if !self.includeRecipesWithMissingIngredients{
+                    self.results = self.filteredRecipes
                 }
                 else{
                     self.results = self.allRecipes

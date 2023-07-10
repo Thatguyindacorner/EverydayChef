@@ -120,7 +120,7 @@ struct InventoryTab: View {
                             ForEach(produceShelf, id: \.id){ ingredient in
                                 
                                 NavigationLink{
-                                    IngredientView(ingredient: ingredient)
+                                    IngredientView(ingredient: ingredient, inventory: inventory)
                                     
                                 }
                                 label: {
@@ -152,7 +152,7 @@ struct InventoryTab: View {
                         LazyHStack{
                             ForEach(meatShelf, id: \.id){ ingredient in
                                 NavigationLink{
-                                    IngredientView(ingredient: ingredient)
+                                    IngredientView(ingredient: ingredient, inventory: inventory)
                                     
                                 }
                                 label: {
@@ -188,7 +188,7 @@ struct InventoryTab: View {
                             
                             ForEach(otherShelf, id: \.id){ ingredient in
                                 NavigationLink{
-                                    IngredientView(ingredient: ingredient)
+                                    IngredientView(ingredient: ingredient, inventory: inventory)
                                     
                                 }
                                 label: {
@@ -218,7 +218,7 @@ struct InventoryTab: View {
                         LazyHStack{
                             ForEach(dairyShelf, id: \.id){ ingredient in
                                 NavigationLink{
-                                    IngredientView(ingredient: ingredient)
+                                    IngredientView(ingredient: ingredient, inventory: inventory)
                                     
                                 }
                                 label: {
@@ -255,7 +255,7 @@ struct InventoryTab: View {
                                 LazyHStack{
                                     ForEach(freezerShelf, id: \.id){ ingredient in
                                         NavigationLink{
-                                            IngredientView(ingredient: ingredient)
+                                            IngredientView(ingredient: ingredient, inventory: inventory)
                                             
                                         }
                                         label: {

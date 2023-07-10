@@ -11,6 +11,7 @@ struct IngredientView: View{
     
     @State var ingredient: AutocompleteIngredient//? = nil
     //@State var name: String = ""
+    @State var inventory: [AutocompleteIngredient]
     
     @State var storagePlace: StorageLocation = .fridge
     @State var imagesBaseURL: String = "https://spoonacular.com/cdn/ingredients_100x100/"
@@ -71,9 +72,10 @@ struct IngredientView: View{
                     Text("What can I make with this?")
                 }.padding(10).border(.blue)
                     .disabled(!recipeViewModel.allRecipes.isEmpty)
-                Toggle("Include Recipes with missing Ingredients?", isOn: $recipeViewModel.includeRecipesWithMissingIngredients).onChange(of: recipeViewModel.includeRecipesWithMissingIngredients) { newValue in
+                Toggle("Include Recipes with missing Ingredients?", isOn: $recipeViewModel.includeRecipesWithMissingIngredients)
+                    .onChange(of: recipeViewModel.includeRecipesWithMissingIngredients) { newValue in
                     Task{
-                        await recipeViewModel.filterRecipes()
+                        await recipeViewModel.filterRecipes(newValue: newValue)
                     }
                 }
                 
@@ -97,7 +99,7 @@ struct IngredientView: View{
                                     .tint(.gray)
                             }.frame(height: space.size.height / 10)
                             Text(recipe.title ?? "N/A")
-                        }
+                        }.grayscale(!recipeViewModel.isInStock(result: recipe, ingredientState: ingredient.inStock, inventory: inventory) ? 1 : 0)
                         
 //                        NavigationLink{
 //                            RecipeDetailView(randomRecipeViewModel: RandomRecipeViewModel(), recipe: recipeViewModel.recipes.first(where: { thing in
