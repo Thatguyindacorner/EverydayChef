@@ -7,6 +7,8 @@
 
 import Foundation
 import FirebaseFirestore
+import UIKit
+import FirebaseStorage
 
 @MainActor
 class FireDbController:ObservableObject{
@@ -321,5 +323,129 @@ class FireDbController:ObservableObject{
             print("Error while updating \(error.localizedDescription)")
         }
     }
+    
+    
+    
+    /*
+      Updated Save Custom Recipes and get custom recipes
+     */
+    func saveCustomRecipes(customRecipe:CustomRecipe, image:UIImage?) async -> Bool{
+        
+        let reference = SessionData.shared.document?.collection("Recipes")
+        
+        guard let docIdFolder = SessionData.shared.document?.documentID else{
+            print("No User data found for this User")
+            
+            return false
+        }
+        
+        let photoName = UUID().uuidString
+        
+        let storage = Storage.storage()
+        
+        let storageRef = storage.reference().child("\(docIdFolder)/Photos/\(photoName).jpeg")
+        
+        guard image != nil else{
+            print("Image is nil")
+            
+            return false
+        }
+        
+        guard let resizedImage = image?.jpegData(compressionQuality: 0.2)else{
+            print("Cannot compress image")
+            return false
+        }
+        
+        var metaData = StorageMetadata()
+        
+        metaData.contentType = "image/jpg"
+        
+        var imageURLString = ""
+        
+        do{
+            
+            let _ = try await storageRef.putDataAsync(resizedImage, metadata: metaData)
+            
+            print("Image Saved")
+            
+            do{
+                let imageURL = try await storageRef.downloadURL() //Get the URL for the image saved at this reference location
+                
+                imageURLString = "\(imageURL)" //Save this in the Document CustomRecipe
+            
+            }catch{
+                print("Could not get imageURL after saving Image to the Database \(error.localizedDescription)")
+                return false
+            }
+            
+        }catch{
+            print("Could not storage Image to Cloud Storage")
+            return false
+        }//catch
+        
+        /*
+          Now save the CustomRecipe along with the imageURL of the image uploaded on to Cloud Firestore
+         */
+        
+        let db = Firestore.firestore()
+        
+        let collectionString = "photos"
+        
+        do{
+            var newCustomRecipe = customRecipe
+            
+            newCustomRecipe.imageURLString = imageURLString
+            
+            //try await db.collection(collectionString).document(photoName).setData(newCustomRecipe.dictonary)
+            
+            try await reference?.document(photoName).setData(newCustomRecipe.dictionary)
+            
+            print("Data uploaded successfully")
+            return true
+        }catch{
+            print("ERROR: Could not save/update document in photos, \(error.localizedDescription)")
+            
+            return false
+        }
+        
+    }//savePhoto
+    
+    
+    func getCustomRecipes() async -> [CustomRecipe]{
+        
+        do{
+//            let db = Firestore.firestore()
+//
+//            let collectionString = "photos"
+            
+           // let dbReference = db.collection(collectionString)
+            
+            let dbReference = SessionData.shared.document?.collection("Recipes")
+            
+            var receivedCustomRecipes:[CustomRecipe] = []
+            
+            let snapshot = try await dbReference?.getDocuments()
+            
+            try snapshot?.documents.forEach({ documentSnapShot in
+                
+                var docData = try documentSnapShot.data(as: CustomRecipe.self)
+                
+                let docID = documentSnapShot.documentID
+                
+                docData.id = docID
+                
+                receivedCustomRecipes.append(docData)
+                
+            })//snapshot.documents.forEach
+            
+            return receivedCustomRecipes
+            
+        }catch{
+            print("Error while fetching My Recipes \(error.localizedDescription)")
+            return []
+        }//catch
+        
+       // return []
+    }//getCustomRecipes
     
 }

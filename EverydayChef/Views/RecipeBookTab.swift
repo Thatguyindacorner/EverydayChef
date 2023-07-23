@@ -50,7 +50,8 @@ struct RecipeBookTab: View {
 
                             
                             NavigationLink {
-                                CreateRecipeView().environmentObject(fireDBController)
+                                //CreateRecipeView().environmentObject(fireDBController)
+                                CreateRecipeView2().environmentObject(fireDBController)
                             } label: {
                                 VStack{
                                     Image("chefcooking")
