@@ -83,6 +83,7 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
     func isInStock(result: FoundRecipesByIngredients, ingredientState: Bool, inventory: [AutocompleteIngredient]) -> Bool{
 
         if !ingredientState{
+            print("main ingredient out of stock")
             return false
         }
         
@@ -99,13 +100,19 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
                     
                 }){}
             }
+        
+            if recipeIngredients.isEmpty{
+                return false
+            }
             
             for missedIngredent in recipeIngredients {
                 if !missedIngredent.inStock {
+                    print("missing \(missedIngredent.name)")
                     return false
                 }
             }
         
+            print("All ingredients present")
             return true
         
         

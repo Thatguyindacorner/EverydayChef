@@ -40,6 +40,7 @@ struct FoundRecipesByIngredients: Codable{
     
     var missedIngredients: [AutocompleteIngredient]
     var usedIngredients: [AutocompleteIngredient]
+    var unusedIngredients: [AutocompleteIngredient]
     
 //    enum CodingKeys: CodingKey {
 //        case id
