@@ -90,7 +90,8 @@ struct RecipeBookTab: View {
                                 .cornerRadius(10)
                             }
                             NavigationLink {
-                                CustomRecipeListView().environmentObject(fireDBController)
+                                //CustomRecipeListView().environmentObject(fireDBController)
+                                CustomRecipeListView2().environmentObject(fireDBController)
                             } label: {
                                 VStack{
                                     Image("wineglass")

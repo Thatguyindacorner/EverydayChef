@@ -59,6 +59,7 @@
 		9AA1B9662A3D0FA00016A30A /* RandomRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */; };
 		9AA1B9692A3D0FC50016A30A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1B9682A3D0FC50016A30A /* AppConstants.swift */; };
 		9AAE0AF12A420D8700661F49 /* EditCustomRecipeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE0AF02A420D8700661F49 /* EditCustomRecipeSheet.swift */; };
+		9ABA35112A6EE48700CDF108 /* CustomRecipeListView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA35102A6EE48700CDF108 /* CustomRecipeListView2.swift */; };
 		9AD63B042A4149010047F7F1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD63B032A4149010047F7F1 /* Account.swift */; };
 		9AE1B7E32A3E2566008F764F /* chefcooktransparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */; };
 		9AE1B7E52A3E264E008F764F /* GifImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7E42A3E264E008F764F /* GifImageView.swift */; };
@@ -118,6 +119,7 @@
 		9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomRecipeViewModel.swift; sourceTree = "<group>"; };
 		9AA1B9682A3D0FC50016A30A /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		9AAE0AF02A420D8700661F49 /* EditCustomRecipeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCustomRecipeSheet.swift; sourceTree = "<group>"; };
+		9ABA35102A6EE48700CDF108 /* CustomRecipeListView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipeListView2.swift; sourceTree = "<group>"; };
 		9AD63B032A4149010047F7F1 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = chefcooktransparent.gif; sourceTree = "<group>"; };
 		9AE1B7E42A3E264E008F764F /* GifImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifImageView.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				9AAE0AF02A420D8700661F49 /* EditCustomRecipeSheet.swift */,
 				1A2F21372A43C2A900660F60 /* AddIngredientView.swift */,
 				9A0F80232A4CB12900EEC107 /* ShowFavoriteRecipesView.swift */,
+				9ABA35102A6EE48700CDF108 /* CustomRecipeListView2.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				9AD63B042A4149010047F7F1 /* Account.swift in Sources */,
 				9A61163F2A415213007973D3 /* CustomRecipeListView.swift in Sources */,
 				9A0727EB2A38DF590074322D /* Ingredient.swift in Sources */,
+				9ABA35112A6EE48700CDF108 /* CustomRecipeListView2.swift in Sources */,
 				1A9EC4562A2066AC006D4736 /* InventoryTab.swift in Sources */,
 				9A4277032A4382E6004DA4DF /* WinePairingsViewModel.swift in Sources */,
 				1A4D0F3C2A37952C00416996 /* AuthController.swift in Sources */,
@@ -550,6 +554,8 @@
 				DEVELOPMENT_TEAM = 3373MRKNX5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow EverydayChef to use Device Camera?";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow EverydayChef to access the Photos Library?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -580,6 +586,8 @@
 				DEVELOPMENT_TEAM = 3373MRKNX5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow EverydayChef to use Device Camera?";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow EverydayChef to access the Photos Library?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
