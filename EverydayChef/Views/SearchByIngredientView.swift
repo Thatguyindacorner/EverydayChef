@@ -114,8 +114,7 @@ struct SearchByIngredientView: View {
                 
                 Button(action:{
                     Task{
-                        //ProgressView()
-                        await recipeViewModel.searchRecipesWith(ingredient: ingredient)
+                        await recipeViewModel.searchRecipesWith(ingredients: self.additionalIngredients, mainIngredient: self.ingredient)
                     }
                 }){
                     Text("What can I make with this?")
@@ -253,27 +252,32 @@ struct SearchByIngredientView: View {
         }.padding(.horizontal, 10)
         .onAppear{
             Task{
-                self.inventory = await FireDbController.getInventory()
-                inventory.remove(at: inventory.firstIndex(where: { item in
-                    return item.id == ingredient.id
-                })!)
-                
-                for item in inventory{
-                    switch item.aisle{
-                    case "Produce":
-                        produceList.append(item)
-                    case "Meat":
-                        proteinList.append(item)
-                    case "Seafood":
-                        proteinList.append(item)
-                    case "Milk, Eggs, Other Dairy":
-                        dairyList.append(item)
-                    case "Cheese":
-                        dairyList.append(item)
-                    default:
-                        otherList.append(item)
+                if produceList.isEmpty && proteinList.isEmpty && dairyList.isEmpty && otherList.isEmpty{
+                    
+                    self.inventory = await FireDbController.getInventory()
+                    inventory.remove(at: inventory.firstIndex(where: { item in
+                        return item.id == ingredient.id
+                    })!)
+                    
+                    for item in inventory{
+                        switch item.aisle{
+                        case "Produce":
+                            produceList.append(item)
+                        case "Meat":
+                            proteinList.append(item)
+                        case "Seafood":
+                            proteinList.append(item)
+                        case "Milk, Eggs, Other Dairy":
+                            dairyList.append(item)
+                        case "Cheese":
+                            dairyList.append(item)
+                        default:
+                            otherList.append(item)
+                        }
                     }
+                    
                 }
+                
             }
             
         }
