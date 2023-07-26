@@ -19,22 +19,31 @@ struct CustomRecipeListView2: View {
             
             List{
                 ForEach(customRecipeList){ customRecipe in
-                    VStack{
-                        AsyncImage(url: URL(string: customRecipe.imageURLString)) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width:96, height: 96)
-                                .clipped()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        
-                        Text(customRecipe.recipeCuisine)
-                        
-                    }//VStack
+                    
+                    NavigationLink {
+                        CustomRecipeDetailView(customRecipe: customRecipe)
+                    } label: {
+                        CustomRecipeCardView(customRecipe: customRecipe)
+                    }//NavigationLink
+
+//                    VStack{
+//                        AsyncImage(url: URL(string: customRecipe.imageURLString)) { image in
+//                            image
+//                                .resizable()
+//                                .scaledToFill()
+//                                .frame(width:96, height: 96)
+//                                .clipped()
+//                        } placeholder: {
+//                            ProgressView()
+//                        }
+//
+//                        Text(customRecipe.recipeCuisine)
+//
+//                    }//VStack
+                    //CustomRecipeCardView(customRecipe: customRecipe)
                 }//ForEach
             }//List
+            .listStyle(.plain)
             
         }//VStack
         .onAppear{
