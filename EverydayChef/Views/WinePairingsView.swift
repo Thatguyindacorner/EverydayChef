@@ -19,6 +19,8 @@ struct WinePairingsView: View {
     
     @StateObject var wineAndFoodViewModel:WineAndFoodViewModel = WineAndFoodViewModel()
     
+    
+    
     enum FoodMode{
         case wine
         
@@ -96,6 +98,8 @@ struct WineView:View{
     
     @Binding var showProgress:Bool
     
+    @FocusState var nameIsFocused:Bool
+    
     var body: some View{
         
             VStack{
@@ -104,12 +108,15 @@ struct WineView:View{
                 TextField("Enter dish/ingredient/cuisine", text: $foodName)
                     .textFieldStyle(.roundedBorder)
                     .modifier(TFModifiers())
+                    .focused($nameIsFocused)
                 
                 Text("Food can be dish name, e.g. steak, an ingredient name e.g. salmon, or c cuisine e.g. italian")
                     .font(.caption)
                 
                 Button {
                     print("Search Wine using API")
+                    
+                    nameIsFocused = false
                     searchWine()
                 } label: {
                     Text("Search Wine")
@@ -223,6 +230,8 @@ struct FoodView:View{
     
     @ObservedObject var wineAndFoodViewModel:WineAndFoodViewModel
     
+    @FocusState var nameIsFocused:Bool
+    
     var body: some View{
         VStack{
             Text("Find a Dish that goes well with a Wine")
@@ -230,12 +239,16 @@ struct FoodView:View{
             TextField("Enter wine type e.g. merlot", text: $wineName)
                 .textFieldStyle(.roundedBorder)
                 .modifier(TFModifiers())
+                .focused($nameIsFocused)
             
             Text("Required* The type of wine that should be paired, e.g merlot, riesling, etc.")
                 .font(.caption)
             
             Button {
                 print("Search Food")
+                
+                nameIsFocused = false
+                
                 findFoods()
             } label: {
                 Text("Search Food")
