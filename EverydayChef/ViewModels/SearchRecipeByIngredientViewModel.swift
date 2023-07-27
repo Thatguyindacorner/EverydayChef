@@ -86,8 +86,13 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
             print("main ingredient out of stock")
             return false
         }
-        
+    
         var recipeIngredients: [AutocompleteIngredient] = []
+        
+        if result.missedIngredients.isEmpty{
+            print("no missing ingredients")
+            return true
+        }
         
             for ingredient in result.missedIngredients{
                 if inventory.contains(where: { ownedIngredient in
@@ -95,21 +100,26 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
                         recipeIngredients.append(ownedIngredient)
                         
                     }
-                    
+                    print("owned: \(ownedIngredient.id) - \(ownedIngredient.name)")
+                    print("missing: \(ingredient.id) - \(ingredient.name)")
                     return ownedIngredient.id == ingredient.id
                     
                 }){
                     //has ingredient
+                    print("has ingreident: \(ingredient.name ?? "N/A")")
                 }
                 else{
                     //does not have ingredient
+                    print("does not have ingreident: \(ingredient.name ?? "N/A")")
                     return false
                 }
             }
         
             if recipeIngredients.isEmpty{
+                print("empty list")
                 return false
             }
+        
             
             for missedIngredent in recipeIngredients {
                 if !missedIngredent.inStock {
@@ -250,29 +260,36 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
                 self.allRecipes.remove(atOffsets: offsets)
                     
                     for result in self.allRecipes {
-                    
-                        for ingredient in result.missedIngredients{
-                            if inventory.contains(where: { ownedIngredient in
-                                return ownedIngredient.id == ingredient.id
-                            }){
-                                if result.missedIngredients.last?.id == ingredient.id{
-                                    self.filteredRecipes.append(result)
-//                                    Task{
-//                                        guard let recipe = await self.getRecipeById(id: result.id!)
-//                                        else{
-//                                            print("error geting recipe by id")
-//                                            //remove result?
-//                                            return
-//                                        }
-//                                        self.recipes.append(recipe)
-//                                    }
-
-                                }
-                            }
-                            else{
-                                break
-                            }
+                        
+                        if result.missedIngredients.isEmpty{
+                            self.filteredRecipes.append(result)
                         }
+                        else{
+                            
+                                for ingredient in result.missedIngredients{
+                                    if inventory.contains(where: { ownedIngredient in
+                                        return ownedIngredient.id == ingredient.id
+                                    }){
+                                        if result.missedIngredients.last?.id == ingredient.id{
+                                            self.filteredRecipes.append(result)
+        //                                    Task{
+        //                                        guard let recipe = await self.getRecipeById(id: result.id!)
+        //                                        else{
+        //                                            print("error geting recipe by id")
+        //                                            //remove result?
+        //                                            return
+        //                                        }
+        //                                        self.recipes.append(recipe)
+        //                                    }
+
+                                        }
+                                    }
+                                    else{
+                                        break
+                                    }
+                                }
+                        }
+                    
                     }
                 
                 if !self.includeRecipesWithMissingIngredients{
@@ -299,6 +316,86 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
         catch{
             print("something went wrong")
             return
+        }
+        
+        
+    }
+    
+    static func readyToMakeRecipes() async -> [FoundRecipesByIngredients]{
+        
+        let ingredients = await FireDbController.getInventory()
+        
+        var allIngredients = ""
+        
+        if !ingredients.isEmpty{
+            for ingredient in ingredients {
+                
+                allIngredients += "\(ingredient.name ?? ""),"
+                
+            }
+        }
+        else{
+            print("no ingredients in inventory")
+            return []
+        }
+    
+        print(allIngredients)
+        
+        let base = "https://api.spoonacular.com/recipes/findByIngredients"
+        let ingredientsPeram = "?ingredients="
+        let limitPeram = "&ignorePantry=false&number="
+        let ranking = "&ranking="
+        let apiKey = "&apiKey=9947b019d7f343a3aea18080c939d70e"
+        
+        let url = "\(base)\(ingredientsPeram)\(allIngredients.replacingOccurrences(of: " ", with: "+"))\(limitPeram)\(10)\(ranking)\(2)\(apiKey)"
+        
+        print(url)
+        
+        guard let api = URL(string: url)
+        else{
+            print("Error converting to a valid URL")
+            return []
+        }
+        
+        do{
+            print("doing")
+            let (data, response) = try await URLSession.shared.data(from: api)
+            print("past 1")
+            guard let httpResponse = response as? HTTPURLResponse
+            else{
+                //error getting / converting code
+                print("could not convert response")
+                return []
+            }
+            
+            guard httpResponse.statusCode == 200
+            else{
+                //error code
+                print("error code: \(httpResponse.statusCode)")
+                return []
+            }
+            
+            print("past 2")
+        
+            //print(data.encode(to: Quote))
+            print(response)
+            let jsonData = try JSONDecoder().decode(FoundRecipeByIngredientResults.self, from: data)
+            print("past 3")
+            
+            var output: [FoundRecipesByIngredients] = []
+            
+            for recipe in jsonData.results ?? []{
+                if recipe.missedIngredients.isEmpty{
+                    output.append(recipe)
+                }
+            }
+            
+            return output
+            
+        }
+        catch{
+            print("something went wrong")
+            return []
         }
         
         
