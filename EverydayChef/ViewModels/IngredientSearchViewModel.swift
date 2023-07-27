@@ -14,7 +14,7 @@ class IngredientSearchViewModel: ObservableObject{
     
     let base = "https://api.spoonacular.com/food/ingredients/autocomplete?query="
     let params = "&metaInformation=true"
-    let apiKey = "&apiKey=d01c0f4e6a324d2c861e9b967a6e5d87"
+    let apiKey = "&apiKey=9947b019d7f343a3aea18080c939d70e" //&apiKey=d01c0f4e6a324d2c861e9b967a6e5d87"
     
     func searchFor() async{
         guard query != ""
