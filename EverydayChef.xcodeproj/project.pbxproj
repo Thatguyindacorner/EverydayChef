@@ -39,6 +39,7 @@
 		9A0D3CB12A44A36F00A3075D /* StripOutHTMLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D3CB02A44A36F00A3075D /* StripOutHTMLExtension.swift */; };
 		9A0F80222A4C9D2C00EEC107 /* FavoriteRecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0F80212A4C9D2C00EEC107 /* FavoriteRecipes.swift */; };
 		9A0F80242A4CB12900EEC107 /* ShowFavoriteRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0F80232A4CB12900EEC107 /* ShowFavoriteRecipesView.swift */; };
+		9A1DBD722A55E81200F4D91B /* WineRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1DBD712A55E81200F4D91B /* WineRecipesView.swift */; };
 		9A24502E2A414B6A0006B318 /* CustomRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A24502D2A414B6A0006B318 /* CustomRecipe.swift */; };
 		9A25404A2A40ADEA00429519 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2540492A40ADEA00429519 /* SignUpView.swift */; };
 		9A25404C2A40B4B100429519 /* ErrorEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25404B2A40B4B100429519 /* ErrorEnums.swift */; };
@@ -47,11 +48,23 @@
 		9A2540522A40ECAD00429519 /* CreateRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2540512A40ECAD00429519 /* CreateRecipeView.swift */; };
 		9A2540562A41176C00429519 /* FireDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2540552A41176C00429519 /* FireDBController.swift */; };
 		9A2540582A4118A500429519 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2540572A4118A500429519 /* UserData.swift */; };
+		9A29D1212A706133008B6859 /* CustomRecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A29D1202A706133008B6859 /* CustomRecipeCardView.swift */; };
+		9A29D1232A706745008B6859 /* CustomRecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A29D1222A706745008B6859 /* CustomRecipeDetailView.swift */; };
 		9A4277032A4382E6004DA4DF /* WinePairingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4277022A4382E6004DA4DF /* WinePairingsViewModel.swift */; };
 		9A61163F2A415213007973D3 /* CustomRecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61163E2A415213007973D3 /* CustomRecipeListView.swift */; };
+		9A860DF92A509E7300EC6443 /* ReturnedPairedWines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A860DF72A509E7300EC6443 /* ReturnedPairedWines.swift */; };
+		9A860DFA2A509E7300EC6443 /* WineProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A860DF82A509E7300EC6443 /* WineProduct.swift */; };
+		9A860DFC2A509E9F00EC6443 /* WineAndFoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A860DFB2A509E9F00EC6443 /* WineAndFoodViewModel.swift */; };
+		9A9BC09B2A6DC56F00B5672F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9BC0962A6DC56F00B5672F /* ImagePicker.swift */; };
+		9A9BC09D2A6DC56F00B5672F /* ImagePickerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9BC0982A6DC56F00B5672F /* ImagePickerCoordinator.swift */; };
+		9A9BC09E2A6DC56F00B5672F /* PHPickerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9BC0992A6DC56F00B5672F /* PHPickerCoordinator.swift */; };
+		9A9BC09F2A6DC56F00B5672F /* CustomPhPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9BC09A2A6DC56F00B5672F /* CustomPhPicker.swift */; };
+		9A9BC0A22A6DD7FF00B5672F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9BC0A12A6DD7FF00B5672F /* FirebaseStorage */; };
+		9A9BC0A42A6DDAFD00B5672F /* CreateRecipeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9BC0A32A6DDAFD00B5672F /* CreateRecipeView2.swift */; };
 		9AA1B9662A3D0FA00016A30A /* RandomRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */; };
 		9AA1B9692A3D0FC50016A30A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1B9682A3D0FC50016A30A /* AppConstants.swift */; };
 		9AAE0AF12A420D8700661F49 /* EditCustomRecipeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE0AF02A420D8700661F49 /* EditCustomRecipeSheet.swift */; };
+		9ABA35112A6EE48700CDF108 /* CustomRecipeListView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA35102A6EE48700CDF108 /* CustomRecipeListView2.swift */; };
 		9AD63B042A4149010047F7F1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD63B032A4149010047F7F1 /* Account.swift */; };
 		9AE1B7E32A3E2566008F764F /* chefcooktransparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */; };
 		9AE1B7E52A3E264E008F764F /* GifImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7E42A3E264E008F764F /* GifImageView.swift */; };
@@ -59,6 +72,7 @@
 		9AE1B7EB2A3E2897008F764F /* RandomRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7EA2A3E2897008F764F /* RandomRecipeView.swift */; };
 		9AE1B7ED2A3E28C9008F764F /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7EC2A3E28C9008F764F /* RecipeDetailView.swift */; };
 		9AE1B7EF2A3E28F2008F764F /* RecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1B7EE2A3E28F2008F764F /* RecipeCardView.swift */; };
+		9AFE66102A5384BE0018C9CE /* ReturnedFood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFE660F2A5384BE0018C9CE /* ReturnedFood.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +105,7 @@
 		9A0D3CB02A44A36F00A3075D /* StripOutHTMLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripOutHTMLExtension.swift; sourceTree = "<group>"; };
 		9A0F80212A4C9D2C00EEC107 /* FavoriteRecipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRecipes.swift; sourceTree = "<group>"; };
 		9A0F80232A4CB12900EEC107 /* ShowFavoriteRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFavoriteRecipesView.swift; sourceTree = "<group>"; };
+		9A1DBD712A55E81200F4D91B /* WineRecipesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WineRecipesView.swift; sourceTree = "<group>"; };
 		9A24502D2A414B6A0006B318 /* CustomRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipe.swift; sourceTree = "<group>"; };
 		9A2540492A40ADEA00429519 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		9A25404B2A40B4B100429519 /* ErrorEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorEnums.swift; sourceTree = "<group>"; };
@@ -99,11 +114,22 @@
 		9A2540512A40ECAD00429519 /* CreateRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeView.swift; sourceTree = "<group>"; };
 		9A2540552A41176C00429519 /* FireDBController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireDBController.swift; sourceTree = "<group>"; };
 		9A2540572A4118A500429519 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		9A29D1202A706133008B6859 /* CustomRecipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomRecipeCardView.swift; sourceTree = "<group>"; };
+		9A29D1222A706745008B6859 /* CustomRecipeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomRecipeDetailView.swift; sourceTree = "<group>"; };
 		9A4277022A4382E6004DA4DF /* WinePairingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinePairingsViewModel.swift; sourceTree = "<group>"; };
 		9A61163E2A415213007973D3 /* CustomRecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipeListView.swift; sourceTree = "<group>"; };
+		9A860DF72A509E7300EC6443 /* ReturnedPairedWines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReturnedPairedWines.swift; sourceTree = "<group>"; };
+		9A860DF82A509E7300EC6443 /* WineProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WineProduct.swift; sourceTree = "<group>"; };
+		9A860DFB2A509E9F00EC6443 /* WineAndFoodViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WineAndFoodViewModel.swift; sourceTree = "<group>"; };
+		9A9BC0962A6DC56F00B5672F /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		9A9BC0982A6DC56F00B5672F /* ImagePickerCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerCoordinator.swift; sourceTree = "<group>"; };
+		9A9BC0992A6DC56F00B5672F /* PHPickerCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHPickerCoordinator.swift; sourceTree = "<group>"; };
+		9A9BC09A2A6DC56F00B5672F /* CustomPhPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPhPicker.swift; sourceTree = "<group>"; };
+		9A9BC0A32A6DDAFD00B5672F /* CreateRecipeView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRecipeView2.swift; sourceTree = "<group>"; };
 		9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomRecipeViewModel.swift; sourceTree = "<group>"; };
 		9AA1B9682A3D0FC50016A30A /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		9AAE0AF02A420D8700661F49 /* EditCustomRecipeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCustomRecipeSheet.swift; sourceTree = "<group>"; };
+		9ABA35102A6EE48700CDF108 /* CustomRecipeListView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipeListView2.swift; sourceTree = "<group>"; };
 		9AD63B032A4149010047F7F1 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		9AE1B7E22A3E2566008F764F /* chefcooktransparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = chefcooktransparent.gif; sourceTree = "<group>"; };
 		9AE1B7E42A3E264E008F764F /* GifImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifImageView.swift; sourceTree = "<group>"; };
@@ -111,6 +137,7 @@
 		9AE1B7EA2A3E2897008F764F /* RandomRecipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomRecipeView.swift; sourceTree = "<group>"; };
 		9AE1B7EC2A3E28C9008F764F /* RecipeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		9AE1B7EE2A3E28F2008F764F /* RecipeCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeCardView.swift; sourceTree = "<group>"; };
+		9AFE660F2A5384BE0018C9CE /* ReturnedFood.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReturnedFood.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +148,7 @@
 				1A226D992A33C2C100A20D82 /* FirebaseAnalytics in Frameworks */,
 				1A226D9B2A33C2C100A20D82 /* FirebaseAuth in Frameworks */,
 				1A226D9D2A33C2C100A20D82 /* FirebaseFirestore in Frameworks */,
+				9A9BC0A22A6DD7FF00B5672F /* FirebaseStorage in Frameworks */,
 				1A226D9F2A33C2C100A20D82 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,6 +161,7 @@
 			children = (
 				1A9EC4432A1BE093006D4736 /* EverydayChef */,
 				1A9EC4422A1BE093006D4736 /* Products */,
+				9A9BC0A02A6DD7FF00B5672F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +205,9 @@
 		1A9EC4522A2065C3006D4736 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9AFE660F2A5384BE0018C9CE /* ReturnedFood.swift */,
+				9A860DF72A509E7300EC6443 /* ReturnedPairedWines.swift */,
+				9A860DF82A509E7300EC6443 /* WineProduct.swift */,
 				9A0727E22A38DF580074322D /* AnalyzedInstruction.swift */,
 				9A0727E02A38DF580074322D /* Equipment.swift */,
 				9A0727DE2A38DF580074322D /* ExtendedIngredient.swift */,
@@ -195,6 +227,10 @@
 		1A9EC4532A2065D1006D4736 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9A9BC09A2A6DC56F00B5672F /* CustomPhPicker.swift */,
+				9A9BC0962A6DC56F00B5672F /* ImagePicker.swift */,
+				9A9BC0982A6DC56F00B5672F /* ImagePickerCoordinator.swift */,
+				9A9BC0992A6DC56F00B5672F /* PHPickerCoordinator.swift */,
 				1A4D0F3B2A37952C00416996 /* AuthController.swift */,
 				9A2540552A41176C00429519 /* FireDBController.swift */,
 			);
@@ -204,6 +240,10 @@
 		1A9EC4542A2065E1006D4736 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9A29D1222A706745008B6859 /* CustomRecipeDetailView.swift */,
+				9A29D1202A706133008B6859 /* CustomRecipeCardView.swift */,
+				9A9BC0A32A6DDAFD00B5672F /* CreateRecipeView2.swift */,
+				9A1DBD712A55E81200F4D91B /* WineRecipesView.swift */,
 				9AE1B7EE2A3E28F2008F764F /* RecipeCardView.swift */,
 				9AE1B7EC2A3E28C9008F764F /* RecipeDetailView.swift */,
 				9AE1B7EA2A3E2897008F764F /* RandomRecipeView.swift */,
@@ -222,6 +262,7 @@
 				1A2F21372A43C2A900660F60 /* AddIngredientView.swift */,
 				9A0F80232A4CB12900EEC107 /* ShowFavoriteRecipesView.swift */,
 				1ACB317A2A5CAA0500AA1463 /* SearchByIngredientView.swift */,
+				9ABA35102A6EE48700CDF108 /* CustomRecipeListView2.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -234,9 +275,17 @@
 			path = extensions;
 			sourceTree = "<group>";
 		};
+		9A9BC0A02A6DD7FF00B5672F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9AA1B9642A3D0F6C0016A30A /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				9A860DFB2A509E9F00EC6443 /* WineAndFoodViewModel.swift */,
 				9AA1B9652A3D0FA00016A30A /* RandomRecipeViewModel.swift */,
 				9A25404F2A40C0F100429519 /* WinePairingViewModel.swift */,
 				1A2F21392A43D82C00660F60 /* IngredientSearchViewModel.swift */,
@@ -276,6 +325,7 @@
 				1A226D9A2A33C2C100A20D82 /* FirebaseAuth */,
 				1A226D9C2A33C2C100A20D82 /* FirebaseFirestore */,
 				1A226D9E2A33C2C100A20D82 /* FirebaseFirestoreSwift */,
+				9A9BC0A12A6DD7FF00B5672F /* FirebaseStorage */,
 			);
 			productName = EverydayChef;
 			productReference = 1A9EC4412A1BE093006D4736 /* EverydayChef.app */;
@@ -347,24 +397,31 @@
 				1ACB317B2A5CAA0500AA1463 /* SearchByIngredientView.swift in Sources */,
 				9A25404A2A40ADEA00429519 /* SignUpView.swift in Sources */,
 				9AA1B9662A3D0FA00016A30A /* RandomRecipeViewModel.swift in Sources */,
+				9A9BC09E2A6DC56F00B5672F /* PHPickerCoordinator.swift in Sources */,
 				9A0727E92A38DF590074322D /* ReturnedRecipeData.swift in Sources */,
 				9AE1B7EB2A3E2897008F764F /* RandomRecipeView.swift in Sources */,
 				9A0D3CB12A44A36F00A3075D /* StripOutHTMLExtension.swift in Sources */,
+				9A9BC0A42A6DDAFD00B5672F /* CreateRecipeView2.swift in Sources */,
 				9A0727E62A38DF590074322D /* ExtendedIngredient.swift in Sources */,
+				9A9BC09B2A6DC56F00B5672F /* ImagePicker.swift in Sources */,
 				9AE1B7ED2A3E28C9008F764F /* RecipeDetailView.swift in Sources */,
 				1A9EC4582A2066D4006D4736 /* HistoryTab.swift in Sources */,
 				9A0F80242A4CB12900EEC107 /* ShowFavoriteRecipesView.swift in Sources */,
 				1A9EC45A2A206718006D4736 /* RecipeBookTab.swift in Sources */,
+				9A1DBD722A55E81200F4D91B /* WineRecipesView.swift in Sources */,
 				9A2540502A40C0F100429519 /* WinePairingViewModel.swift in Sources */,
+				9A860DFA2A509E7300EC6443 /* WineProduct.swift in Sources */,
 				1A2F21382A43C2AA00660F60 /* AddIngredientView.swift in Sources */,
 				9AD63B042A4149010047F7F1 /* Account.swift in Sources */,
 				9A61163F2A415213007973D3 /* CustomRecipeListView.swift in Sources */,
 				9A0727EB2A38DF590074322D /* Ingredient.swift in Sources */,
+				9ABA35112A6EE48700CDF108 /* CustomRecipeListView2.swift in Sources */,
 				1A9EC4562A2066AC006D4736 /* InventoryTab.swift in Sources */,
 				9A4277032A4382E6004DA4DF /* WinePairingsViewModel.swift in Sources */,
 				1A4D0F3C2A37952C00416996 /* AuthController.swift in Sources */,
 				1A9EC4472A1BE093006D4736 /* ContentView.swift in Sources */,
 				9A2540582A4118A500429519 /* UserData.swift in Sources */,
+				9A29D1232A706745008B6859 /* CustomRecipeDetailView.swift in Sources */,
 				9A0F80222A4C9D2C00EEC107 /* FavoriteRecipes.swift in Sources */,
 				1ACB31792A54B3A100AA1463 /* FoundRecipesByIngredients.swift in Sources */,
 				1A2F21342A37BD8D00660F60 /* SessionData.swift in Sources */,
@@ -375,9 +432,15 @@
 				9A0727E82A38DF590074322D /* Equipment.swift in Sources */,
 				1ACB31772A53637E00AA1463 /* SearchRecipeByIngredientViewModel.swift in Sources */,
 				9A0727EC2A38DF590074322D /* Recipe.swift in Sources */,
+				9A860DF92A509E7300EC6443 /* ReturnedPairedWines.swift in Sources */,
 				9A0727EA2A38DF590074322D /* AnalyzedInstruction.swift in Sources */,
+				9AFE66102A5384BE0018C9CE /* ReturnedFood.swift in Sources */,
 				9AAE0AF12A420D8700661F49 /* EditCustomRecipeSheet.swift in Sources */,
+				9A9BC09F2A6DC56F00B5672F /* CustomPhPicker.swift in Sources */,
 				9A2540562A41176C00429519 /* FireDBController.swift in Sources */,
+				9A9BC09D2A6DC56F00B5672F /* ImagePickerCoordinator.swift in Sources */,
+				9A860DFC2A509E9F00EC6443 /* WineAndFoodViewModel.swift in Sources */,
+				9A29D1212A706133008B6859 /* CustomRecipeCardView.swift in Sources */,
 				9A25404C2A40B4B100429519 /* ErrorEnums.swift in Sources */,
 				1A9EC4452A1BE093006D4736 /* EverydayChefApp.swift in Sources */,
 			);
@@ -508,9 +571,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EverydayChef/Preview Content\"";
-				DEVELOPMENT_TEAM = BHMTL6TFC6;
+				DEVELOPMENT_TEAM = 3373MRKNX5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow EverydayChef to use Device Camera?";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow EverydayChef to access the Photos Library?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -538,9 +603,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EverydayChef/Preview Content\"";
-				DEVELOPMENT_TEAM = BHMTL6TFC6;
+				DEVELOPMENT_TEAM = 3373MRKNX5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow EverydayChef to use Device Camera?";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow EverydayChef to access the Photos Library?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -614,6 +681,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A226D972A33C2C100A20D82 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		9A9BC0A12A6DD7FF00B5672F /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A226D972A33C2C100A20D82 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

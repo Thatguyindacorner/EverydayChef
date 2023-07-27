@@ -12,6 +12,8 @@ struct CustomRecipe:Codable, Identifiable, Hashable{
     
     @DocumentID var id:String?
     
+    var imageURLString:String = ""
+    
     var recipeName:String = ""
     
     var recipeInstructions:String = ""
@@ -20,12 +22,19 @@ struct CustomRecipe:Codable, Identifiable, Hashable{
     
     var recipeIngredients:String = ""
     
+    var serves:Int = 0
+    
+    var prepTime:Int = 0
+    
     var dictionary:[String:Any]{
-        return ["recipeName" : recipeName,
+        return ["imageURLString" : imageURLString,
+                "recipeName" : recipeName,
                 "recipeInstructions": recipeInstructions,
                 "recipeCuisine": recipeCuisine,
-                "recipeIngredients":recipeIngredients
-        
+                "recipeIngredients":recipeIngredients,
+                "serves" : serves,
+                "prepTime" : prepTime
+                
         ]
     }
     
