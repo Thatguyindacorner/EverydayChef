@@ -39,10 +39,10 @@ struct WineRecipesView: View {
     }//body
 }//struct WineRecipesView
 
-struct WineRecipesView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack{
-            WineRecipesView()
-        }
-    }
-}
+//struct WineRecipesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack{
+//            WineRecipesView()
+//        }
+//    }
+//}

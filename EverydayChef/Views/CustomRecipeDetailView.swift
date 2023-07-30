@@ -39,7 +39,7 @@ struct CustomRecipeDetailView: View {
                         
                     }//PrepTime and Serves HStack
                     .font(.caption)
-                    .bold()
+                    //.bold()
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .padding(.bottom, 5)
                     .padding()
@@ -58,7 +58,7 @@ struct CustomRecipeDetailView: View {
                     
                     Text("Ingredients")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .fontWeight(.bold)
+                        //.fontWeight(.bold)
                     
                     Text(customRecipe?.recipeIngredients ?? "Unknown Ingredients")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
@@ -66,7 +66,7 @@ struct CustomRecipeDetailView: View {
                     
                     Text("Instructions")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                        .fontWeight(.bold)
+                        //.fontWeight(.bold)
                     
                     Text(customRecipe?.recipeInstructions ?? "Unknown Directions")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
