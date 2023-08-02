@@ -40,7 +40,7 @@ struct EverydayChefApp: App {
             }.onAppear{
                 //3.5 seconds of splash then goto login (if account saved, skip login and go straigt to account)
                 Task{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(3.5)){
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(5.0)){
                         self.splashTimeOver = true
                     }
                 }
@@ -93,7 +93,12 @@ struct SplashView: View{
 //        }
         
         VStack{
-            Image("HomeImage").resizable().frame(width: widthScreen / 1.5, height: heightScreen / 3.5)
+            //Image("HomeImage").resizable().frame(width: widthScreen / 1.5, height: heightScreen / 3.5)
+            
+            GifImageView("foodimgtransparent2")
+                .frame(width: widthScreen / 1.5, height: heightScreen / 3.5)
+            
+            
             HStack{
                 Text("Preping the Kitchen ") //text will change periodically
                 ProgressView()
