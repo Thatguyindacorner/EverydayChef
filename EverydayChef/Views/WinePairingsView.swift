@@ -124,7 +124,7 @@ struct WineView:View{
                         .padding(.horizontal, 15)
                         .background(.red)
                         .foregroundColor(.white)
-                        .bold()
+                        //.bold()
                         .cornerRadius(12)
                 } //Button
                 
@@ -256,7 +256,7 @@ struct FoodView:View{
                     .padding(.horizontal, 15)
                     .background(.cyan)
                     .foregroundColor(.white)
-                    .fontWeight(.bold)
+                    //.fontWeight(.bold)
                     .cornerRadius(12)
             }//Button
             

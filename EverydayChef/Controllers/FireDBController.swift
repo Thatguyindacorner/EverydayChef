@@ -387,9 +387,6 @@ class FireDbController:ObservableObject{
           Now save the CustomRecipe along with the imageURL of the image uploaded on to Cloud Firestore
          */
         
-        let db = Firestore.firestore()
-        
-        let collectionString = "photos"
         
         do{
             var newCustomRecipe = customRecipe
@@ -447,5 +444,162 @@ class FireDbController:ObservableObject{
         
        // return []
     }//getCustomRecipes
+    
+    
+    
+    /*
+      Testing Update Recipe --- Version 2.0
+     */
+    func updateCustomRecipe2(customRecipe:CustomRecipe, image:UIImage?) async -> (Bool, CustomRecipe?){
+        
+        let reference = SessionData.shared.document?.collection("Recipes")
+        
+        guard let docIdFolder = SessionData.shared.document?.documentID else{
+            print("No User data found for this User")
+            
+            return (false, nil)
+        }
+        
+        
+        guard let photoName =  customRecipe.id else{
+            print("No Such Document")
+            return (false, nil)
+        }
+        
+        var imageURLString = ""
+        
+        var customRecipeToUpdate = customRecipe
+        
+        print("Recipe ID to update \(customRecipeToUpdate.id ?? "Unknown ID")")
+        
+        if let imageToUpdate = image{
+            
+            print("Document ID for the Photo: \(customRecipe.id ?? "Unknown ID")")
+            
+           
+            let storage = Storage.storage()
+            
+            let storageRef = storage.reference().child("\(docIdFolder)/Photos/\(photoName).jpeg")
+            
+            
+            guard let resizedImage = image?.jpegData(compressionQuality: 0.2)else{
+                print("Cannot compress image")
+                return (false, nil)
+            }
+            
+            let metaData = StorageMetadata()
+            
+            metaData.contentType = "image/jpg"
+            
+            do{
+                let _ = try await storageRef.putDataAsync(resizedImage, metadata: metaData)
+                
+                print("Image Saved")
+                
+                do{
+                    let imageURL = try await storageRef.downloadURL() //Get the URL for the image saved at this reference location
+                    
+                    imageURLString = "\(imageURL)" //Save this in the Document CustomRecipe
+                    
+                    customRecipeToUpdate.imageURLString = imageURLString
+                    
+                }catch{
+                    print("Could not get imageURL after saving Image to the Database \(error.localizedDescription)")
+                    return (false, nil)
+                }
+                
+            }catch{
+                print("Could not Save Image to Cloud Storage \(error.localizedDescription)")
+                
+                return (false, nil)
+            }//catch Image
+    
+        }else{
+            print("Image not updated. Save the Document without updating the Image")
+            
+        }//if image nil check
+       
+        do{
+            
+            print("Recipe ID to update \(customRecipeToUpdate.id ?? "Unknown ID")")
+            
+            try await reference?.document(photoName).setData(customRecipeToUpdate.dictionary)
+            
+            
+            print("Data uploaded successfully")
+            
+            return (true, customRecipeToUpdate)
+        }catch{
+            print("ERROR: Could not save/update document in photos, \(error.localizedDescription)")
+            
+            return (false, nil)
+        }
+        
+        
+    }//updateCustom Recipe
+    
+    
+    
+    func deleteCustomRecipe(customRecipe:CustomRecipe?) async -> Bool{
+        
+        guard customRecipe?.id != nil else{
+            print("No Such Image/Document")
+            
+            return false
+        }
+        
+        
+        let reference = SessionData.shared.document?.collection("Recipes")
+        
+        guard let docIdFolder = SessionData.shared.document?.documentID else{
+            print("No User data found for this User")
+            
+            return false
+        }
+        
+        
+        guard let photoName =  customRecipe?.id else{
+            print("No Such Document")
+            return false
+        }
+        
+        
+        let storage = Storage.storage()
+        
+        //let storageRef = storage.reference().child("\(customRecipe?.id ?? "Unknown").jpeg")
+        
+        let storageRef = storage.reference().child("\(docIdFolder)/Photos/\(photoName).jpeg")
+        
+        do{
+            try await storageRef.delete()
+        }catch{
+            print("Cannot delete Image from Cloud Storage \(error.localizedDescription)")
+            return false
+        }
+        
+        /*
+          Delete the Document itself from Firestore
+         */
+        do{
+            
+            let db = Firestore.firestore()
+            
+            let collectionString = "photos"
+            
+            //let docRef = db.collection(collectionString).document(customRecipe?.id ?? "UnkownID")
+            
+            try await reference?.document(photoName).delete()
+            
+            print("Document with id \(customRecipe?.id ?? "Unknown") deleted from Firestore")
+            
+            return true
+        }catch{
+            print("Error deleting Document from Firestore \(error.localizedDescription)")
+            
+            return false
+        }//catch
+    } //func deleteCustomRecipe
+    
+    
     
 }
