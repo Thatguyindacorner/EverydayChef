@@ -347,7 +347,7 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
         let ranking = "&ranking="
         let apiKey = "&apiKey=9947b019d7f343a3aea18080c939d70e"
         
-        let url = "\(base)\(ingredientsPeram)\(allIngredients.replacingOccurrences(of: " ", with: "+"))\(limitPeram)\(10)\(ranking)\(2)\(apiKey)"
+        let url = "\(base)\(ingredientsPeram)\(allIngredients.replacingOccurrences(of: " ", with: "+"))\(limitPeram)\(100)\(ranking)\(2)\(apiKey)"
         
         print(url)
         

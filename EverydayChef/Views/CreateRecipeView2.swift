@@ -57,7 +57,10 @@ struct CreateRecipeView2: View {
     
     var ImagePickerView:ImagePicker!
     
+
     //@State private var selected:PhotosPickerItem?
+
+
     
     @State private var showingImagePicker = false
     
@@ -218,15 +221,15 @@ struct CreateRecipeView2: View {
                     }) //Sheet
                     
 //                    .onChange(of: selected) { (photosPickerItem:PhotosPickerItem?) in
-//
+//                        
 //                        Task(priority: .background) {
-//
+//                            
 //                            if let data = try? await photosPickerItem?.loadTransferable(type: Data.self){
 //                               // picture = UIImage(data: data)
 //                                contentData.picture = UIImage(data: data)
 //                            }//if let data
 //                        }//Task
-//
+
 //                    }//onChange
                     
                     .onChange(of: contentData.picture) { uiImage in

@@ -66,7 +66,9 @@ struct CustomRecipeDetailView: View {
                     
                     Text("Instructions")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+
                        // .fontWeight(.bold)
+
                     
                     Text(customRecipe?.recipeInstructions ?? "Unknown Directions")
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
