@@ -57,7 +57,10 @@ struct CreateRecipeView2: View {
     
     var ImagePickerView:ImagePicker!
     
-   // @State private var selected:PhotosPickerItem?
+
+    //@State private var selected:PhotosPickerItem?
+
+
     
     @State private var showingImagePicker = false
     
@@ -77,7 +80,7 @@ struct CreateRecipeView2: View {
 //    }
     
     var body: some View {
-        if #available(iOS 16, *) {
+        //if #available(iOS 16, *) {
             ScrollView{
                 VStack{
                     Text("Create Recipe")
@@ -133,11 +136,20 @@ struct CreateRecipeView2: View {
                    
                     
                     Group{
-                        TextField("Enter Recipe Name", text: $recipeName, axis: .vertical)
-                            .modifier(RecipeTFModifiers(paddingValue: 20.0, lineLimitVal: 5))
                         
-                        TextField("Enter Cuisine", text: $cuisine, axis: .vertical)
-                            .modifier(RecipeTFModifiers(paddingValue: 15.0, lineLimitVal: 5))
+                        if #available(iOS 16, *){
+                            TextField("Enter Recipe Name", text: $recipeName, axis: .vertical)
+                                .modifier(RecipeTFModifiers(paddingValue: 20.0, lineLimitVal: 5))
+                            
+                            TextField("Enter Cuisine", text: $cuisine, axis: .vertical)
+                                .modifier(RecipeTFModifiers(paddingValue: 15.0, lineLimitVal: 5))
+                        }else{
+                            TextField("Enter Recipe Name", text: $recipeName)
+                                .modifier(RecipeTFModifiers(paddingValue: 20.0, lineLimitVal: 5))
+                            
+                            TextField("Enter Cuisine", text: $cuisine)
+                                .modifier(RecipeTFModifiers(paddingValue: 15.0, lineLimitVal: 5))
+                        }
                         
                         TextField("Enter Ingredients e.g. sugar, eggs", text: $ingredients)
                             .modifier(RecipeTFModifiers(paddingValue: 20.0, lineLimitVal: 5))
@@ -182,6 +194,7 @@ struct CreateRecipeView2: View {
                             
                             if result{
                                 print("Go Back to previous Screen")
+                                
                                 dismiss()
                             }//if result
                             else{
@@ -194,7 +207,7 @@ struct CreateRecipeView2: View {
                             .padding(10)
                             .background(.blue)
                             .foregroundColor(.white)
-                            .bold()
+                            //.bold()
                             .cornerRadius(10)
                     }
                     
@@ -216,7 +229,7 @@ struct CreateRecipeView2: View {
 //                                contentData.picture = UIImage(data: data)
 //                            }//if let data
 //                        }//Task
-//                        
+
 //                    }//onChange
                     
                     .onChange(of: contentData.picture) { uiImage in
@@ -239,7 +252,7 @@ struct CreateRecipeView2: View {
                 //.searchable(text: .constant(""))
                 
             }//ScrollView
-        }//if iOS 16
+        //}//if iOS 16
     }//body
     
     func saveRecipeToFirestore() async -> Bool {
