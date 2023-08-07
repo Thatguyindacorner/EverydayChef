@@ -23,12 +23,12 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
     let ingredientsPeram = "?ingredients="
     let limitPeram = "&ignorePantry=false&number="
     let ranking = "&ranking="
-    let apiKey = "&apiKey=9947b019d7f343a3aea18080c939d70e" //&apiKey=d01c0f4e6a324d2c861e9b967a6e5d87"
+    let apiKey = "&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)" //&apiKey=d01c0f4e6a324d2c861e9b967a6e5d87"
     
     
     func getRecipeById(id: Int) async -> Recipe?{
         
-        let buildURLString:String = "https://api.spoonacular.com/recipes/\(id)/information?apiKey=9947b019d7f343a3aea18080c939d70e" //d01c0f4e6a324d2c861e9b967a6e5d87"
+        let buildURLString:String = "https://api.spoonacular.com/recipes/\(id)/information?apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)" //d01c0f4e6a324d2c861e9b967a6e5d87"
         
         //var returnedRecipe: Recipe? = nil
         
@@ -345,7 +345,7 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
         let ingredientsPeram = "?ingredients="
         let limitPeram = "&ignorePantry=false&number="
         let ranking = "&ranking="
-        let apiKey = "&apiKey=9947b019d7f343a3aea18080c939d70e"
+        let apiKey = "&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"
         
         let url = "\(base)\(ingredientsPeram)\(allIngredients.replacingOccurrences(of: " ", with: "+"))\(limitPeram)\(100)\(ranking)\(2)\(apiKey)"
         

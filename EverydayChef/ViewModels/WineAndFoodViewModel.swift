@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class WineAndFoodViewModel:ObservableObject{
     
-    let apiKey:String = "d01c0f4e6a324d2c861e9b967a6e5d87"
+    let apiKey:String = "\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"
     
     //Wine
     let findWineURL:String = "https://api.spoonacular.com/food/wine/pairing?apiKey="
@@ -34,7 +34,7 @@ class WineAndFoodViewModel:ObservableObject{
     
     func findWine(for foodName:String) async ->Bool{
         
-        guard let searchURL:URL = URL(string: "\(findWineURL)\(apiKey)&food=\(foodName)") else{
+        guard let searchURL:URL = URL(string: "\(findWineURL)\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)&food=\(foodName)") else{
             print("Cannot convert String to URL")
             return false
         }
@@ -88,7 +88,7 @@ class WineAndFoodViewModel:ObservableObject{
         
         do{
             
-            guard let searchURL = URL(string: "\(findFoodURL)\(apiKey)&wine=\(wineTerm)") else{
+            guard let searchURL = URL(string: "\(findFoodURL)\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)&wine=\(wineTerm)") else{
                 print("Error creating URL from String")
                 
                 return false
