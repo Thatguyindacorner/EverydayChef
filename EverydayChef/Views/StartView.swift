@@ -13,6 +13,7 @@ struct StartView: View {
     let heightScreen = UIScreen.main.bounds.size.height
     
     @State var authenticated: Bool
+    @State var needsAuthentication: Bool = false
     
     let authHelper: AuthController = AuthController()
     
@@ -66,27 +67,31 @@ NavigationView{
                         .border(.black)
                     VStack{
                         
-                        Button(action:{
-                            
-                        }){
+                        
+
+                        
+                        NavigationLink {
+                            SignUpView(isNewAccountSignIn: false, authHelper: authHelper)
+                        } label: {
                             Text("Sign In")
                                 .font(.title2)
                                 .bold()
                                 .padding(10)
                                 .frame(width: 200).border(.blue)
                         }
-                        Button(action:{
-                            
-                        }){
+                        NavigationLink {
+                            SignUpView(isNewAccountSignIn: true, authHelper: authHelper)
+                        } label: {
                             Text("Sign Up")
                                 .font(.title2)
                                 .bold()
                                 .padding(10)
                                 .frame(width: 200).border(.blue)
                         }
+                        
                     }.frame(width: widthScreen, height: heightScreen / 5)
                         .border(.black)
-                    NavigationLink(destination: ContentView().environmentObject(session), isActive: $authenticated){}
+                    NavigationLink(destination: ContentView(spoonVerified: true).environmentObject(session), isActive: $authenticated){}
                         
                 }
 //                .onAppear{
@@ -99,10 +104,32 @@ NavigationView{
                 .navigationBarHidden(true)
             }
             else{
-                VStack{
-                    NavigationLink(destination: ContentView().environmentObject(session), isActive: $authenticated){}
+                if session.loggedInUser?.isAnonymous ?? false{
+                    VStack{
+                        NavigationLink(destination: ContentView(spoonVerified: true).environmentObject(session), isActive: $authenticated){}
+                    }
+                    .navigationBarHidden(true)
                 }
-                .navigationBarHidden(true)
+                else{
+                    VStack{
+                        NavigationLink(destination: ContentView(inApp: false).environmentObject(session), isActive: $authenticated){}
+                        //NavigationLink(destination: AwaitingVerificationView(), isActive: $needsAuthentication){}
+                    }
+//                    .onAppear{
+//                        self.authenticated = false
+//                        Task{
+//                            if await AuthController.isActivated(){
+//                                //continue
+//                                self.authenticated = true
+//                            }
+//                            else{
+//                                self.needsAuthentication = true
+//                            }
+//                        }
+//                    }
+                    .navigationBarHidden(true)
+                }
+                
             }
             
             
