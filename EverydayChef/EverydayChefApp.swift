@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+//import FirebaseFirestore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 
@@ -43,7 +44,28 @@ struct EverydayChefApp: App {
                     DispatchQueue.main.asyncAfter(deadline: .now() + Double(3.5)){
                         self.splashTimeOver = true
                     }
+                    
+                    //debug data transfer
+                    
+                    
+//                    var y:[Int] = []
+//                    let x = try await Firestore.firestore().collection("users").document("zmpzBB3QYYVDc0Ce68JoNDasPE92").collection("Ingredients").getDocuments().documents
+//                    for i in x{
+//                        let q = i.data()["id"] as? Int
+//                        if y.contains(q ?? -404){
+//                            try await Firestore.firestore().collection("users").document("zmpzBB3QYYVDc0Ce68JoNDasPE92").collection("Ingredients").document(i.documentID).delete()
+//                        }
+//                        else{
+//                            y.append(q ?? -404)
+//                        }
+                    
+                    
+//                        try await Firestore.firestore().collection("users").document("zmpzBB3QYYVDc0Ce68JoNDasPE92").collection("Ingredients").addDocument(data: i.data())
+                    //}
+                    //print("done")
                 }
+                
+                
                 
                 //1 check if connected to the internet
                 //2 check if account is stored on phone
