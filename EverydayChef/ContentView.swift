@@ -18,7 +18,7 @@ struct ContentView: View {
     @State var spoonVerified = false
     @State var inApp = true
     
-    @State var doneLoad = false
+    @State var disableToolbar = false
     
     @State var currentTab: Tabs = .inventory
     
@@ -94,7 +94,7 @@ struct ContentView: View {
 
                             }){
                                 Image(systemName: "person.circle")
-                            }
+                            }.disabled(disableToolbar)
                         }
 
 
@@ -104,16 +104,23 @@ struct ContentView: View {
                             case .inventory:
                                 Menu {
                                     //function won't render option if it's already choosen
+                                    
                                     StorageOption(.fridge)
                                     StorageOption(.pantry)
                                     StorageOption(.bar)
-
+                                    
                                 } label: {
                                     HStack{
                                         Text(currentStorageType.rawValue)
                                         Image(systemName: "chevron.down")
                                     }
                                 }
+                                .onTapGesture {
+                                    if !disableToolbar{
+                                        disableToolbar = true
+                                    }
+                                }
+                                
                             case .history:
                                 Text("HISTORY")
                             case .recipes:
@@ -131,13 +138,13 @@ struct ContentView: View {
                                     showPopup = true
                                 }){
                                     Image(systemName: "plus")
-                                }
+                                }.disabled(disableToolbar)
                                 Button(action:{
                                     //shopping list
                                     inShoppingList = true
                                 }){
                                     Image(systemName: "cart")
-                                }
+                                }.disabled(disableToolbar)
                             case .history:
                                 Text("")
                             
@@ -149,6 +156,7 @@ struct ContentView: View {
 
                         }
                     }
+                    
                     .navigationBarTitleDisplayMode(.inline)
                     
                     //.navigationBarHidden(true)
@@ -156,7 +164,18 @@ struct ContentView: View {
                 }//.navigationViewStyle(.stack)
                     SidebarProfileView(isSidebarVisable: $showingSettings, sidebarHidden: $hideToolbar, upgrade: $upgrade)
                 }//}
-            
+            .overlay{
+                if disableToolbar{
+                    Color.black.opacity(0.1)
+                        .ignoresSafeArea(.all)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .onTapGesture {
+                            disableToolbar = false
+                        }
+                }
+                
+            }
+
             
             //.navigationBarTitleDisplayMode(.inline)
             
@@ -250,8 +269,10 @@ struct ContentView: View {
         if loc != currentStorageType{
             Button(action:{
                 currentStorageType = loc
+                self.disableToolbar = false
             }){
                 Text(loc.rawValue)
+                
             }
         }
     }
