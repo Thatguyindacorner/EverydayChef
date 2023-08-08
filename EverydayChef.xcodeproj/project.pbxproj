@@ -39,6 +39,7 @@
 		9A0727EB2A38DF590074322D /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0727E32A38DF580074322D /* Ingredient.swift */; };
 		9A0727EC2A38DF590074322D /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0727E42A38DF590074322D /* Recipe.swift */; };
 		9A0D3CB12A44A36F00A3075D /* StripOutHTMLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0D3CB02A44A36F00A3075D /* StripOutHTMLExtension.swift */; };
+		9A0F644A2A7976FA007A7397 /* EditCustomRecipeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0F64492A7976FA007A7397 /* EditCustomRecipeView2.swift */; };
 		9A0F80222A4C9D2C00EEC107 /* FavoriteRecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0F80212A4C9D2C00EEC107 /* FavoriteRecipes.swift */; };
 		9A0F80242A4CB12900EEC107 /* ShowFavoriteRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0F80232A4CB12900EEC107 /* ShowFavoriteRecipesView.swift */; };
 		9A1DBD722A55E81200F4D91B /* WineRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1DBD712A55E81200F4D91B /* WineRecipesView.swift */; };
@@ -107,6 +108,7 @@
 		9A0727E32A38DF580074322D /* Ingredient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		9A0727E42A38DF590074322D /* Recipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		9A0D3CB02A44A36F00A3075D /* StripOutHTMLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripOutHTMLExtension.swift; sourceTree = "<group>"; };
+		9A0F64492A7976FA007A7397 /* EditCustomRecipeView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCustomRecipeView2.swift; sourceTree = "<group>"; };
 		9A0F80212A4C9D2C00EEC107 /* FavoriteRecipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRecipes.swift; sourceTree = "<group>"; };
 		9A0F80232A4CB12900EEC107 /* ShowFavoriteRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFavoriteRecipesView.swift; sourceTree = "<group>"; };
 		9A1DBD712A55E81200F4D91B /* WineRecipesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WineRecipesView.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 		1A9EC4542A2065E1006D4736 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9A0F64492A7976FA007A7397 /* EditCustomRecipeView2.swift */,
 				9A29D1222A706745008B6859 /* CustomRecipeDetailView.swift */,
 				9A29D1202A706133008B6859 /* CustomRecipeCardView.swift */,
 				9A9BC0A32A6DDAFD00B5672F /* CreateRecipeView2.swift */,
@@ -448,6 +451,7 @@
 				9A2540562A41176C00429519 /* FireDBController.swift in Sources */,
 				9A9BC09D2A6DC56F00B5672F /* ImagePickerCoordinator.swift in Sources */,
 				9A860DFC2A509E9F00EC6443 /* WineAndFoodViewModel.swift in Sources */,
+				9A0F644A2A7976FA007A7397 /* EditCustomRecipeView2.swift in Sources */,
 				9A29D1212A706133008B6859 /* CustomRecipeCardView.swift in Sources */,
 				9A25404C2A40B4B100429519 /* ErrorEnums.swift in Sources */,
 				1A9EC4452A1BE093006D4736 /* EverydayChefApp.swift in Sources */,

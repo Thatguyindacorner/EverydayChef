@@ -194,9 +194,10 @@ class RandomRecipeViewModel:ObservableObject{
     
     
     func getRecipeById(_ forID:Int) async{
-        
+
         let buildURLString:String = "\(recipeByIdURL)\(forID)/information&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"//d01c0f4e6a324d2c861e9b967a6e5d87"
-        
+
+        //let buildURLString:String = "\(recipeByIdURL)\(forID)/information?apiKey=9947b019d7f343a3aea18080c939d70e"//d01c0f4e6a324d2c861e9b967a6e5d87"
         
         guard let recipeByIDURL = URL(string: buildURLString) else{
             print("Error converting String to URL")
