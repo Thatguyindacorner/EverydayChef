@@ -194,7 +194,7 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
         print(allIngredients)
         
         //1 in minimize missing ingredients
-        let url = "\(base)\(ingredientsPeram)\(allIngredients.replacingOccurrences(of: " ", with: "+"))\(limitPeram)\(numResults)\(ranking)\(1)\(apiKey)"
+        let url = "\(base)\(ingredientsPeram)\(allIngredients.replacingOccurrences(of: " ", with: "+").lowercased())\(limitPeram)\(numResults)\(ranking)\(1)\(apiKey)"
         
 //        let api = URL(string: url)
 //
@@ -347,7 +347,7 @@ class SearchRecipeByIngredientViewModel: ObservableObject{
         let ranking = "&ranking="
         let apiKey = "&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"
         
-        let url = "\(base)\(ingredientsPeram)\(allIngredients.replacingOccurrences(of: " ", with: "+"))\(limitPeram)\(100)\(ranking)\(2)\(apiKey)"
+        let url = "\(base)\(ingredientsPeram)\(allIngredients.replacingOccurrences(of: " ", with: "+").lowercased())\(limitPeram)\(100)\(ranking)\(2)\(apiKey)"
         
         print(url)
         

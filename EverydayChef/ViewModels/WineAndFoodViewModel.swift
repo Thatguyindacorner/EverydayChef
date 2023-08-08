@@ -34,7 +34,7 @@ class WineAndFoodViewModel:ObservableObject{
     
     func findWine(for foodName:String) async ->Bool{
         
-        guard let searchURL:URL = URL(string: "\(findWineURL)\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)&food=\(foodName)") else{
+        guard let searchURL:URL = URL(string: "\(findWineURL)\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)&food=\(foodName.replacingOccurrences(of: " ", with: "+").lowercased())") else{
             print("Cannot convert String to URL")
             return false
         }
@@ -82,7 +82,7 @@ class WineAndFoodViewModel:ObservableObject{
         
        // print(searchWineStr)
         
-        var wineTerm = wineName.replacingOccurrences(of: " ", with: "_")
+        var wineTerm = wineName.replacingOccurrences(of: " ", with: "+").lowercased()
     
         print(wineTerm)
         

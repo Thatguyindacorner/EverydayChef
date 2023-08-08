@@ -108,7 +108,7 @@ class RandomRecipeViewModel:ObservableObject{
     
     func searchRecipes(searchTerm:String) async{
         
-        let search = searchTerm.trimmingCharacters(in: .whitespaces).lowercased()
+        let search = searchTerm.replacingOccurrences(of: " ", with: "+").lowercased()
         
         let completeURLStr = searchRecipeURL + "tags=\(search)&number=5&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"//d01c0f4e6a324d2c861e9b967a6e5d87"
         

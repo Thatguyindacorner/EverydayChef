@@ -34,7 +34,7 @@ class IngredientSearchViewModel: ObservableObject{
             return
         }
         
-        let url = "\(base)\(query.replacingOccurrences(of: " ", with: "+"))\(params)\(apiKey)"
+        let url = "\(base)\(query.replacingOccurrences(of: " ", with: "+").lowercased())\(params)\(apiKey)"
         
         guard let api = URL(string: url)
         else{
@@ -88,7 +88,7 @@ class IngredientSearchViewModel: ObservableObject{
         let endpoint = "https://api.spoonacular.com/food/wine/description?wine="
         let apiKey = "&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"
         
-        let url = "\(endpoint)\(drinkName.replacingOccurrences(of: " ", with: "+"))\(apiKey)"
+        let url = "\(endpoint)\(drinkName.replacingOccurrences(of: " ", with: "+").lowercased())\(apiKey)"
         
         print(url)
         
