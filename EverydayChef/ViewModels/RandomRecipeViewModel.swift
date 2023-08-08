@@ -18,7 +18,7 @@ class RandomRecipeViewModel:ObservableObject{
     
     @Published var favoriteRecipesList:[Recipe] = []
     
-    let recipeURL:String = "https://api.spoonacular.com/recipes/random?number=2&apiKey=9947b019d7f343a3aea18080c939d70e"//d01c0f4e6a324d2c861e9b967a6e5d87"
+    let recipeURL:String = "https://api.spoonacular.com/recipes/random?number=2&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"//d01c0f4e6a324d2c861e9b967a6e5d87"
     
     let searchRecipeURL:String = "https://api.spoonacular.com/recipes/random?"
     
@@ -110,7 +110,7 @@ class RandomRecipeViewModel:ObservableObject{
         
         let search = searchTerm.trimmingCharacters(in: .whitespaces).lowercased()
         
-        let completeURLStr = searchRecipeURL + "tags=\(search)&number=5&apiKey=9947b019d7f343a3aea18080c939d70e"//d01c0f4e6a324d2c861e9b967a6e5d87"
+        let completeURLStr = searchRecipeURL + "tags=\(search)&number=5&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"//d01c0f4e6a324d2c861e9b967a6e5d87"
         
         guard let searchURL = URL(string: completeURLStr) else{
             print("Cannot convert to URL")
@@ -194,10 +194,10 @@ class RandomRecipeViewModel:ObservableObject{
     
     
     func getRecipeById(_ forID:Int) async{
-        
-//        let buildURLString:String = "\(recipeByIdURL)\(forID)/information?apiKey=9947b019d7f343a3aea18080c939d70e"//d01c0f4e6a324d2c861e9b967a6e5d87"
-        
-        let buildURLString:String = "\(recipeByIdURL)\(forID)/information?apiKey=9947b019d7f343a3aea18080c939d70e"//d01c0f4e6a324d2c861e9b967a6e5d87"
+
+        let buildURLString:String = "\(recipeByIdURL)\(forID)/information&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"//d01c0f4e6a324d2c861e9b967a6e5d87"
+
+        //let buildURLString:String = "\(recipeByIdURL)\(forID)/information?apiKey=9947b019d7f343a3aea18080c939d70e"//d01c0f4e6a324d2c861e9b967a6e5d87"
         
         guard let recipeByIDURL = URL(string: buildURLString) else{
             print("Error converting String to URL")

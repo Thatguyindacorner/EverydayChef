@@ -10,8 +10,12 @@ import FirebaseFirestoreSwift
 
 struct Account:Codable, Hashable{
     
-    var myRecipes: [Recipe] = []
+    //var myRecipes: [Recipe] = []
     
-    var myInventory: [ExtendedIngredient] = []
+    //var myInventory: [ExtendedIngredient] = []
+    
+    var isActivated: Bool = false
+    
+    var apiKey: String?
     
 }

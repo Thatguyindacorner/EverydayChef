@@ -106,6 +106,8 @@ struct InventoryTab: View {
                 
                 self.otherShelf = []
                 
+                //var wineChecker = IngredientSearchViewModel()
+                
                 Task(priority: .high){
                     self.inventory = await FireDbController.getInventory()
                     
@@ -166,33 +168,37 @@ struct InventoryTab: View {
                                 self.healthShelf.append(ingredient)
                             case "Nut butters, Jams, and Honey":
                                 self.healthShelf.append(ingredient)
+                            case "Ethnic Foods":
+                                self.healthShelf.append(ingredient)
+                                
                                 
                             case "Pasta and Rice":
                                 self.fillerShelf.append(ingredient)
                             case "Gluten Free":
                                 self.fillerShelf.append(ingredient)
-                            case "Ethnic Foods":
+                            case "Bread":
                                 self.fillerShelf.append(ingredient)
+                            case "Bakery/Bread":
+                                self.fillerShelf.append(ingredient)
+                            
                                 
                             case "Baking":
-                                self.basesShelf.append(ingredient)
-                            case "Spices and Seasonings":
                                 self.basesShelf.append(ingredient)
                             case "Oil, Vinegar, Salad Dressing":
                                 self.basesShelf.append(ingredient)
                                 
-                            case "Bread":
+                                
+                            case "Spices and Seasonings":
                                 self.breadShelf.append(ingredient)
-                            case "Bakery/Bread":
-                                self.breadShelf.append(ingredient)
-                            case "Cereal":
-                                self.breadShelf.append(ingredient)
+                                
                                 
                             case "Nuts":
                                 self.snackShelf.append(ingredient)
                             case "Sweet Snacks":
                                 self.snackShelf.append(ingredient)
                             case "Savory Snacks":
+                                self.snackShelf.append(ingredient)
+                            case "Cereal":
                                 self.snackShelf.append(ingredient)
                                 
                                 
@@ -209,26 +215,18 @@ struct InventoryTab: View {
                                     self.otherWineShelf.append(ingredient)
                                 }
                                 else{
-                                    self.liqourShelf.append(ingredient)
-//                                    //api call for wine
-//                                    //https://api.spoonacular.com/food/wine/description?wine=\(ingredient.name)
-//                                    if true{
-//                                        //wine
-//                                        if true{
-//                                        //if description.contains("red wine"){
-//
-//                                            //red wine
-//                                            self.redWineShelf.append(ingredient)
-//                                        }
-//                                        else{
-//                                            //wine / other wine
-//                                            self.otherWineShelf.append(ingredient)
-//                                        }
-//                                    }
-//                                    else{
-//                                        //liqour
-//                                        self.liqourShelf.append(ingredient)
-//                                    }
+
+//                                  //api call for wine
+                                    let isWine = await IngredientSearchViewModel.isWine(drinkName: ingredient.name ?? "")
+                                    
+                                    switch isWine {
+                                    case .red:
+                                        self.redWineShelf.append(ingredient)
+                                    case .white:
+                                        self.otherWineShelf.append(ingredient)
+                                    case .not:
+                                        self.liqourShelf.append(ingredient)
+                                    }
                                 }
                                 
                             default:
@@ -252,47 +250,56 @@ struct InventoryTab: View {
             GeometryReader{ space in
                 
                 VStack(alignment: .center, spacing: 0){
-                    ScrollView(.horizontal){
+                    //ScrollView(.horizontal){
+                    VStack{
                         //FRUITS AND VEGGIES
-                        LazyHStack{
-                            ForEach(dairyShelf, id: \.id){ ingredient in
-                                
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
+                        //VStack{
+                        ScrollView(.horizontal){
+                            LazyHStack{
+                                ForEach(dairyShelf, id: \.id){ ingredient in
+                                    
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
+                                    label: {
+                                        VStack(spacing: 0){
+                                            AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                //.frame(width:100, height: 100)
+                                            } placeholder: {
+                                                ProgressView()
+                                                    .tint(.gray)
+                                            }
+                                            Text(ingredient.name!).padding(.bottom, 10)
+                                        }.frame(width: space.size.height/7, height: space.size.height/7)
+                                    }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                     
                                 }
-                                label: {
-                                    VStack(spacing: 0){
-                                        AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
-                                            image
-                                                .resizable()
-                                                .scaledToFit()
-                                            //.frame(width:100, height: 100)
-                                        } placeholder: {
-                                            ProgressView()
-                                                .tint(.gray)
-                                        }
-                                        Text(ingredient.name!).padding(.bottom, 10)
-                                    }.frame(width: space.size.height/7, height: space.size.height/7)
-                                }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
-                                
                             }
-                        }
-                    }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
+                            //Text("Dairy Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        }//.border(.red)//.frame(height: space.size.height/5, alignment: .center)
+
+                        
+                        Text("Dairy Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
+                    }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)//.border(.blue)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.gray), alignment: .bottom)
                         .offset(x: doorGap/4)
                     
                     
-                    
-                    ScrollView(.horizontal){
-                        //MEAT
-                        LazyHStack{
-                            ForEach(meatShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //MEAT
+                            LazyHStack{
+                                ForEach(meatShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
@@ -307,28 +314,32 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Meat/Seafood Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.gray), alignment: .bottom)
                         .offset(x: doorGap/4)
                     
                     
-                    
-                    ScrollView(.horizontal){
-                        //MADE FOOD
-                        LazyHStack{
-//                            Button(action:{
-//                                //goto make new food
-//                            }){
-//                                Text("+").font(.largeTitle).frame(width: space.size.height/5, height: space.size.height/5).background(.gray).opacity(0.35)
-//                            }
-                            
-                            ForEach(fridgeShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //MADE FOOD
+                            LazyHStack{
+                                //                            Button(action:{
+                                //                                //goto make new food
+                                //                            }){
+                                //                                Text("+").font(.largeTitle).frame(width: space.size.height/5, height: space.size.height/5).background(.gray).opacity(0.35)
+                                //                            }
+                                
+                                ForEach(fridgeShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
@@ -343,22 +354,26 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Miscellaneous Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.gray), alignment: .bottom)
                         .offset(x: doorGap/4)
                     
                     
-                    
-                    ScrollView(.horizontal){
-                        //DARIY
-                        LazyHStack{
-                            ForEach(produceShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //DARIY
+                            LazyHStack{
+                                ForEach(produceShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
@@ -373,8 +388,12 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Produce Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.gray), alignment: .bottom)
                         .offset(x: doorGap/4)
@@ -386,9 +405,10 @@ struct InventoryTab: View {
                         Color.blue
                             .opacity(0.10)
                         
-                        ScrollView(.horizontal){
-                            //FREEZER
-                           // ZStack{
+                        VStack{
+                            ScrollView(.horizontal){
+                                //FREEZER
+                                // ZStack{
                                 
                                 LazyHStack{
                                     ForEach(freezerShelf, id: \.id){ ingredient in
@@ -396,25 +416,29 @@ struct InventoryTab: View {
                                             IngredientView(ingredient: ingredient, inventory: inventory)
                                             
                                         }
-                                        label: {
-                                            VStack(spacing: 0){
-                                                ZStack{
-                                                    AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
-                                                        image
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                        //.frame(width:100, height: 100)
-                                                    } placeholder: {
-                                                        ProgressView()
-                                                            .tint(.gray)
-                                                    }
+                                    label: {
+                                        VStack(spacing: 0){
+                                            ZStack{
+                                                AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
+                                                    image
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                    //.frame(width:100, height: 100)
+                                                } placeholder: {
+                                                    ProgressView()
+                                                        .tint(.gray)
                                                 }
-                                                Text(ingredient.name!).padding(.bottom, 10)
-                                            }.frame(width: space.size.height/7, height: space.size.height/7)
-                                        }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                            }
+                                            Text(ingredient.name!).padding(.bottom, 10)
+                                        }.frame(width: space.size.height/7, height: space.size.height/7)
+                                    }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                     }
                                 }
-                            //}
+                                //}
+                                
+                            }
+                        
+                            Text("Freezer Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
                             
                         }
                         
@@ -432,14 +456,16 @@ struct InventoryTab: View {
             GeometryReader{ space in
                 
                 VStack(alignment: .center, spacing: 0){
-                    ScrollView(.horizontal){
-                        //FRUITS AND VEGGIES
-                        LazyHStack{
-                            ForEach(breadShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    
+                    VStack{
+                        ScrollView(.horizontal){
+                            //FRUITS AND VEGGIES
+                            LazyHStack{
+                                ForEach(breadShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -456,23 +482,27 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Spice Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.gray), alignment: .bottom)
                         .offset(x: doorGap/4)
                     
                     
-                    
-                    ScrollView(.horizontal){
-                        //MEAT
-                        LazyHStack{
-                            ForEach(healthShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //MEAT
+                            LazyHStack{
+                                ForEach(snackShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -489,22 +519,26 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Snack Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.gray), alignment: .bottom)
                         .offset(x: doorGap/4)
                     
                     
-                    
-                    ScrollView(.horizontal){
-                        //MADE FOOD
-                        LazyHStack{
-                            ForEach(snackShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //MADE FOOD
+                            LazyHStack{
+                                ForEach(healthShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -521,22 +555,26 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Miscellaneous Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.gray), alignment: .bottom)
                         .offset(x: doorGap/4)
                     
                     
-                    
-                    ScrollView(.horizontal){
-                        //DARIY
-                        LazyHStack{
-                            ForEach(fillerShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //DARIY
+                            LazyHStack{
+                                ForEach(fillerShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -553,22 +591,26 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Starch Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.gray), alignment: .bottom)
                         .offset(x: doorGap/4)
                     
                     
-                    
-                    ScrollView(.horizontal){
-                        //FREEZER
-                        LazyHStack{
-                            ForEach(basesShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //FREEZER
+                            LazyHStack{
+                                ForEach(basesShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -585,8 +627,12 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Baking and Oils Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width - doorGap/2, height: space.size.height/5)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                         .offset(x: doorGap/4)
@@ -595,14 +641,16 @@ struct InventoryTab: View {
         case .bar:
             GeometryReader{ space in
                 VStack(alignment: .center, spacing: 0){
-                    ScrollView(.horizontal){
-                        //White Wine
-                        LazyHStack{
-                            ForEach(redWineShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    
+                    VStack{
+                        ScrollView(.horizontal){
+                            //White Wine
+                            LazyHStack{
+                                ForEach(redWineShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -619,19 +667,24 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Red Wine Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width, height: space.size.height/6)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                     
-                    ScrollView(.horizontal){
-                        //Red Wine
-                        LazyHStack{
-                            ForEach(otherWineShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //Red Wine
+                            LazyHStack{
+                                ForEach(otherWineShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -648,19 +701,25 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("White Wine Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width, height: space.size.height/6)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                     
-                    ScrollView(.horizontal){
-                        //Liqour
-                        LazyHStack{
-                            ForEach(liqourShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    
+                    VStack{
+                        ScrollView(.horizontal){
+                            //Liqour
+                            LazyHStack{
+                                ForEach(liqourShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -677,19 +736,30 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        //Text("Liquor Shelf").font(.footnote).foregroundColor(.white).frame(width: space.size.width - doorGap/2, alignment: .center).disabled(true)
+                        
                     }.frame(width: space.size.width, height: space.size.height/3)
-                        .overlay(Rectangle().frame(width: nil, height: 30, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
+                        .overlay(
+                            ZStack{
+                                Rectangle().frame(width: nil, height: 30, alignment: .bottom).foregroundColor(Color.black)
+                                Text("Liquor Shelf").font(.footnote).foregroundColor(.white).frame(width: space.size.width - doorGap/2, alignment: .center)
+                            }
+                            , alignment: .bottom
+                        )
                     
-                    ScrollView(.horizontal){
-                        //Red Wine
-                        LazyHStack{
-                            ForEach(beerShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //Red Wine
+                            LazyHStack{
+                                ForEach(beerShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -706,19 +776,22 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        Text("Beer Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
                     }.frame(width: space.size.width, height: space.size.height/6)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                     
-                    ScrollView(.horizontal){
-                        //Red Wine
-                        LazyHStack{
-                            ForEach(drinkShelf, id: \.id){ ingredient in
-                                NavigationLink{
-                                    IngredientView(ingredient: ingredient, inventory: inventory)
-                                    
-                                }
+                    VStack{
+                        ScrollView(.horizontal){
+                            //Red Wine
+                            LazyHStack{
+                                ForEach(drinkShelf, id: \.id){ ingredient in
+                                    NavigationLink{
+                                        IngredientView(ingredient: ingredient, inventory: inventory)
+                                        
+                                    }
                                 label: {
                                     VStack(spacing: 0){
                                         ZStack{
@@ -735,8 +808,12 @@ struct InventoryTab: View {
                                         Text(ingredient.name!).padding(.bottom, 10)
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
+                                }
                             }
                         }
+                        
+                        Text("Non Alcoholic Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
+                        
                     }.frame(width: space.size.width, height: space.size.height/6)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                     
