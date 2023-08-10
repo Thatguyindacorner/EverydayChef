@@ -5,7 +5,7 @@
 //  Created by Ameya Joshi on 2023-06-19.
 //
 
-import Foundation
+//import Foundation
 
 //
 //  ErrorEnums.swift
@@ -24,6 +24,7 @@ enum ErrorEnum:Error{
     
     case InvalidEmailPattern
 
+    case arrayEmpty
 }
 
 
@@ -43,7 +44,9 @@ extension ErrorEnum:LocalizedError{
             
         case .InvalidEmailPattern:
             return NSLocalizedString("The Email Address you've entered is invalid. Please enter a Valid Email address", comment: "Invalid Email Pattern")
-            
+           
+        case .arrayEmpty:
+            return NSLocalizedString("Cannot Load Contents or this Content is unavailable. Please try again", comment: "Empty Array Results")
         }
     }
     

@@ -62,7 +62,7 @@ struct CustomRecipeListView: View {
             .onAppear{
                 Task{
                     
-                    fireDBController.userRecipeList = []
+                    //fireDBController.userRecipeList = []
                     
                     await fireDBController.getAllCustomRecipes()
                     

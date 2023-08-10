@@ -120,10 +120,15 @@ struct SplashView: View{
             GifImageView("foodimgtransparent2")
                 .frame(width: widthScreen / 1.5, height: heightScreen / 3.5)
             
+            Text("\("EverDay Chef".uppercased())")
+                .font(Font.custom("DancingScript-Bold", size: 50))
+                .foregroundColor(.blue)
+            
             
             HStack{
                 Text("Preping the Kitchen ") //text will change periodically
                 ProgressView()
+                    .tint(.blue)
             }
         }.onAppear{
             let _ = AuthController()

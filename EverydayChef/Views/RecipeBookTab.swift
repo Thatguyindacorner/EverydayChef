@@ -94,7 +94,7 @@ struct RecipeBookTab: View {
                                 CustomRecipeListView2().environmentObject(fireDBController)
                             } label: {
                                 VStack{
-                                    Image("wineglass")
+                                    Image("oats")
                                         .resizable()
                                         .frame(width: 96, height: 96)
                                     Text("Custom Recipes")
