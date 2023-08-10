@@ -61,15 +61,15 @@ struct SidebarProfileView: View {
                                 
                                 
                                 
-                                Button(action:{
-                                    
-                                }){
-                                    Text("Settings")
-                                }
-                                .foregroundColor(Color.black)
-                                .padding(10)
-                                .border(.black)
-                                .cornerRadius(2)
+//                                Button(action:{
+//                                    
+//                                }){
+//                                    Text("Settings")
+//                                }
+//                                .foregroundColor(Color.black)
+//                                .padding(10)
+//                                .border(.black)
+//                                .cornerRadius(2)
                                 
                                 //if anonoumous account, signout and delete account (delete on backend)
                                 //else, signout

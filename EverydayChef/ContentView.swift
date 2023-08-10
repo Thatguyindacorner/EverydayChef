@@ -56,9 +56,13 @@ struct ContentView: View {
                         }.tag(Tabs.inventory)
                             .confirmationDialog(popupTitle, isPresented: $showPopup, titleVisibility: .visible,
                             actions: {
-                                Button("With Camera"){
-                                    print("Not available yet")
-                                }
+                                
+                                
+//                                Button("With Camera"){
+//                                    print("Not available yet")
+//                                }
+                                
+                                
                                 Button(action: {
                                     addIngredient = true
                                 })
@@ -67,10 +71,10 @@ struct ContentView: View {
                                 }
                             })
                         
-                        HistoryTab().tabItem {
-                            Image(systemName: "calendar")
-                            Text("History")
-                        }.tag(Tabs.history)
+//                        HistoryTab().tabItem {
+//                            Image(systemName: "calendar")
+//                            Text("History")
+//                        }.tag(Tabs.history)
                         
                         RecipeBookTab().tabItem {
                             Image(systemName: "book")
@@ -139,12 +143,16 @@ struct ContentView: View {
                                 }){
                                     Image(systemName: "plus")
                                 }.disabled(disableToolbar)
-                                Button(action:{
-                                    //shopping list
-                                    inShoppingList = true
-                                }){
-                                    Image(systemName: "cart")
-                                }.disabled(disableToolbar)
+                                
+                                
+//                                Button(action:{
+//                                    //shopping list
+//                                    inShoppingList = true
+//                                }){
+//                                    Image(systemName: "cart")
+//                                }.disabled(disableToolbar)
+                                
+                                
                             case .history:
                                 Text("")
                             

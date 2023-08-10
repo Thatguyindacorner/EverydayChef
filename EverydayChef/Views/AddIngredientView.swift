@@ -244,15 +244,17 @@ struct AddIngredientView: View {
         .navigationTitle("Ingredient Search")
         .navigationBarTitleDisplayMode(.large)
         .searchable(text: $ingredientViewModel.query)
-        .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing){
-                Button(action:{
-                    
-                }){
-                    Text("Custom")
-                }
-            }
-        }
+        
+//        .toolbar {
+//            ToolbarItemGroup(placement: .navigationBarTrailing){
+//                Button(action:{
+//
+//                }){
+//                    Text("Custom")
+//                }
+//            }
+//        }
+        
     }
     
     func addIngredient() async{
