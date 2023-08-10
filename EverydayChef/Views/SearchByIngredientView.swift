@@ -41,7 +41,7 @@ struct SearchByIngredientView: View {
         GeometryReader{ space in
             
             VStack{
-                Text("Main Ingredient").bold()
+                //Text("Main Ingredient").bold()
                 VStack{
                     AsyncImage(url: URL(string: "\(imagesBaseURL)\(ingredient.image ?? "apple.jpg")")) { image in
                         image
@@ -249,7 +249,8 @@ struct SearchByIngredientView: View {
                 
             }
             
-        }.padding(.horizontal, 10)
+        }.padding(.all, 10)
+            .navigationTitle("Main Ingreident")
         .onAppear{
             Task{
                 if produceList.isEmpty && proteinList.isEmpty && dairyList.isEmpty && otherList.isEmpty{

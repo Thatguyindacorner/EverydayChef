@@ -10,10 +10,10 @@ import Foundation
 @MainActor
 class WineAndFoodViewModel:ObservableObject{
     
-    let apiKey:String = "\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"
+    let apiKey:String = "&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"
     
     //Wine
-    let findWineURL:String = "https://api.spoonacular.com/food/wine/pairing?apiKey="
+    let findWineURL:String = "https://api.spoonacular.com/food/wine/pairing?food="
     
     @Published var winesList:[String] = []
     
@@ -25,7 +25,7 @@ class WineAndFoodViewModel:ObservableObject{
     
     
     //FOOD
-    let findFoodURL:String = "https://api.spoonacular.com/food/wine/dishes?apiKey="
+    let findFoodURL:String = "https://api.spoonacular.com/food/wine/dishes?wine="
     @Published var foodList:[String] = []
     
     @Published var foodText:String = ""
@@ -34,10 +34,14 @@ class WineAndFoodViewModel:ObservableObject{
     
     func findWine(for foodName:String) async ->Bool{
         
-        guard let searchURL:URL = URL(string: "\(findWineURL)\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)&food=\(foodName.replacingOccurrences(of: " ", with: "+").lowercased())") else{
+        guard let searchURL:URL = URL(string: "\(findWineURL)\(foodName.replacingOccurrences(of: " ", with: "+").lowercased())\(apiKey)") else{
             print("Cannot convert String to URL")
+            print("\(findWineURL)\(foodName.replacingOccurrences(of: " ", with: "+").lowercased())\(apiKey)")
             return false
         }
+        
+        print(searchURL)
+        
         do{
             let (data,urlResponse) = try await URLSession.shared.data(from: searchURL)
             
@@ -88,12 +92,15 @@ class WineAndFoodViewModel:ObservableObject{
         
         do{
             
-            guard let searchURL = URL(string: "\(findFoodURL)\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)&wine=\(wineTerm)") else{
+            guard let searchURL = URL(string: "\(findFoodURL)\(wineTerm)\(apiKey)") else{
+                print("\(findFoodURL)\(wineTerm)\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)")
                 print("Error creating URL from String")
                 
                 return false
                 
             }
+            
+            print(searchURL)
             
             let (data, urlResponse) = try await URLSession.shared.data(from: searchURL)
             

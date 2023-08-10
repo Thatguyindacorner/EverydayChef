@@ -28,7 +28,17 @@ struct WinePairingsView: View {
         case wine
         
         case food
+        
+        func toBorder(isActive: Bool) -> Color{
+            if isActive{
+                return Color.black
+            }
+            else{
+                return Color.clear
+            }
+        }
     }
+    
     
     var body: some View {
         
@@ -106,6 +116,71 @@ struct WinePairingsView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             
         }//if IOS 16 and UP
+        
+        else{
+            
+            GeometryReader{ space in
+                VStack{
+                    
+                    HStack{
+                        //Spacer()
+                        VStack{
+                            //Image(systemName: "wineglass.fill")
+                            
+                            Text("Wine")
+                        }
+                        .frame(width: space.size.width/2.1)
+                        .padding(.vertical, 20)
+                        .background(Color("winecolorbackground"))
+                        .foregroundColor(.white)
+                        .onTapGesture {
+                            foodMode = .wine
+                        }.border(foodMode.toBorder(isActive: WinePairingsView.FoodMode.wine == foodMode), width: 5)
+                        
+                        //Spacer()
+                        
+                        VStack{
+                            //Image(systemName: "fork.knife.circle.fill")
+                            Text("Food")
+                        }
+                        .frame(width: space.size.width/2.1)
+                        .padding(.vertical, 20)
+                        .background(Color.yellow)
+                        .onTapGesture {
+                            foodMode = .food
+                        }//onTapGesture
+                        .border(foodMode.toBorder(isActive: WinePairingsView.FoodMode.food == foodMode), width: 5)
+                        
+                        // Spacer()
+                    }//HStack
+                    
+                    Group{
+                        
+                        if foodMode == .wine{
+                            
+                            WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress)
+                                //.frame(width: space.size.width/1.05, alignment: .center)
+                            
+                        }else{
+                            //FoodView(wineName: $wineName)
+                            FoodView(wineName: $wineName, wineAndFoodViewModel:wineAndFoodViewModel)
+                                //.frame(width: space.size.width/1.05, alignment: .center)
+                        }
+                    }//Group
+                    
+                    Spacer()
+                    
+                }//VStack main
+                //.frame(width: space.size.width/1.1)
+                .padding(.vertical)
+                .navigationTitle(Text("Wine/Food Pairing"))
+                //.toolbarColorScheme(.dark, for: .navigationBar)
+                //.toolbarBackground(Color("navbarcolor"), for: .navigationBar)
+                //.toolbarBackground(.visible, for: .navigationBar)
+            }
+            
+        }
+        
     }//body
 }//struct WinePairingsView
 

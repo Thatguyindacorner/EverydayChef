@@ -117,20 +117,16 @@ struct SplashView: View{
         VStack{
             //Image("HomeImage").resizable().frame(width: widthScreen / 1.5, height: heightScreen / 3.5)
             
-            GifImageView("foodimgtransparent2")
-                .frame(width: widthScreen / 1.5, height: heightScreen / 3.5)
-            
-            Text("\("EverDay Chef".uppercased())")
-                .font(Font.custom("DancingScript-Bold", size: 50))
-                .foregroundColor(.blue)
-            
-            
+
+            GifImageView("foodimgtransparent2").scaledToFit()
+                
             HStack{
                 Text("Preping the Kitchen ") //text will change periodically
                 ProgressView()
-                    .tint(.blue)
+                .tint(.blue)
             }
-        }.onAppear{
+        }.frame(width: widthScreen / 1.5, height: heightScreen / 3.5)
+        .onAppear{
             let _ = AuthController()
         }
         

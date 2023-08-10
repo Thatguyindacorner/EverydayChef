@@ -104,6 +104,23 @@ struct AuthController{
         }
     }
     
+    func loadFridge() async{
+        let reference = Firestore.firestore().collection("users").document(user!.uid)
+        let standardInventory = "GZfKUDF5KWf4K9VHs0V95icyFUy1"
+        
+        do{
+            let preset = try await Firestore.firestore().collection("users").document(standardInventory).collection("Ingredients").getDocuments().documents
+            for document in preset{
+                try await reference.collection("Ingredients").addDocument(data: document.data())
+            }
+            print("added all ingredients from temp")
+        }
+        catch{
+            print("something went wrong copying base ingredients")
+        }
+
+    }
+    
     static func isActivated() async -> Bool{
         do{
             let data = try await SessionData.shared.document!.getDocument().data()
@@ -163,6 +180,8 @@ struct AuthController{
             try await authentication.createUser(withEmail: email, password: password)
             
             makeAccountDB()
+            
+            //await loadFridge()
             
             print("signed up with email and password")
             DispatchQueue.main.sync {
@@ -241,6 +260,7 @@ struct AuthController{
             try await authentication.signInAnonymously()
             
             makeAccountDB()
+            //await loadFridge()
             
             print("signed in anonoumously")
             DispatchQueue.main.sync {

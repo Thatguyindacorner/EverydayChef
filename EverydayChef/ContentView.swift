@@ -18,7 +18,7 @@ struct ContentView: View {
     @State var spoonVerified = false
     @State var inApp = true
     
-    @State var doneLoad = false
+    @State var disableToolbar = false
     
     @State var currentTab: Tabs = .inventory
     
@@ -56,9 +56,13 @@ struct ContentView: View {
                         }.tag(Tabs.inventory)
                             .confirmationDialog(popupTitle, isPresented: $showPopup, titleVisibility: .visible,
                             actions: {
-                                Button("With Camera"){
-                                    print("Not available yet")
-                                }
+                                
+                                
+//                                Button("With Camera"){
+//                                    print("Not available yet")
+//                                }
+                                
+                                
                                 Button(action: {
                                     addIngredient = true
                                 })
@@ -67,10 +71,10 @@ struct ContentView: View {
                                 }
                             })
                         
-                        HistoryTab().tabItem {
-                            Image(systemName: "calendar")
-                            Text("History")
-                        }.tag(Tabs.history)
+//                        HistoryTab().tabItem {
+//                            Image(systemName: "calendar")
+//                            Text("History")
+//                        }.tag(Tabs.history)
                         
                         RecipeBookTab().tabItem {
                             Image(systemName: "book")
@@ -94,7 +98,7 @@ struct ContentView: View {
 
                             }){
                                 Image(systemName: "person.circle")
-                            }
+                            }.disabled(disableToolbar)
                         }
 
 
@@ -104,16 +108,23 @@ struct ContentView: View {
                             case .inventory:
                                 Menu {
                                     //function won't render option if it's already choosen
+                                    
                                     StorageOption(.fridge)
                                     StorageOption(.pantry)
                                     StorageOption(.bar)
-
+                                    
                                 } label: {
                                     HStack{
                                         Text(currentStorageType.rawValue)
                                         Image(systemName: "chevron.down")
                                     }
                                 }
+                                .onTapGesture {
+                                    if !disableToolbar{
+                                        disableToolbar = true
+                                    }
+                                }
+                                
                             case .history:
                                 Text("HISTORY")
                             case .recipes:
@@ -131,24 +142,33 @@ struct ContentView: View {
                                     showPopup = true
                                 }){
                                     Image(systemName: "plus")
-                                }
-                                Button(action:{
-                                    //shopping list
-                                    inShoppingList = true
-                                }){
-                                    Image(systemName: "cart")
-                                }
+                                }.disabled(disableToolbar)
+                                
+                                
+//                                Button(action:{
+//                                    //shopping list
+//                                    inShoppingList = true
+//                                }){
+//                                    Image(systemName: "cart")
+//                                }.disabled(disableToolbar)
+                                
+                                
                             case .history:
                                 Text("")
                             
                             case .recipes:
-                                Text("")
+                                NavigationLink {
+                                    ShowFavoriteRecipesView()
+                                } label: {
+                                    Image(systemName: "suit.heart")
+                                }
                             }
                             
 
 
                         }
                     }
+                    
                     .navigationBarTitleDisplayMode(.inline)
                     
                     //.navigationBarHidden(true)
@@ -156,7 +176,18 @@ struct ContentView: View {
                 }//.navigationViewStyle(.stack)
                     SidebarProfileView(isSidebarVisable: $showingSettings, sidebarHidden: $hideToolbar, upgrade: $upgrade)
                 }//}
-            
+            .overlay{
+                if disableToolbar{
+                    Color.black.opacity(0.1)
+                        .ignoresSafeArea(.all)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .onTapGesture {
+                            disableToolbar = false
+                        }
+                }
+                
+            }
+
             
             //.navigationBarTitleDisplayMode(.inline)
             
@@ -262,8 +293,10 @@ struct ContentView: View {
         if loc != currentStorageType{
             Button(action:{
                 currentStorageType = loc
+                self.disableToolbar = false
             }){
                 Text(loc.rawValue)
+                
             }
         }
     }

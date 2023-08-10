@@ -25,7 +25,7 @@ struct CustomRecipeListView2: View {
     
     var body: some View{
         VStack{
-            Text("Custom Recipes")
+            //Text("Custom Recipes")
             
             ZStack{
                 
@@ -155,8 +155,21 @@ struct CustomRecipeListView2: View {
             }//Sheet to display the Edit View
             
         }//VStack
+
+        .toolbar{
+            ToolbarItemGroup(placement: .navigationBarTrailing){
+                NavigationLink {
+                    CreateRecipeView2()
+                } label: {
+                    Image(systemName: "plus")
+                }
+                
+            }
+        }
+        .navigationTitle("My Recipes")
         .onAppear{
-            Task(priority:.background){
+            if customRecipeList.isEmpty{
+                Task(priority:.background){
 //                showProgress = true
 //                customRecipeList = await fireDBController.getCustomRecipes()
 //
@@ -175,7 +188,9 @@ struct CustomRecipeListView2: View {
                     print("Error retrieving Custom Recipes from Firestore")
                 }
                 
-            }//Task
+                }//Task
+            }
+
         }//onAppear
     }//body
     

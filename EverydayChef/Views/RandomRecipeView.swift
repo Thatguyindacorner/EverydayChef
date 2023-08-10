@@ -36,6 +36,19 @@ struct RandomRecipeView: View {
                         .textInputAutocapitalization(.never)
                         .textFieldStyle(.roundedBorder)
                     
+
+                    Button(action:{
+                        self.regularSearch = true
+                        print("Perform Recipe Search Action")
+                        searchRecipe()
+                    }){
+                        Text("Search")
+                            .padding()
+                            .padding(.horizontal, 15)
+                            .background(.brown)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+
                     HStack{
                         Button(action:{
                             Task{
@@ -118,11 +131,42 @@ struct RandomRecipeView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
+
                     }
                     
+//                    HStack{
+//                        Button(action:{
+//                            Task{
+//                                self.regularSearch = false
+//                                print("Search What can I make now")
+//                                self.results = await SearchRecipeByIngredientViewModel.readyToMakeRecipes()
+//                            }
+//
+//                        }){
+//                            Text("What can I make now?")
+//                                .padding()
+//                                .padding(.horizontal, 15)
+//                                .background(.brown)
+//                                .foregroundColor(.white)
+//                                .cornerRadius(10)
+//                        }
+//                        Button(action:{
+//                            self.regularSearch = true
+//                            print("Perform Recipe Search Action")
+//                            searchRecipe()
+//                        }){
+//                            Text("Search")
+//                                .padding()
+//                                .padding(.horizontal, 15)
+//                                .background(.brown)
+//                                .foregroundColor(.white)
+//                                .cornerRadius(10)
+//                        }
+//                    }
                     
-                } //Button VStack
-               
+                    
+                }
+                
                 ZStack{
                     ScrollView(){
                         
@@ -198,6 +242,7 @@ struct RandomRecipeView: View {
                     } message: {
                         Text("\(self.errorMessage)")
                     }//alert
+
                     
                     if randomRecipeViewModel.showProgressView{
                         ProgressView()
@@ -206,6 +251,8 @@ struct RandomRecipeView: View {
                     }//if randomRecipeViewModel.showProgressView
                     
                 }//ZStack
+               
+                
                 
             }//VStack
             .padding(.horizontal, 10)

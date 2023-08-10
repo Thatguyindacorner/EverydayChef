@@ -34,7 +34,8 @@ NavigationView{
                 VStack{
                     
                     HStack{
-                        Image("HomeImage").resizable()
+                        //Image("HomeImage").resizable()
+                        Image("chefcooking").resizable().padding(25)
                     }.frame(width: widthScreen, height: heightScreen / 3.5)
                         .border(.black)
                     HStack(alignment: .bottom, spacing: 1){
@@ -47,8 +48,12 @@ NavigationView{
                             Task{
                                 
                                 if await authHelper.anonymousAuth(){
+                                    
+                                    
+                                    
                                     self.authenticated = true
                             
+                                    await authHelper.loadFridge()
                                 }
                                 else{
                                     //error
@@ -56,12 +61,22 @@ NavigationView{
                             }
                             
                         }){
-                            Text("Get Started")
-                                .font(.title)
-                                .bold()
-                                .padding(10)
-                                .frame(width: 200).border(.blue)
-                                .background()
+                            VStack{
+                                Text("Get Started")
+                                    .font(.title)
+                                    .bold()
+                                    
+                                    
+                                Text("With A Trial Account")
+                                    .font(.caption)
+                                    .bold()
+                                    
+                                    
+                            }
+                            .padding(10)
+                            .frame(width: 200).border(.blue)
+                            .background()
+                            
                         }
                     }.frame(width: widthScreen, height: heightScreen / 8)
                         .border(.black)

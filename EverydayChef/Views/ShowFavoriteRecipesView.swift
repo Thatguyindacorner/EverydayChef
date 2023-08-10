@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ShowFavoriteRecipesView: View {
     
-    @EnvironmentObject var fireDbController:FireDbController
+    @StateObject var fireDbController:FireDbController = FireDbController.sharedFireDBController
     
     @StateObject var randomRecipesViewModel:RandomRecipeViewModel = RandomRecipeViewModel()
     
@@ -81,16 +81,18 @@ struct ShowFavoriteRecipesView: View {
                 
             }//ZStack
         }
+        .navigationTitle("Favourited Recipes")
         .onAppear{
-            Task(priority:.background){
-    
-                self.showProgress = true
-              
-                randomRecipesViewModel.favoriteRecipesList.removeAll()
-                
-                //favRecipesList = await fireDbController.getAllFavoriteRecipes()
-                
-                let fireBResults = await processFavoriteRecipes()
+
+            if randomRecipesViewModel.favoriteRecipesList.isEmpty{
+                Task(priority:.background){
+                    //await getFavoriteRecipes()
+                    
+    //                fireDbController.favoriteRecipesList = []
+    //
+    //                await fireDbController.getAllFavoriteRecipes()
+    //
+                     let fireBResults = await processFavoriteRecipes()
                 
                 if fireBResults{
                     print("Get Recipes by Ids")
@@ -118,18 +120,11 @@ struct ShowFavoriteRecipesView: View {
                     print("Couldn't get Results for Favorite Recipes from Firestore")
                     showProgress = false
                 }
-                
-//                for recipe in favRecipesList{
-//                   await randomRecipesViewModel.getRecipeById(recipe.recipeId)
-//                }
-//
-//                self.showProgress = false
-                
-            }//Task
-        }//onAppear
-        
-        .onDisappear{
-            self.favRecipesList.removeAll()
+                    
+                }//Task
+            }
+            
+
         }
         
     }//body

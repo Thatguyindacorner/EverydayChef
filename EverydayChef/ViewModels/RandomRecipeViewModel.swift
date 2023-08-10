@@ -202,6 +202,8 @@ class RandomRecipeViewModel:ObservableObject{
 
         //let buildURLString:String = "\(recipeByIdURL)\(forID)/information?apiKey=9947b019d7f343a3aea18080c939d70e"//d01c0f4e6a324d2c861e9b967a6e5d87"
         
+        print(buildURLString)
+        
         guard let recipeByIDURL = URL(string: buildURLString) else{
             print("Error converting String to URL")
             return

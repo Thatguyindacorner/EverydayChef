@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SidebarProfileView: View {
     
-    let sidebarWidth = UIScreen.main.bounds.size.width * 0.6
+    let sidebarWidth = UIScreen.main.bounds.size.width * 0.725
     let contentHight = UIScreen.main.bounds.size.height * 0.5
     
     @Binding var isSidebarVisable: Bool
@@ -61,15 +61,15 @@ struct SidebarProfileView: View {
                                 
                                 
                                 
-                                Button(action:{
-                                    
-                                }){
-                                    Text("Settings")
-                                }
-                                .foregroundColor(Color.black)
-                                .padding(10)
-                                .border(.black)
-                                .cornerRadius(2)
+//                                Button(action:{
+//                                    
+//                                }){
+//                                    Text("Settings")
+//                                }
+//                                .foregroundColor(Color.black)
+//                                .padding(10)
+//                                .border(.black)
+//                                .cornerRadius(2)
                                 
                                 //if anonoumous account, signout and delete account (delete on backend)
                                 //else, signout
