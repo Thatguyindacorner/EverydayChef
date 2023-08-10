@@ -919,7 +919,7 @@ struct InventoryTab: View {
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                         .overlay(Rectangle().frame(width: 1, height: nil, alignment: .trailing).foregroundColor(Color.black), alignment: .trailing)
                         //.background(Color.brown, ignoresSafeAreaEdges: .horizontal)
-                        .background(a, ignoresSafeAreaEdges: .horizontal)
+                        .background(Color("wood"), ignoresSafeAreaEdges: .horizontal)
                         .offset(x: !isOpenPantry ? 0 : -space.size.width/2.6)
                         .animation(.default, value: isOpenPantry)
 
@@ -949,7 +949,7 @@ struct InventoryTab: View {
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                         .overlay(Rectangle().frame(width: 1, height: nil, alignment: .leading).foregroundColor(Color.black), alignment: .leading)
                         //.background(Color.brown, ignoresSafeAreaEdges: .horizontal)
-                        .background(b, ignoresSafeAreaEdges: .horizontal)
+                        .background(Color("wood"), ignoresSafeAreaEdges: .horizontal)
                         .offset(x: !isOpenPantry ? 0 : space.size.width/2.6)
                         .animation(.default, value: isOpenPantry)
 

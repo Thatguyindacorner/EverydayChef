@@ -41,83 +41,83 @@ struct WinePairingsView: View {
     
     
     var body: some View {
+//
+//        if #available(iOS 16.0, *) {
+//
+//            VStack{
+//
+//                HStack{
+//                    //Spacer()
+//                    VStack{
+//                        Image(systemName: "wineglass.fill")
+//
+//                        Text("Wine")
+//                    }
+//                    .frame(minWidth: 0, maxWidth: 200)
+//                    .padding(.vertical, 20)
+//                    .background(Color("winecolorbackground"))
+//                    .foregroundColor(.white)
+//                    .onTapGesture {
+//                        foodMode = .wine
+//                    }//onTapGesture
+//
+//                    Spacer()
+//
+//                    VStack{
+//                        Image(systemName: "fork.knife.circle.fill")
+//                        Text("Food")
+//                    }
+//                    .frame(minWidth: 0, maxWidth: 200)
+//                    .padding(.vertical, 20)
+//                    .background(Color.yellow)
+//                    .onTapGesture {
+//                        foodMode = .food
+//                    }//onTapGesture
+//
+//                    // Spacer()
+//                }//HStack
+//
+//                ZStack{
+//
+//                    Group{
+//
+//                        if foodMode == .wine{
+//
+//                            WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress, errorMessage: self.$errorMessage, displayErrorAlert: self.$displayErrorAlert)
+//
+//                        }else{
+//                            //FoodView(wineName: $wineName)
+//                            FoodView(wineName: $wineName, wineAndFoodViewModel:wineAndFoodViewModel, showProgress: $showProgress, errorMessage: self.$errorMessage, displayErrorAlert: self.$displayErrorAlert)
+//                        }
+//                    }//Group
+//
+//                    if showProgress{
+//                        ProgressView()
+//                            .tint(.red)
+//                            .scaleEffect(4)
+//                    }
+//
+//                }//ZStack
+//                .alert("Error", isPresented: self.$displayErrorAlert) {
+//                    Button("OK", role: .cancel){
+//                        self.displayErrorAlert = false
+//                    }
+//                } message: {
+//                    Text("\(self.errorMessage)")
+//                }
+//
+//                Spacer()
+//
+//            }//VStack main
+//            .padding()
+//            .navigationTitle(Text("Wine/Food Pairing"))
+//            .toolbarColorScheme(.dark, for: .navigationBar)
+//            .toolbarBackground(Color("navbarcolor"), for: .navigationBar)
+//            .toolbarBackground(.visible, for: .navigationBar)
+//
+//        }//if IOS 16 and UP
         
-        if #available(iOS 16.0, *) {
-            
-            VStack{
-                
-                HStack{
-                    //Spacer()
-                    VStack{
-                        Image(systemName: "wineglass.fill")
-                        
-                        Text("Wine")
-                    }
-                    .frame(minWidth: 0, maxWidth: 200)
-                    .padding(.vertical, 20)
-                    .background(Color("winecolorbackground"))
-                    .foregroundColor(.white)
-                    .onTapGesture {
-                        foodMode = .wine
-                    }//onTapGesture
-                    
-                    Spacer()
-                    
-                    VStack{
-                        Image(systemName: "fork.knife.circle.fill")
-                        Text("Food")
-                    }
-                    .frame(minWidth: 0, maxWidth: 200)
-                    .padding(.vertical, 20)
-                    .background(Color.yellow)
-                    .onTapGesture {
-                        foodMode = .food
-                    }//onTapGesture
-                    
-                    // Spacer()
-                }//HStack
-                
-                ZStack{
-                    
-                    Group{
-                        
-                        if foodMode == .wine{
-                            
-                            WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress, errorMessage: self.$errorMessage, displayErrorAlert: self.$displayErrorAlert)
-                            
-                        }else{
-                            //FoodView(wineName: $wineName)
-                            FoodView(wineName: $wineName, wineAndFoodViewModel:wineAndFoodViewModel, showProgress: $showProgress, errorMessage: self.$errorMessage, displayErrorAlert: self.$displayErrorAlert)
-                        }
-                    }//Group
-                    
-                    if showProgress{
-                        ProgressView()
-                            .tint(.red)
-                            .scaleEffect(4)
-                    }
-                    
-                }//ZStack
-                .alert("Error", isPresented: self.$displayErrorAlert) {
-                    Button("OK", role: .cancel){
-                        self.displayErrorAlert = false
-                    }
-                } message: {
-                    Text("\(self.errorMessage)")
-                }
-                
-                Spacer()
-                
-            }//VStack main
-            .padding()
-            .navigationTitle(Text("Wine/Food Pairing"))
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbarBackground(Color("navbarcolor"), for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-            
-        }//if IOS 16 and UP
-        
-        else{
+        //else{
             
             GeometryReader{ space in
                 VStack{
@@ -154,21 +154,34 @@ struct WinePairingsView: View {
                         // Spacer()
                     }//HStack
                     
-                    Group{
+                    ZStack{
                         
-                        if foodMode == .wine{
+                        Group{
                             
-                            WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress)
-                                //.frame(width: space.size.width/1.05, alignment: .center)
-                            
-                        }else{
-                            //FoodView(wineName: $wineName)
-                            FoodView(wineName: $wineName, wineAndFoodViewModel:wineAndFoodViewModel)
-                                //.frame(width: space.size.width/1.05, alignment: .center)
+                            if foodMode == .wine{
+                                
+                                WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress, errorMessage: self.$errorMessage, displayErrorAlert: self.$displayErrorAlert)
+                                
+                            }else{
+                                //FoodView(wineName: $wineName)
+                                FoodView(wineName: $wineName, wineAndFoodViewModel:wineAndFoodViewModel, showProgress: $showProgress, errorMessage: self.$errorMessage, displayErrorAlert: self.$displayErrorAlert)
+                            }
+                        }//Group
+                        
+                        if showProgress{
+                            ProgressView()
+                                .tint(.red)
+                                .scaleEffect(4)
                         }
-                    }//Group
-                    
-                    Spacer()
+                        
+                    }//ZStack
+                    .alert("Error", isPresented: self.$displayErrorAlert) {
+                        Button("OK", role: .cancel){
+                            self.displayErrorAlert = false
+                        }
+                    } message: {
+                        Text("\(self.errorMessage)")
+                    }
                     
                 }//VStack main
                 //.frame(width: space.size.width/1.1)
@@ -179,7 +192,7 @@ struct WinePairingsView: View {
                 //.toolbarBackground(.visible, for: .navigationBar)
             }
             
-        }
+        //}
         
     }//body
 }//struct WinePairingsView

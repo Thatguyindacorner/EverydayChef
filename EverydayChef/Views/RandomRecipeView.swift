@@ -28,7 +28,7 @@ struct RandomRecipeView: View {
     
     var body: some View {
        // NavigationStack{
-            VStack{
+            //VStack{
                 
                 VStack {
                     TextField("Search Recipes", text: $recipeSearch)
@@ -40,75 +40,47 @@ struct RandomRecipeView: View {
                     Button(action:{
                         self.regularSearch = true
                         print("Perform Recipe Search Action")
-                        searchRecipe()
-                    }){
-                        Text("Search")
-                            .padding()
-                            .padding(.horizontal, 15)
-                            .background(.brown)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-
-                    HStack{
-                        Button(action:{
-                            Task{
-                                self.regularSearch = false
-                                print("Search What can I make now")
-                                self.results = await SearchRecipeByIngredientViewModel.readyToMakeRecipes()
-                            }
+                        //searchRecipe()
+                        
+                        Task(priority:.background){
                             
-                        }){
-                            Text("What can I make now?")
-                                .padding()
-                                .padding(.horizontal, 15)
-                                .background(.brown)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        Button(action:{
-                            self.regularSearch = true
-                            print("Perform Recipe Search Action")
-                            //searchRecipe()
-                            
-                            Task(priority:.background){
+                            do{
                                 
-                                do{
+                                try validateEmptyFields()
+                                
+                                let result = await searchRecipe2()
+                                
+                                if result{
+                                    print("Successfully found Search Results")
                                     
-                                    try validateEmptyFields()
+                                    randomRecipeViewModel.showProgressView = false
                                     
-                                    let result = await searchRecipe2()
+                                }else{
                                     
-                                    if result{
-                                        print("Successfully found Search Results")
-                                        
-                                        randomRecipeViewModel.showProgressView = false
-                                        
-                                    }else{
-                                        
-                                        print("Error while getting Search Results or unable to search for Recipes")
-                                        
-                                        randomRecipeViewModel.showProgressView = false
-                                        
-                                        self.displayErrorAlert = true
-                                        
-                                        
-                                    }//if result false
-                                    
-                                    
-                                }catch(let err){
-                                    
-                                    print("Error: \(err.localizedDescription)")
-                                    
-                                    self.errorMessage = err.localizedDescription
+                                    print("Error while getting Search Results or unable to search for Recipes")
                                     
                                     randomRecipeViewModel.showProgressView = false
                                     
                                     self.displayErrorAlert = true
                                     
-                                }//catch
+                                    
+                                }//if result false
                                 
                                 
+                            }catch(let err){
                                 
+                                print("Error: \(err.localizedDescription)")
+                                
+                                self.errorMessage = err.localizedDescription
+                                
+                                randomRecipeViewModel.showProgressView = false
+                                
+                                self.displayErrorAlert = true
+                                
+                            }//catch
+                            
+                            
+                            
 //                                let result = await searchRecipe2()
 //
 //                                if result{
@@ -120,52 +92,82 @@ struct RandomRecipeView: View {
 //                                    self.displayErrorAlert = true
 //
 //                                }//if result false
-                                
-                            }//Task
                             
-                        }){
-                            Text("Search")
-                                .padding()
-                                .padding(.horizontal, 15)
-                                .background(.brown)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-
+                        }//Task
+                        
+                    }){
+                        Text("Search")
+                            .padding()
+                            .padding(.horizontal, 15)
+                            .background(.brown)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                     }
                     
-//                    HStack{
-//                        Button(action:{
-//                            Task{
-//                                self.regularSearch = false
-//                                print("Search What can I make now")
-//                                self.results = await SearchRecipeByIngredientViewModel.readyToMakeRecipes()
-//                            }
+//                    Button(action:{
+//                        self.regularSearch = true
+//                        print("Perform Recipe Search Action")
+//                        searchRecipe()
+//                    }){
+//                        Text("Search")
+//                            .padding()
+//                            .padding(.horizontal, 15)
+//                            .background(.brown)
+//                            .foregroundColor(.white)
+//                            .cornerRadius(10)
 //
-//                        }){
-//                            Text("What can I make now?")
-//                                .padding()
-//                                .padding(.horizontal, 15)
-//                                .background(.brown)
-//                                .foregroundColor(.white)
-//                                .cornerRadius(10)
-//                        }
-//                        Button(action:{
-//                            self.regularSearch = true
-//                            print("Perform Recipe Search Action")
-//                            searchRecipe()
-//                        }){
-//                            Text("Search")
-//                                .padding()
-//                                .padding(.horizontal, 15)
-//                                .background(.brown)
-//                                .foregroundColor(.white)
-//                                .cornerRadius(10)
-//                        }
-//                    }
-                    
-                    
-                }
+//                    //HStack{
+////                        Button(action:{
+////                            Task{
+////                                self.regularSearch = false
+////                                print("Search What can I make now")
+////                                self.results = await SearchRecipeByIngredientViewModel.readyToMakeRecipes()
+////                            }
+////
+////                        }){
+////                            Text("What can I make now?")
+////                                .padding()
+////                                .padding(.horizontal, 15)
+////                                .background(.brown)
+////                                .foregroundColor(.white)
+////                                .cornerRadius(10)
+////                        }
+//
+//
+//                    //}
+//
+////                    HStack{
+////                        Button(action:{
+////                            Task{
+////                                self.regularSearch = false
+////                                print("Search What can I make now")
+////                                self.results = await SearchRecipeByIngredientViewModel.readyToMakeRecipes()
+////                            }
+////
+////                        }){
+////                            Text("What can I make now?")
+////                                .padding()
+////                                .padding(.horizontal, 15)
+////                                .background(.brown)
+////                                .foregroundColor(.white)
+////                                .cornerRadius(10)
+////                        }
+////                        Button(action:{
+////                            self.regularSearch = true
+////                            print("Perform Recipe Search Action")
+////                            searchRecipe()
+////                        }){
+////                            Text("Search")
+////                                .padding()
+////                                .padding(.horizontal, 15)
+////                                .background(.brown)
+////                                .foregroundColor(.white)
+////                                .cornerRadius(10)
+////                        }
+////                    }
+//
+//
+//                }
                 
                 ZStack{
                     ScrollView(){
