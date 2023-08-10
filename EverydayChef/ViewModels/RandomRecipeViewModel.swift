@@ -25,6 +25,9 @@ class RandomRecipeViewModel:ObservableObject{
     let recipeByIdURL:String = "https://api.spoonacular.com/recipes/"
     
     
+    @Published var showProgressView:Bool = false
+    
+    
     func getRandomRecipes() async{
         
         guard let randomRecipeURL = URL(string: recipeURL) else{
@@ -243,6 +246,254 @@ class RandomRecipeViewModel:ObservableObject{
             print("Error processing request \(error.localizedDescription)")
         }
         
+    }//getReciopesByID
+    
+    
+    
+    
+    
+    /*
+      Refactored Random Recipes
+     */
+    func getRandomRecipes2() async throws -> Bool{
+        
+        showProgressView = true
+        
+        guard let randomRecipeURL = URL(string: recipeURL) else{
+            print("Error converting to a valid URL")
+            
+            showProgressView = false
+            
+            return false
+        }
+        
+            let (data,urlResponse) = try await URLSession.shared.data(from: randomRecipeURL)
+            
+            guard let httpURLResponse = urlResponse as? HTTPURLResponse else{
+                
+                print("Cannot cast to HTTPURLResponse")
+                
+                showProgressView = false
+                
+                return false
+                
+            }//guard httpURLResponse
+            
+            if httpURLResponse.statusCode == 200{
+                
+                //TODO: Decode JSON
+                guard let returnedRecipes = try? JSONDecoder().decode(ReturnedRecipeData.self, from: data) else{
+                    print("ERROR:: Trouble decoding data into Swift Structs")
+                    
+                    showProgressView = false
+                    
+                    return false
+                }
+                
+                self.recipeList = returnedRecipes.recipes
+                
+                for recipe in recipeList{
+                    print("Recipe title: \(recipe.title ?? "Unknown")")
+                    print("Recipe Image: \(recipe.image ?? "Unknown")")
+                    
+                    print(recipe)
+                    
+                    self.recipeImage = recipe.image ?? ""
+                    
+                    self.recipeTitle = recipe.title ?? ""
+                    
+                    for extendedIngredient in recipe.extendedIngredients{
+                        print("Ingredient Name: \(extendedIngredient.name ?? "Unknown")")
+                        
+                        print("Ingredient Image: \(extendedIngredient.image ?? "Unknown")")
+                    }
+                    
+                    for analyzedInstruction in recipe.analyzedInstructions{
+                        
+                        for step in analyzedInstruction.steps{
+                            print("Step Number: \(step.number ?? 0)")
+                            
+                            print("Step \(step.number ?? 0)---- \(step.step ?? "Unknown")")
+                            
+                            if step.ingredients.count > 0{
+                                for ingredient in step.ingredients{
+                                    print("Ingredient Name: \(ingredient.name ?? "Unknown Ingredient")")
+                                }
+                            }//if ingredient.count > 0
+                            
+                            if step.equipment.count > 0{
+                                for equiment in step.equipment{
+                                    print("Equipment Name: \(equiment.name ?? "Unknown Equipment")")
+                                }
+                            }
+                            
+                        }//step
+                        
+                    }//analyzedInstruction
+                }//for recipe in recupeList
+                
+                showProgressView = false
+            
+                return true
+                
+            }else{
+                print("ERROR: BAD STATUS CODE.. Status code is \(httpURLResponse.statusCode)")
+                
+                showProgressView = false
+                
+                return false
+            }//check if status code valid
+            
+    }//getRandomRecipes2()
+    
+    
+    
+    /*
+      Refactored Search Recipes
+     */
+    func searchRecipes2(searchTerm:String) async throws -> Bool{
+        
+        showProgressView = true
+        
+        let search = searchTerm.replacingOccurrences(of: " ", with: "+").lowercased()
+        
+        let completeURLStr = searchRecipeURL + "tags=\(search)&number=5&apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"//d01c0f4e6a324d2c861e9b967a6e5d87"
+        
+        guard let searchURL = URL(string: completeURLStr) else{
+            print("Cannot convert to URL")
+            
+            showProgressView = false
+            
+            return false
+        }
+
+            let (data,urlResponse) = try await URLSession.shared.data(from: searchURL)
+            
+            guard let httpURLResponse = urlResponse as? HTTPURLResponse else{
+                
+                print("Cannot cast to HTTPURLResponse")
+                
+                showProgressView = false
+                
+                return false
+                
+            }//guard httpURLResponse
+            
+            if httpURLResponse.statusCode == 200{
+                
+                //TODO: Decode JSON
+                guard let returnedRecipes = try? JSONDecoder().decode(ReturnedRecipeData.self, from: data) else{
+                    print("ERROR:: Trouble decoding data into Swift Structs")
+                    
+                    showProgressView = false
+                    
+                    return false
+                }
+                
+                self.recipeList = returnedRecipes.recipes
+                
+                for recipe in recipeList{
+                    print("Recipe title: \(recipe.title ?? "Unknown")")
+                    print("Recipe Image: \(recipe.image ?? "Unknown")")
+                    
+                    print(recipe)
+                    
+                    self.recipeImage = recipe.image ?? ""
+                    
+                    self.recipeTitle = recipe.title ?? ""
+                    
+                    for extendedIngredient in recipe.extendedIngredients{
+                        print("Ingredient Name: \(extendedIngredient.name ?? "Unknown")")
+                        
+                        print("Ingredient Image: \(extendedIngredient.image ?? "Unknown")")
+                    }
+                    
+                    for analyzedInstruction in recipe.analyzedInstructions{
+                        
+                        for step in analyzedInstruction.steps{
+                            print("Step Number: \(step.number ?? 0)")
+                            
+                            print("Step \(step.number ?? 0)---- \(step.step ?? "Unknown")")
+                            
+                            if step.ingredients.count > 0{
+                                for ingredient in step.ingredients{
+                                    print("Ingredient Name: \(ingredient.name ?? "Unknown Ingredient")")
+                                }
+                            }//if ingredient.count > 0
+                            
+                            if step.equipment.count > 0{
+                                for equiment in step.equipment{
+                                    print("Equipment Name: \(equiment.name ?? "Unknown Equipment")")
+                                }
+                            }
+                            
+                        }//step
+                        
+                    }//analyzedInstruction
+                }//for recipe in recupeList
+                
+                showProgressView = false
+                
+                return true
+                
+            }else{
+                print("ERROR: BAD STATUS CODE.. Status code is \(httpURLResponse.statusCode)")
+                
+                showProgressView = false
+                
+                return false
+            }//check if status code valid
+            
+    } //searchRecipes
+    
+    
+    /*
+       Refactored Get Recipes By ID
+     */
+    func getRecipeById2(_ forID:Int) async throws -> Bool{
+
+        let buildURLString:String = "\(recipeByIdURL)\(forID)/information?apiKey=\(SessionData.shared.userAccount?.apiKey ?? MyConstants.spoonacularAPIKey)"//d01c0f4e6a324d2c861e9b967a6e5d87"
+
+        //let buildURLString:String = "\(recipeByIdURL)\(forID)/information?apiKey=9947b019d7f343a3aea18080c939d70e"//d01c0f4e6a324d2c861e9b967a6e5d87"
+        
+        guard let recipeByIDURL = URL(string: buildURLString) else{
+            print("Error converting String to URL")
+            return false
+        }
+        
+            print("Trying to get a response")
+            
+            let (data,urlResponse) = try await URLSession.shared.data(from: recipeByIDURL)
+            
+            guard let httpURLResponse = urlResponse as? HTTPURLResponse else{
+                
+                print("Cannot cast to HTTPURLResponse")
+                
+                return false
+                
+            }//guard httpURLResponse
+            
+            if httpURLResponse.statusCode == 200{
+                
+                //TODO: Decode JSON
+                guard let returnedRecipe = try? JSONDecoder().decode(Recipe.self, from: data) else{
+                    print("ERROR:: Trouble decoding data into Swift Structs")
+                    
+                    return false
+                }
+                
+                print("Recipe Data Successfully Returned \(returnedRecipe.id)")
+                
+                print("Recipe Name: \(returnedRecipe.title ?? "Unknown")")
+                
+                self.favoriteRecipesList.append(returnedRecipe)
+                
+                return true
+                
+            }else{
+                print("BAD Response CODE: \(httpURLResponse.statusCode)")
+                return false
+            }
     }//getReciopesByID
     
 }

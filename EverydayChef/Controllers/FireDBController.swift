@@ -427,6 +427,8 @@ class FireDbController:ObservableObject{
             
             try snapshot?.documents.forEach({ documentSnapShot in
                 
+                receivedCustomRecipes.removeAll()
+                
                 var docData = try documentSnapShot.data(as: CustomRecipe.self)
                 
                 let docID = documentSnapShot.documentID
@@ -603,5 +605,187 @@ class FireDbController:ObservableObject{
     } //func deleteCustomRecipe
     
     
+    
+    /*
+       Refactored Get all Favorite Recipes
+     */
+    func getAllFavoriteRecipes2() async throws ->[FavoriteRecipes]{
+        
+        
+            let reference = SessionData.shared.document?.collection("FavoriteRecipes")
+            
+            var favRecipesToReturn:[FavoriteRecipes] = []
+            
+            
+            
+            let snapshot = try await reference?.getDocuments()
+            
+            
+            try snapshot?.documents.forEach({ documentSnapshot in
+                var docData = try documentSnapshot.data(as: FavoriteRecipes.self)
+                
+                let docID = documentSnapshot.documentID
+                
+                docData.id = docID
+                
+                favRecipesToReturn.append(docData)
+            })
+            return favRecipesToReturn
+       
+    }//getAllFavoriteRecipes
+    
+    
+    /*
+      Refactored Save Custom Recipes
+     */
+    func saveCustomRecipes2(customRecipe:CustomRecipe, image:UIImage?) async throws -> Bool{
+        
+        let reference = SessionData.shared.document?.collection("Recipes")
+        
+        guard let docIdFolder = SessionData.shared.document?.documentID else{
+            print("No User data found for this User")
+            
+            return false
+        }
+        
+        let photoName = UUID().uuidString
+        
+        let storage = Storage.storage()
+        
+        let storageRef = storage.reference().child("\(docIdFolder)/Photos/\(photoName).jpeg")
+        
+        guard image != nil else{
+            print("Image is nil")
+            
+            return false
+        }
+        
+        guard let resizedImage = image?.jpegData(compressionQuality: 0.2)else{
+            print("Cannot compress image")
+            return false
+        }
+        
+        var metaData = StorageMetadata()
+        
+        metaData.contentType = "image/jpg"
+        
+        var imageURLString = ""
+        
+        
+        let _ = try await storageRef.putDataAsync(resizedImage, metadata: metaData)
+        
+        print("Image Saved")
+        
+        
+        let imageURL = try await storageRef.downloadURL() //Get the URL for the image saved at this reference location
+        
+        imageURLString = "\(imageURL)" //Save this in the Document CustomRecipe
+        
+        /*
+         Now save the CustomRecipe along with the imageURL of the image uploaded on to Cloud Firestore
+         */
+        
+        var newCustomRecipe = customRecipe
+        
+        newCustomRecipe.imageURLString = imageURLString
+        
+        //try await db.collection(collectionString).document(photoName).setData(newCustomRecipe.dictonary)
+        
+        try await reference?.document(photoName).setData(newCustomRecipe.dictionary)
+        
+        print("Data uploaded successfully")
+        
+        return true
+        
+    }//saveCustomRecipes2
+ 
+    
+    
+    /*
+      Get Custom Recipes Refactored
+     */
+    func getCustomRecipes2() async throws -> [CustomRecipe]{
+        
+        
+            let dbReference = SessionData.shared.document?.collection("Recipes")
+            
+            var receivedCustomRecipes:[CustomRecipe] = []
+            
+            let snapshot = try await dbReference?.getDocuments()
+            
+            try snapshot?.documents.forEach({ documentSnapShot in
+                
+                //receivedCustomRecipes.removeAll()
+                
+                var docData = try documentSnapShot.data(as: CustomRecipe.self)
+                
+                let docID = documentSnapShot.documentID
+                
+                docData.id = docID
+                
+                receivedCustomRecipes.append(docData)
+                
+            })//snapshot.documents.forEach
+                
+        print("\(receivedCustomRecipes.count)")
+        
+            return receivedCustomRecipes
+            
+       // return []
+    }//getCustomRecipes
+    
+    
+    
+    /*
+      Refactored Delete Recipe
+     */
+    func deleteCustomRecipe2(customRecipe:CustomRecipe?) async throws -> Bool{
+        
+        guard customRecipe?.id != nil else{
+            print("No Such Image/Document")
+            
+            return false
+        }
+        
+        
+        let reference = SessionData.shared.document?.collection("Recipes")
+        
+        guard let docIdFolder = SessionData.shared.document?.documentID else{
+            print("No User data found for this User")
+            
+            return false
+        }
+        
+        
+        guard let photoName =  customRecipe?.id else{
+            print("No Such Document")
+            return false
+        }
+        
+        
+        let storage = Storage.storage()
+        
+        //let storageRef = storage.reference().child("\(customRecipe?.id ?? "Unknown").jpeg")
+        
+        let storageRef = storage.reference().child("\(docIdFolder)/Photos/\(photoName).jpeg")
+        
+            try await storageRef.delete()
+        /*
+          Delete the Document itself from Firestore
+         */
+            
+            let db = Firestore.firestore()
+            
+            let collectionString = "photos"
+            
+            //let docRef = db.collection(collectionString).document(customRecipe?.id ?? "UnkownID")
+            
+            try await reference?.document(photoName).delete()
+            
+            print("Document with id \(customRecipe?.id ?? "Unknown") deleted from Firestore")
+            
+            return true
+       
+    } //func deleteCustomRecipe
     
 }

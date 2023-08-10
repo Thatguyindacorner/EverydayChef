@@ -176,8 +176,10 @@ struct RecipeBookTab: View {
                                 RandomRecipeView().environmentObject(fireDBController)
                             } label: {
                                 VStack{
+
                                     Image("question")
                                         //.renderingMode(.template)
+
                                         .resizable()
                                         //.frame(width: space.size.width/4,height: space.size.width/4)
                                         

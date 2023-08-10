@@ -202,6 +202,13 @@ struct ContentView: View {
                     Spacer()
                     
                     Text("Awaiting Verification of Spoonacular Account")
+                        .padding()
+                    
+                    GifImageView("pizza2")
+                        .frame(width: 100, height: 100)
+                    
+                    
+                    
                     ProgressView().tint(.gray)
                     
                     Link("Check Mail App", destination: URL(string: "message://")!)
@@ -256,6 +263,7 @@ struct ContentView: View {
                             }
                         }){
                             Text("I have verified my account")
+                                .padding()
                         }
                         
                         
@@ -266,6 +274,10 @@ struct ContentView: View {
                         }
                     }){
                         Text("Sign Out")
+                            .padding(EdgeInsets(top: 8, leading: 15, bottom: 8, trailing: 15))
+                            .background(.brown)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
                     }
                     
                     Spacer()
@@ -294,6 +306,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(SessionData.shared)
     }
 }

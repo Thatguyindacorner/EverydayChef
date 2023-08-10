@@ -74,6 +74,20 @@ struct CreateRecipeView2: View {
     @State private var servesPeople:Int = 0
     
     
+    /*
+       State Properties to handle and display errors
+     */
+    @State private var errorMessage:String = ""
+    
+    @State private var displayErrorAlert:Bool = false
+    
+    
+    /*
+      Progress View
+     */
+    @State private var showProgress:Bool = false
+    
+    
 //    init(){
 ////        ImagePickerView = ImagePicker(path: $contentData.path, picture: $contentData.picture)
 //        ImagePickerView = ImagePicker(showSheet: $contentData.showSheet, picture: $contentData.picture)
@@ -81,6 +95,9 @@ struct CreateRecipeView2: View {
     
     var body: some View {
         //if #available(iOS 16, *) {
+        
+        ZStack{
+            
             ScrollView{
                 VStack{
                     //Text("Create Recipe")
@@ -115,7 +132,7 @@ struct CreateRecipeView2: View {
                     
                     //Alert for Saving Picture
                     .alert("Save Picture", isPresented: $showAlert) {
-                       
+                        
                         Button("Cancel", role: .cancel){
                             showAlert = false
                         }
@@ -133,7 +150,7 @@ struct CreateRecipeView2: View {
                         Text("Do you want to Store the Picture in the Photos Library?")
                     }//showAlert
                     
-                   
+                    
                     
                     Group{
                         
@@ -156,7 +173,7 @@ struct CreateRecipeView2: View {
                         
                         TextField("Enter Directions", text: $directions)
                             .modifier(RecipeTFModifiers(paddingValue: 30, lineLimitVal: 5))
-                            
+                        
                         
                     }//Group
                     .padding(.top, 10)
@@ -170,9 +187,9 @@ struct CreateRecipeView2: View {
                             print("Show Photo Gallery")
                             showingImagePicker = true
                         }
-//                        PhotosPicker(selection:$selected, matching: .images, photoLibrary:.shared()){
-//                            Text("Photo Gallery")
-//                        }//PhotosPicker
+                        //                        PhotosPicker(selection:$selected, matching: .images, photoLibrary:.shared()){
+                        //                            Text("Photo Gallery")
+                        //                        }//PhotosPicker
                         
                         Button("Camera", role: .none){
                             print("Show ImagePicker on the Sheet")
@@ -189,16 +206,31 @@ struct CreateRecipeView2: View {
                     Button(action:{
                         print("Save Data to Firestore for this user")
                         //addRecipe()
+                        
+                        showProgress = true
+                        
                         Task(priority:.background){
-                            let result =  await saveRecipeToFirestore()
+                            //let result =  await saveRecipeToFirestore()
+                            
+                            let result =  await saveRecipeToFirestore2()
                             
                             if result{
                                 print("Go Back to previous Screen")
+                                
+                                contentData.showSheet = false
+                                
+                                contentData.picture = nil
+                                
+                                self.showProgress = false
                                 
                                 dismiss()
                             }//if result
                             else{
                                 print("Problem uploading Data to the Cloud Firestore")
+                                
+                                self.showProgress = false
+                                
+                                self.displayErrorAlert = true
                             }
                         }//Task
                         //dismiss()
@@ -207,9 +239,19 @@ struct CreateRecipeView2: View {
                             .padding(10)
                             .background(.blue)
                             .foregroundColor(.white)
-                            //.bold()
+                        //.bold()
                             .cornerRadius(10)
                     }
+                    
+                    //Display Error
+                    .alert("Error", isPresented: self.$displayErrorAlert) {
+                        Button("OK", role: .cancel){
+                            self.displayErrorAlert = false
+                        }
+                    } message: {
+                        Text("\(self.errorMessage)")
+                    }
+                    
                     
                     //Sheet
                     .sheet(isPresented: $contentData.showSheet, onDismiss: {
@@ -220,17 +262,17 @@ struct CreateRecipeView2: View {
                         ImagePicker(showSheet: $contentData.showSheet, picture: $contentData.picture)
                     }) //Sheet
                     
-//                    .onChange(of: selected) { (photosPickerItem:PhotosPickerItem?) in
-//                        
-//                        Task(priority: .background) {
-//                            
-//                            if let data = try? await photosPickerItem?.loadTransferable(type: Data.self){
-//                               // picture = UIImage(data: data)
-//                                contentData.picture = UIImage(data: data)
-//                            }//if let data
-//                        }//Task
-
-//                    }//onChange
+                    //                    .onChange(of: selected) { (photosPickerItem:PhotosPickerItem?) in
+                    //
+                    //                        Task(priority: .background) {
+                    //
+                    //                            if let data = try? await photosPickerItem?.loadTransferable(type: Data.self){
+                    //                               // picture = UIImage(data: data)
+                    //                                contentData.picture = UIImage(data: data)
+                    //                            }//if let data
+                    //                        }//Task
+                    
+                    //                    }//onChange
                     
                     .onChange(of: contentData.picture) { uiImage in
                         
@@ -252,7 +294,18 @@ struct CreateRecipeView2: View {
                 //.searchable(text: .constant(""))
                 
             }//ScrollView
+
             .navigationTitle("Create Recipe")
+
+            
+            if self.showProgress{
+                ProgressView()
+                    .tint(.red)
+                    .scaleEffect(4)
+            }
+            
+        }//ZStack
+
         //}//if iOS 16
     }//body
     
@@ -263,7 +316,9 @@ struct CreateRecipeView2: View {
             
             let customRecipe = CustomRecipe(recipeName: self.recipeName, recipeInstructions: self.directions, recipeCuisine: self.cuisine, recipeIngredients: self.ingredients, serves: self.servesPeople, prepTime: self.prepTime)
             
-            let val = await fireDBController.saveCustomRecipes(customRecipe: customRecipe, image: contentData.picture)
+           // let val = await fireDBController.saveCustomRecipes(customRecipe: customRecipe, image: contentData.picture)
+            
+            let val = await fireDBController.saveCustomRecipes(customRecipe: customRecipe, image: contentData.picture == nil ? UIImage(named: "nopicture") : contentData.picture)
             
             if val{
                 print("Custom Recipe and Data uploaded successfully to cloud Firestore")
@@ -284,6 +339,44 @@ struct CreateRecipeView2: View {
         return uploadResult
     }//saveRecipeToFirestore
     
+    
+    
+    func saveRecipeToFirestore2() async -> Bool {
+       
+        let result = Task(priority:.background){ () -> Bool in
+        
+            
+            let customRecipe = CustomRecipe(recipeName: self.recipeName, recipeInstructions: self.directions, recipeCuisine: self.cuisine, recipeIngredients: self.ingredients, serves: self.servesPeople, prepTime: self.prepTime)
+            
+           // let val = await fireDBController.saveCustomRecipes(customRecipe: customRecipe, image: contentData.picture)
+            
+            do{
+                let val = try await fireDBController.saveCustomRecipes2(customRecipe: customRecipe, image: contentData.picture == nil ? UIImage(named: "nopicture") : contentData.picture)
+                
+                
+                if val{
+                    print("Custom Recipe and Data uploaded successfully to cloud Firestore")
+                
+                    return true
+                }else{
+                    return false
+                }
+            }catch{
+                print("Error Saving Custom Recipe to Firestore \(error.localizedDescription)")
+                
+                self.errorMessage = "Error Saving Custom Recipe. Please try again"
+                
+                return false
+            }//catch
+            
+            
+        }//Task
+        
+        let uploadResult = await result.value
+        
+        return uploadResult
+    }//saveRecipeToFirestore2
+    
 }//struct CreateRecipeView2
 
 struct PrepTimeAndServes:View{
@@ -299,13 +392,13 @@ struct PrepTimeAndServes:View{
             HStack(spacing:20){
                 
                 HStack {
-                    Text("Prep Time:\(prepTime.formatted(.number.precision(.fractionLength(0))))")
+                    Text("Prep Time:\(prepTime.formatted(.number.precision(.fractionLength(0)))) Minutes")
                     
                     Image(systemName: "timer.circle.fill")
                         .foregroundColor(.blue)
                 }//Inner VStack
         
-                Stepper("", value: $prepTime, in: 0...20)
+                Stepper("", value: $prepTime, in: 0...200)
                     .labelsHidden()
                 Spacer()
             }//HStack
