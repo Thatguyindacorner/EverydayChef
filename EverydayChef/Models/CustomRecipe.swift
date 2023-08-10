@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct CustomRecipe:Codable, Identifiable, Hashable{
     
-    @DocumentID var id:String?
+    var id:String?
     
     var imageURLString:String = ""
     

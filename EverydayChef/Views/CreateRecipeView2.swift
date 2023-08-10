@@ -31,7 +31,7 @@ struct CreateRecipeView2: View {
     
     @Environment(\.dismiss) var dismiss
     
-    @EnvironmentObject var fireDBController:FireDbController
+    @StateObject var fireDBController:FireDbController = FireDbController.sharedFireDBController
     
     @State private var cuisine:String = ""
     
@@ -83,8 +83,8 @@ struct CreateRecipeView2: View {
         //if #available(iOS 16, *) {
             ScrollView{
                 VStack{
-                    Text("Create Recipe")
-                        .font(.system(size: 24).bold())
+                    //Text("Create Recipe")
+                        //.font(.system(size: 24).bold())
                     
                     Group{
                         
@@ -252,6 +252,7 @@ struct CreateRecipeView2: View {
                 //.searchable(text: .constant(""))
                 
             }//ScrollView
+            .navigationTitle("Create Recipe")
         //}//if iOS 16
     }//body
     

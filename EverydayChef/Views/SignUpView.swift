@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CryptoKit
-import WebKit
 
 enum SignType: Int{
     case signup = 1
@@ -24,7 +23,7 @@ struct SignUpView: View {
     @State private var key: String = ""
     @State var acceptTerms: Bool = false
     
-    var webView: WKWebView!
+    //var webView: WKWebView!
     
     @State private var userFName:String = ""
     
@@ -158,6 +157,8 @@ struct SignUpView: View {
                                                     try await SessionData.shared.document?.updateData(["isActivated" : true, "apiKey" : key])
                                                     
                                                     self.awaitingSpoonVerification = true
+                                                    
+                                                    await authHelper.loadFridge()
                                                 }
                                                 catch{
                                                     print("couldn't update document")

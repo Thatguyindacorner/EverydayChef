@@ -19,7 +19,7 @@ struct RecipeDetailView: View {
     
     @ObservedObject var randomRecipeViewModel:RandomRecipeViewModel
     
-    @EnvironmentObject var fireDBController:FireDbController
+    @ObservedObject var fireDBController:FireDbController = FireDbController.sharedFireDBController
     
     var recipe:Recipe?
     

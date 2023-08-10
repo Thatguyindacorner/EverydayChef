@@ -66,6 +66,14 @@ struct InventoryTab: View {
     
     @State var imagesBaseURL: String = "https://spoonacular.com/cdn/ingredients_100x100/"
     
+    let x = LinearGradient(colors: [Color.gray, Color.white, Color.gray], startPoint: .topLeading, endPoint: .bottomTrailing)
+    
+    let y = LinearGradient(colors: [Color.gray, Color.white, Color.gray], startPoint: .topTrailing, endPoint: .bottomLeading)
+    
+    let a = LinearGradient(colors: [Color.gray,Color.white], startPoint: .topLeading, endPoint: .bottomTrailing)
+    
+    let b = LinearGradient(colors: [Color.gray,Color.white], startPoint: .topTrailing, endPoint: .bottomLeading)
+
     
     var body: some View {
         
@@ -278,7 +286,7 @@ struct InventoryTab: View {
                                     }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                     
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                             //Text("Dairy Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
                         }//.border(.red)//.frame(height: space.size.height/5, alignment: .center)
 
@@ -315,7 +323,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Meat/Seafood Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -355,7 +363,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Miscellaneous Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -389,7 +397,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Produce Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -433,7 +441,7 @@ struct InventoryTab: View {
                                         }.frame(width: space.size.height/7, height: space.size.height/7)
                                     }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                     }
-                                }
+                                }.padding(.horizontal, 10)
                                 //}
                                 
                             }
@@ -483,7 +491,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Spice Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -520,7 +528,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Snack Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -556,7 +564,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Miscellaneous Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -592,7 +600,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Starch Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -628,7 +636,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Baking and Oils Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -668,7 +676,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Red Wine Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -702,7 +710,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("White Wine Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
@@ -737,7 +745,7 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         //Text("Liquor Shelf").font(.footnote).foregroundColor(.white).frame(width: space.size.width - doorGap/2, alignment: .center).disabled(true)
@@ -777,10 +785,10 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         Text("Beer Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
-                    }.frame(width: space.size.width, height: space.size.height/6)
+                    }.frame(width: space.size.width - doorGap/2, height: space.size.height/6)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                     
                     VStack{
@@ -809,12 +817,12 @@ struct InventoryTab: View {
                                     }.frame(width: space.size.height/7, height: space.size.height/7)
                                 }.padding(5).grayscale(!ingredient.inStock ? 1 : 0)
                                 }
-                            }
+                            }.padding(.horizontal, 10)
                         }
                         
                         Text("Non Alcoholic Shelf").font(.footnote).frame(width: space.size.width - doorGap/2, alignment: .center)
                         
-                    }.frame(width: space.size.width, height: space.size.height/6)
+                    }.frame(width: space.size.width - doorGap/2, height: space.size.height/6)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                     
                 }
@@ -849,7 +857,8 @@ struct InventoryTab: View {
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                         .overlay(Rectangle().frame(width: 1, height: nil, alignment: .trailing).foregroundColor(Color.black), alignment: .trailing)
-                        .background(Color.gray, ignoresSafeAreaEdges: .horizontal)
+                        .background(x, ignoresSafeAreaEdges: .horizontal)
+                        //.background(Color.gray, ignoresSafeAreaEdges: .horizontal)
                         .offset(x: !isOpenFridge ? 0 : -space.size.width/2.6)
                         .animation(.default, value: isOpenFridge)
 
@@ -861,7 +870,10 @@ struct InventoryTab: View {
                                     //open door(s)
                                     isOpenFridge.toggle()
                                 }){
-                                    RoundedRectangle(cornerSize: CGSize(width: 20, height: 50)).frame(width: space.size.width / 15, height: space.size.width / 3).foregroundColor(.black)
+                                    RoundedRectangle(cornerSize: CGSize(width: 20, height: 50)).frame(width: space.size.width / 15, height: space.size.width / 3)
+                                        
+                                        .foregroundColor(.black)
+                                        //.foregroundColor(y)
                                 }
                             }.padding(.leading, space.size.width / 35)
                             Spacer()
@@ -871,7 +883,8 @@ struct InventoryTab: View {
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                         .overlay(Rectangle().frame(width: 1, height: nil, alignment: .leading).foregroundColor(Color.black), alignment: .leading)
-                        .background(Color.gray, ignoresSafeAreaEdges: .horizontal)
+                        //.background(Color.gray, ignoresSafeAreaEdges: .horizontal)
+                        .background(y, ignoresSafeAreaEdges: .horizontal)
                         .offset(x: !isOpenFridge ? 0 : space.size.width/2.6)
                         .animation(.default, value: isOpenFridge)
 
@@ -905,7 +918,8 @@ struct InventoryTab: View {
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                         .overlay(Rectangle().frame(width: 1, height: nil, alignment: .trailing).foregroundColor(Color.black), alignment: .trailing)
-                        .background(Color.brown, ignoresSafeAreaEdges: .horizontal)
+                        //.background(Color.brown, ignoresSafeAreaEdges: .horizontal)
+                        .background(a, ignoresSafeAreaEdges: .horizontal)
                         .offset(x: !isOpenPantry ? 0 : -space.size.width/2.6)
                         .animation(.default, value: isOpenPantry)
 
@@ -934,7 +948,8 @@ struct InventoryTab: View {
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
                         .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                         .overlay(Rectangle().frame(width: 1, height: nil, alignment: .leading).foregroundColor(Color.black), alignment: .leading)
-                        .background(Color.brown, ignoresSafeAreaEdges: .horizontal)
+                        //.background(Color.brown, ignoresSafeAreaEdges: .horizontal)
+                        .background(b, ignoresSafeAreaEdges: .horizontal)
                         .offset(x: !isOpenPantry ? 0 : space.size.width/2.6)
                         .animation(.default, value: isOpenPantry)
 
@@ -983,7 +998,8 @@ struct InventoryTab: View {
                             .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
                             .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                             .overlay(Rectangle().frame(width: 1, height: nil, alignment: .trailing).foregroundColor(Color.black), alignment: .trailing)
-                            .background(Color.gray, ignoresSafeAreaEdges: .horizontal)
+                            //.background(Color.gray, ignoresSafeAreaEdges: .horizontal)
+                            .background(a, ignoresSafeAreaEdges: .horizontal)
                             .offset(x: !isOpenBar ? 0 : -space.size.width/2.6)
                             .animation(.default, value: isOpenBar)
 
@@ -1005,7 +1021,8 @@ struct InventoryTab: View {
                             .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.black), alignment: .top)
                             .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.black), alignment: .bottom)
                             .overlay(Rectangle().frame(width: 1, height: nil, alignment: .leading).foregroundColor(Color.black), alignment: .leading)
-                            .background(Color.gray, ignoresSafeAreaEdges: .horizontal)
+                            //.background(Color.gray, ignoresSafeAreaEdges: .horizontal)
+                            .background(b, ignoresSafeAreaEdges: .horizontal)
                             .offset(x: !isOpenBar ? 0 : space.size.width/2.6)
                             .animation(.default, value: isOpenBar)
 

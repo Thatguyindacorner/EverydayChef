@@ -19,7 +19,7 @@ struct CustomRecipeListView2: View {
     
     var body: some View{
         VStack{
-            Text("Custom Recipes")
+            //Text("Custom Recipes")
             
             List{
                 
@@ -116,14 +116,27 @@ struct CustomRecipeListView2: View {
             }//Sheet to display the Edit View
             
         }//VStack
-        .onAppear{
-            Task(priority:.background){
-                customRecipeList = await fireDBController.getCustomRecipes()
+        .toolbar{
+            ToolbarItemGroup(placement: .navigationBarTrailing){
+                NavigationLink {
+                    CreateRecipeView2()
+                } label: {
+                    Image(systemName: "plus")
+                }
                 
-                if customRecipeList.count > 0{
-                    print("Custom Recipes Fetched from the Database")
-                }//if count > 0
-            }//Task
+            }
+        }
+        .navigationTitle("My Recipes")
+        .onAppear{
+            if customRecipeList.isEmpty{
+                Task(priority:.background){
+                    customRecipeList = await fireDBController.getCustomRecipes()
+                    
+                    if customRecipeList.count > 0{
+                        print("Custom Recipes Fetched from the Database")
+                    }//if count > 0
+                }//Task
+            }
         }//onAppear
     }//body
     

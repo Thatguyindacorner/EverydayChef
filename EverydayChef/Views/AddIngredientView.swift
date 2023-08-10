@@ -167,14 +167,24 @@ struct AddIngredientView: View {
     @State var selected = false
     @State var selectedIngredient: AutocompleteIngredient? = nil
     
+    @State var message: String = ""
+    @State var showConfirmation = false
+    
     var body: some View {
         
         VStack{
+            
+            
+            
             if ingredientViewModel.results.isEmpty {
                 Text("No Results")
             }
             else{
+                if showConfirmation && !selected{
+                    loadPopup()
+                }
                 List{
+                    
                     ForEach(ingredientViewModel.results, id: \.id){result in
                         Button(action:{
                             Task(priority: .background){
@@ -182,16 +192,22 @@ struct AddIngredientView: View {
                                     selected = true
                                     selectedIngredient = result
                                 }
+                                else{
+                                    message = "\(result.name?.capitalized ?? "This ingredient") is already in your inventory"
+                                    showConfirmation = true
+                                }
                             }
                         }){
                             Text(result.name ?? "N/A")
-                        }
+                        }.disabled(showConfirmation)
 
                         
                     }
                     
                 }
+                Spacer()
             }
+            
         }
         .alert(isPresented: $selected, content: {
             Alert(title: Text(selectedIngredient?.name ?? "N/A"),
@@ -199,12 +215,25 @@ struct AddIngredientView: View {
                   primaryButton: .default(Text("Yes")){
                 Task(priority: .background){
                         await FireDbController.addIngredient(selectedIngredient!)
-                        selectedIngredient = nil
+                        
+                    message = "\(selectedIngredient?.name?.capitalized ?? "This ingredient") has been added to your inventory"
+                    
+                    
+                    
+                    selectedIngredient = nil
+                    showConfirmation = true
+                    
+                    
+                    
+                        
                     }
 
             },
                   secondaryButton: .default(Text("No")){
+                message = "\(selectedIngredient?.name?.capitalized ?? "This ingredient") has NOT been added to your inventory"
+                
                     selectedIngredient = nil
+                showConfirmation = true
             })
         })
         .onChange(of: ingredientViewModel.query) { newValue in
@@ -235,6 +264,22 @@ struct AddIngredientView: View {
         selectedIngredient = nil
     }
     
+    @ViewBuilder
+    func loadPopup() -> some View{
+        //Text("?????")
+        RoundedRectangle(cornerRadius: 2).opacity(0.1)
+            .overlay {
+                Text(message).foregroundColor(.black).bold().multilineTextAlignment(.center)
+                //RoundedRectangle(cornerRadius: 2)//.background(.black).opacity(0.1)
+            }.frame(maxHeight: 100)
+            .onAppear{
+            print("showing")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                showConfirmation = false
+            }
+        }
+        
+    }
 }
 
 struct AddIngredientView_Previews: PreviewProvider {

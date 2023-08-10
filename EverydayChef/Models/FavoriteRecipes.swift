@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct FavoriteRecipes:Codable, Identifiable, Hashable{
     
-    @DocumentID var id:String?
+    var id:String?
     
     var recipeId:Int = 0
     

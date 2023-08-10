@@ -31,35 +31,48 @@ struct RandomRecipeView: View {
                         .textInputAutocapitalization(.never)
                         .textFieldStyle(.roundedBorder)
                     
-                    HStack{
-                        Button(action:{
-                            Task{
-                                self.regularSearch = false
-                                print("Search What can I make now")
-                                self.results = await SearchRecipeByIngredientViewModel.readyToMakeRecipes()
-                            }
-                            
-                        }){
-                            Text("What can I make now?")
-                                .padding()
-                                .padding(.horizontal, 15)
-                                .background(.brown)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        Button(action:{
-                            self.regularSearch = true
-                            print("Perform Recipe Search Action")
-                            searchRecipe()
-                        }){
-                            Text("Search")
-                                .padding()
-                                .padding(.horizontal, 15)
-                                .background(.brown)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
+                    Button(action:{
+                        self.regularSearch = true
+                        print("Perform Recipe Search Action")
+                        searchRecipe()
+                    }){
+                        Text("Search")
+                            .padding()
+                            .padding(.horizontal, 15)
+                            .background(.brown)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                     }
+                    
+//                    HStack{
+//                        Button(action:{
+//                            Task{
+//                                self.regularSearch = false
+//                                print("Search What can I make now")
+//                                self.results = await SearchRecipeByIngredientViewModel.readyToMakeRecipes()
+//                            }
+//
+//                        }){
+//                            Text("What can I make now?")
+//                                .padding()
+//                                .padding(.horizontal, 15)
+//                                .background(.brown)
+//                                .foregroundColor(.white)
+//                                .cornerRadius(10)
+//                        }
+//                        Button(action:{
+//                            self.regularSearch = true
+//                            print("Perform Recipe Search Action")
+//                            searchRecipe()
+//                        }){
+//                            Text("Search")
+//                                .padding()
+//                                .padding(.horizontal, 15)
+//                                .background(.brown)
+//                                .foregroundColor(.white)
+//                                .cornerRadius(10)
+//                        }
+//                    }
                     
                     
                 }
@@ -81,54 +94,54 @@ struct RandomRecipeView: View {
                         }
                     
                     }//LazyVStack
-                    
-                    else{
-                        LazyVStack{
-                            ForEach (results, id: \.id){ recipe in
-                                
-                                Button(action:{
-               
-                                    Task{
-                                        self.recipeData = await SearchRecipeByIngredientViewModel().getRecipeById(id: recipe.id ?? 404)
-                                        self.goToRecipe = true
-                                    }
-                                    
-                                }){
-                                    VStack{
-                                        NavigationLink(destination: RecipeDetailView(randomRecipeViewModel: randomRecipeViewModel, recipe: recipeData), isActive: $goToRecipe) {
-                                        }
-                                        AsyncImage(url: URL(string: recipe.image ?? "\(imagesBaseURL) apple.jpg")) { image in
-                                            image
-                                                .resizable()
-                                                .scaledToFit()
-                                            //.frame(width:100, height: 100)
-                                        } placeholder: {
-                                            ProgressView()
-                                                .tint(.gray)
-                                        }
-
-                                        Text(recipe.title ?? "Strawberry Ice Cream")
-                                            .font(.title).bold()
-                                            .foregroundColor(.blue)
-                                            .lineLimit(1)
-
-
-
-                                    }.background(.white)
-                                        .cornerRadius(12)
-                                        .shadow(color: .gray.opacity(0.5), radius: 8, x: 0, y: 5)
-                                }
-                                
-                                
-//                                NavigationLink {
-//                                    RecipeDetailView(randomRecipeViewModel: randomRecipeViewModel, recipe: recipe).environmentObject(firedbController)
-//                                } label: {
-//                                    RecipeCardView(recipe: recipe)
-//                                        .padding(.vertical, 10)
+//
+//                    else{
+//                        LazyVStack{
+//                            ForEach (results, id: \.id){ recipe in
+//
+//                                Button(action:{
+//
+//                                    Task{
+//                                        self.recipeData = await SearchRecipeByIngredientViewModel().getRecipeById(id: recipe.id ?? 404)
+//                                        self.goToRecipe = true
+//                                    }
+//
+//                                }){
+//                                    VStack{
+//                                        NavigationLink(destination: RecipeDetailView(randomRecipeViewModel: randomRecipeViewModel, recipe: recipeData), isActive: $goToRecipe) {
+//                                        }
+//                                        AsyncImage(url: URL(string: recipe.image ?? "\(imagesBaseURL) apple.jpg")) { image in
+//                                            image
+//                                                .resizable()
+//                                                .scaledToFit()
+//                                            //.frame(width:100, height: 100)
+//                                        } placeholder: {
+//                                            ProgressView()
+//                                                .tint(.gray)
+//                                        }
+//
+//                                        Text(recipe.title ?? "Strawberry Ice Cream")
+//                                            .font(.title).bold()
+//                                            .foregroundColor(.blue)
+//                                            .lineLimit(1)
+//
+//
+//
+//                                    }.background(.white)
+//                                        .cornerRadius(12)
+//                                        .shadow(color: .gray.opacity(0.5), radius: 8, x: 0, y: 5)
 //                                }
-                            }
-                        }
-                    }
+//
+//
+////                                NavigationLink {
+////                                    RecipeDetailView(randomRecipeViewModel: randomRecipeViewModel, recipe: recipe).environmentObject(firedbController)
+////                                } label: {
+////                                    RecipeCardView(recipe: recipe)
+////                                        .padding(.vertical, 10)
+////                                }
+//                            }
+//                        }
+//                    }
                     
                     
                 }//ScrollView

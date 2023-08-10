@@ -47,8 +47,12 @@ NavigationView{
                             Task{
                                 
                                 if await authHelper.anonymousAuth(){
+                                    
+                                    
+                                    
                                     self.authenticated = true
                             
+                                    await authHelper.loadFridge()
                                 }
                                 else{
                                     //error

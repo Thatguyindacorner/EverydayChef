@@ -149,7 +149,11 @@ struct ContentView: View {
                                 Text("")
                             
                             case .recipes:
-                                Text("")
+                                NavigationLink {
+                                    ShowFavoriteRecipesView()
+                                } label: {
+                                    Image(systemName: "suit.heart")
+                                }
                             }
                             
 

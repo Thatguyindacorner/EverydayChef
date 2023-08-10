@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SidebarProfileView: View {
     
-    let sidebarWidth = UIScreen.main.bounds.size.width * 0.6
+    let sidebarWidth = UIScreen.main.bounds.size.width * 0.725
     let contentHight = UIScreen.main.bounds.size.height * 0.5
     
     @Binding var isSidebarVisable: Bool

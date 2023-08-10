@@ -170,6 +170,8 @@ class FireDbController:ObservableObject{
                 
                 docData.id = docID
                 
+                print(docData)
+                
                 favRecipesToReturn.append(docData)
             })
             return favRecipesToReturn
