@@ -20,6 +20,9 @@ struct WinePairingsView: View {
     @StateObject var wineAndFoodViewModel:WineAndFoodViewModel = WineAndFoodViewModel()
     
     
+    @State private var errorMessage:String = ""
+    
+    @State private var displayErrorAlert:Bool = false
     
     enum FoodMode{
         case wine
@@ -64,17 +67,34 @@ struct WinePairingsView: View {
                     // Spacer()
                 }//HStack
                 
-                Group{
+                ZStack{
                     
-                    if foodMode == .wine{
+                    Group{
                         
-                        WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress)
-                        
-                    }else{
-                        //FoodView(wineName: $wineName)
-                        FoodView(wineName: $wineName, wineAndFoodViewModel:wineAndFoodViewModel)
+                        if foodMode == .wine{
+                            
+                            WineView(foodName: $foodName, wineAndFoodViewModel: wineAndFoodViewModel, showProgress: $showProgress, errorMessage: self.$errorMessage, displayErrorAlert: self.$displayErrorAlert)
+                            
+                        }else{
+                            //FoodView(wineName: $wineName)
+                            FoodView(wineName: $wineName, wineAndFoodViewModel:wineAndFoodViewModel, showProgress: $showProgress, errorMessage: self.$errorMessage, displayErrorAlert: self.$displayErrorAlert)
+                        }
+                    }//Group
+                    
+                    if showProgress{
+                        ProgressView()
+                            .tint(.red)
+                            .scaleEffect(4)
                     }
-                }//Group
+                    
+                }//ZStack
+                .alert("Error", isPresented: self.$displayErrorAlert) {
+                    Button("OK", role: .cancel){
+                        self.displayErrorAlert = false
+                    }
+                } message: {
+                    Text("\(self.errorMessage)")
+                }
                 
                 Spacer()
                 
@@ -100,6 +120,10 @@ struct WineView:View{
     
     @FocusState var nameIsFocused:Bool
     
+    @Binding var errorMessage:String
+    
+    @Binding var displayErrorAlert:Bool
+    
     var body: some View{
         
             VStack{
@@ -110,14 +134,33 @@ struct WineView:View{
                     .modifier(TFModifiers())
                     .focused($nameIsFocused)
                 
-                Text("Food can be dish name, e.g. steak, an ingredient name e.g. salmon, or c cuisine e.g. italian")
+                Text("Food can be dish name, e.g. steak, an ingredient name e.g. salmon, or cuisine e.g. italian")
                     .font(.caption)
                 
                 Button {
                     print("Search Wine using API")
                     
-                    nameIsFocused = false
-                    searchWine()
+                    do{
+                        showProgress = true
+                        
+                        try validateEmptyFields()
+                        
+                        nameIsFocused = false
+                        searchWine()
+                        
+                    }catch(let err){
+                        
+                        showProgress = false
+                        
+                        print("Error while searching for Wine \(err.localizedDescription)")
+                        
+                        self.errorMessage = err.localizedDescription
+                        
+                        self.displayErrorAlert = true
+                        
+                    }//catch
+                    
+                    
                 } label: {
                     Text("Search Wine")
                         .padding()
@@ -131,7 +174,9 @@ struct WineView:View{
                 Group{
                     if wineAndFoodViewModel.winesList.count == 0{
                         
-                        Text(wineAndFoodViewModel.winePairingText)
+                        //Text(wineAndFoodViewModel.winePairingText)
+                        
+                        Text("No Wine Data to Show. Please enter a dish name, e.g. steak, an ingredient name e.g. salmon, or cuisine e.g. italian")
                         
                     }else{
                         Text("Paired Wines")
@@ -205,7 +250,7 @@ struct WineView:View{
     func searchWine(){
         Task(priority:.background){
             
-            showProgress = true
+            //showProgress = true
             
             let result = await wineAndFoodViewModel.findWine(for: foodName)
             
@@ -221,6 +266,15 @@ struct WineView:View{
         }//Task
     }//func searchWine()
     
+    func validateEmptyFields() throws{
+        
+        if foodName.isEmpty{
+            throw ErrorEnum.FieldsEmpty
+        }// if foodName Text Empty
+            
+    }//validateEmptyFields
+    
+    
 }//WineView Struct
 
 
@@ -230,7 +284,13 @@ struct FoodView:View{
     
     @ObservedObject var wineAndFoodViewModel:WineAndFoodViewModel
     
+    @Binding var showProgress:Bool
+    
     @FocusState var nameIsFocused:Bool
+    
+    @Binding var errorMessage:String
+    
+    @Binding var displayErrorAlert:Bool
     
     var body: some View{
         VStack{
@@ -247,9 +307,29 @@ struct FoodView:View{
             Button {
                 print("Search Food")
                 
-                nameIsFocused = false
+                do{
+                    
+                    showProgress = true
+                    
+                    try validateEmptyFields()
+                    
+                    nameIsFocused = false
+                    
+                    findFoods()
+                }catch(let err){
+                    
+                    showProgress = false
+                    
+                    print("Error while searching for Wine \(err.localizedDescription)")
+                    
+                    self.errorMessage = err.localizedDescription
+                    
+                    self.displayErrorAlert = true
+                }//catch
                 
-                findFoods()
+//                nameIsFocused = false
+//
+//                findFoods()
             } label: {
                 Text("Search Food")
                     .padding()
@@ -266,7 +346,9 @@ struct FoodView:View{
                     
                     //Text("OOOOOOps.....")
                     
-                    Text(wineAndFoodViewModel.foodText)
+                    //Text(wineAndFoodViewModel.foodText)
+                    
+                    Text("No Food Data to Show. Please enter the type of wine that should be paired, e.g merlot, riesling, etc.")
                     
                 }//if
                 else{
@@ -303,11 +385,22 @@ struct FoodView:View{
             
             if result{
                 print("Found Foods")
+                showProgress = false
             }else{
                 print("Error Procesing Request")
+                showProgress = false
             }
         }
-    }
+    }//findFoods
+    
+    
+    func validateEmptyFields() throws{
+        
+        if wineName.isEmpty{
+            throw ErrorEnum.FieldsEmpty
+        }// if foodName Text Empty
+            
+    }//validateEmptyFields
     
 }//FoodView
 
